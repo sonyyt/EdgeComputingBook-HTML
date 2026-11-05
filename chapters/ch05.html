@@ -1,0 +1,372 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chapter 5. Running and Deploying Applications on Edge Nodes &mdash; Edge Computing Systems</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/book.css?v=e49485e1" />
+
+  
+    <link rel="canonical" href="https://sonyyt.github.io/EdgeComputingBook-HTML/chapters/ch05.html" />
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=bcebf14d"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/book.js?v=917b1e6b"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Chapter 6. Scaling Edge Applications and Elastic Execution" href="ch06.html" />
+    <link rel="prev" title="Chapter 4. Communication and Networking for IoT and Edge Systems" href="ch04.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Edge Computing Systems
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">About this book</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../preface.html">Preface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../publication.html">About this web edition</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Part I. Applications, Devices, Communication, and Digital Twins</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ch01.html">Chapter 1. Introduction to Edge Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch02.html">Chapter 2. An Agentic IoT Application at the Edge</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch03.html">Chapter 3. IoT Devices and Sensing Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch04.html">Chapter 4. Communication and Networking for IoT and Edge Systems</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Part II. Building and Operating Edge Systems</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Chapter 5. Running and Deploying Applications on Edge Nodes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#from-a-working-prototype-to-an-edge-deployment">5.1 From a working prototype to an edge deployment</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#what-actually-has-to-move">5.1.1 What actually has to move?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#start-with-the-target-not-the-tool">5.1.2 Start with the target, not the tool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#define-one-small-service-before-scaling-the-application">5.1.3 Define one small service before scaling the application</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#packaging-and-isolation-sharing-a-machine-without-sharing-everything">5.2 Packaging and isolation: sharing a machine without sharing everything</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#why-a-second-application-changes-the-problem">5.2.1 Why a second application changes the problem</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#images-containers-and-configuration">5.2.2 Images, containers, and configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#separate-environments-then-control-their-resource-use">5.2.3 Separate environments, then control their resource use</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#cross-platform-and-remote-deployment">5.3 Cross-platform and remote deployment</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#a-repeatable-path-from-development-to-the-device">5.3.1 A repeatable path from development to the device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#verify-the-application-not-only-the-installation">5.3.2 Verify the application, not only the installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#portability-is-not-live-migration">5.3.3 Portability is not live migration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#organizing-execution-on-limited-resources">5.4 Organizing execution on limited resources</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#one-program-or-several-cooperating-services">5.4.1 One program or several cooperating services?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#waiting-concurrency-and-admission">5.4.2 Waiting, concurrency, and admission</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#keep-a-component-running-or-start-it-when-needed">5.4.3 Keep a component running, or start it when needed?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#complete-the-first-deployment-experiment">5.4.4 Complete the first deployment experiment</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#chapter-summary">Chapter summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#exercises">Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ch06.html">Chapter 6. Scaling Edge Applications and Elastic Execution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch07.html">Chapter 7. Computation Offloading and Device–Edge–Cloud Collaboration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch08.html">Chapter 8. Scheduling and Optimizing Edge Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch09.html">Chapter 9. Commercial Edge Platforms: From Mechanisms to Deployment</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Part III. Edge AI</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ch10.html">Chapter 10. Running and Optimizing AI on Edge Devices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch11.html">Chapter 11. Collaborative Edge Intelligence: From Perception Models to Language Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch12.html">Chapter 12. Agentic AI and Tool-Driven Applications at the Edge</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Part IV. Security and Multi-Party Trust</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ch13.html">Chapter 13. Security, Privacy, and Safety in Edge Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch14.html">Chapter 14. Multi-Party Trust, Blockchains, and Distributed Ledgers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendices and references</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../appendices/appendix-a.html">Appendix A. Laboratory and Project Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendices/appendix-b.html">Appendix B. Optional Extension: Learning and Adaptation Across Devices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendices/appendix-c.html">Appendix C. Selected Exercise Solutions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendices/appendix-d.html">Appendix D. Glossary and Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendices/appendix-e.html">Appendix E. Evidence and Reproducibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Edge Computing Systems</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Chapter 5. Running and Deploying Applications on Edge Nodes</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/sonyyt/EdgeComputingBook/blob/main/docs/chapters/ch05.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul><div class="rst-breadcrumbs-buttons" role="navigation" aria-label="Sequential page navigation">
+        <a href="ch04.html" class="btn btn-neutral float-left" title="Chapter 4. Communication and Networking for IoT and Edge Systems" accesskey="p"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ch06.html" class="btn btn-neutral float-right" title="Chapter 6. Scaling Edge Applications and Elastic Execution" accesskey="n">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+  </div>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="chapter-5-running-and-deploying-applications-on-edge-nodes">
+<span id="chapter-5"></span><h1>Chapter 5. Running and Deploying Applications on Edge Nodes<a class="headerlink" href="#chapter-5-running-and-deploying-applications-on-edge-nodes" title="Link to this heading"></a></h1>
+<p>A student team has built a useful workshop-monitoring demonstration. A sensor supplies short windows of vibration readings. An analysis program calculates statistics, and a technician sees the results on a nearby display. A camera-analysis component may be added later. On the team’s laptop, starting the demonstration takes one command. The workshop, however, has a small Linux computer rather than that laptop. It must also receive sensor messages, store recent observations, and support another team’s application. The developers cannot leave a terminal open beside the machine all semester.</p>
+<p>The immediate problem is not to invent a better analysis algorithm. It is to make the existing application run in a different environment, alongside other work, with a repeatable deployment procedure. This chapter follows that transition. The workshop supplies the opening questions; the same ideas also apply to a phone application, a smart camera, a field gateway, and a nearby server. The mechanisms differ with the target, but the developer still needs to know what is being deployed, what it depends on, and which resources it may use.</p>
+<p>The first milestone is deliberately modest: deploy a callable application on one edge node, explain its packaging and resource requirements, and verify its behavior. Managing replicas across many nodes comes in Chapter 6.</p>
+<section id="from-a-working-prototype-to-an-edge-deployment">
+<span id="section-5-1"></span><h2>5.1 From a working prototype to an edge deployment<a class="headerlink" href="#from-a-working-prototype-to-an-edge-deployment" title="Link to this heading"></a></h2>
+<section id="what-actually-has-to-move">
+<span id="section-5-1-1"></span><h3>5.1.1 What actually has to move?<a class="headerlink" href="#what-actually-has-to-move" title="Link to this heading"></a></h3>
+<p>Suppose the team copies its analysis script to the workshop computer. The first attempt fails because a required library is missing. After installing the library, the program starts but looks for its configuration in the wrong directory. Once that is corrected, it writes results into a folder that the service account cannot access. None of these failures changes the mathematical analysis, yet each prevents the application from doing useful work.</p>
+<p>An application is therefore more than its source code. Its executable instructions, libraries, configuration, input interfaces, and output locations must fit together. An AI component additionally needs a compatible model artifact and inference runtime. The developer should be able to name these dependencies before choosing a packaging tool. A language model downloaded on the laptop is not automatically present on the edge node, and an artifact stored on disk is not the same thing as a model loaded into working memory.</p>
+<p>For the workshop, separate the deployment into five kinds of material. The <strong>application artifact</strong> contains code and fixed dependencies. <strong>Configuration</strong> supplies the site identifier, service port, or analysis options. <strong>Credentials</strong> establish permitted access and are distributed through an appropriate protected mechanism rather than baked into a public image. <strong>Input and result data</strong> change as the application operates. <strong>Logs</strong> record what happened during execution. Keeping these roles separate makes it possible to update the program without accidentally replacing the site’s history or publishing a secret.</p>
+<table class="book-table docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Material</strong></p></th>
+<th class="head"><p><strong>Workshop example</strong></p></th>
+<th class="head"><p><strong>What a deployment should do</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Code and fixed dependencies</p></td>
+<td><p>Analysis program and language runtime</p></td>
+<td><p>Install an identified version</p></td>
+</tr>
+<tr class="row-odd"><td><p>Configuration</p></td>
+<td><p>Site name, endpoint, concurrency setting</p></td>
+<td><p>Supply values appropriate to the target</p></td>
+</tr>
+<tr class="row-even"><td><p>Credentials</p></td>
+<td><p>Device or service identity</p></td>
+<td><p>Grant only the access required</p></td>
+</tr>
+<tr class="row-odd"><td><p>Mutable data</p></td>
+<td><p>Sensor history and accepted results</p></td>
+<td><p>Preserve according to the application’s policy</p></td>
+</tr>
+<tr class="row-even"><td><p>Logs and status</p></td>
+<td><p>Startup message, request outcome</p></td>
+<td><p>Make operation observable</p></td>
+</tr>
+</tbody>
+</table>
+<p>The useful question is not “did the copy command succeed?” It is “can this node now accept the intended input and return an appropriate result?” A deployment check should exercise a small known request and inspect its response. A process that exists but cannot load its model or reach its input is not yet providing the intended service.</p>
+<p id="fig-5-1"><img alt="Figure 5.1. A deployment transfers an identified application and supplies target-specific configuration. Observations and results belong to the running site; they are not silently replaced whenever the application is updated." src="../_images/asset-9e27bfc1e7d3b9d5.png" /><br>
+Figure 5.1. A deployment transfers an identified application and supplies target-specific configuration. Observations and results belong to the running site; they are not silently replaced whenever the application is updated.</p>
+<p id="fig-5-2"><img alt="A failed move becomes a complete deployment bundle; Move only the script; Dependency absent; Configuration absent; Model file absent; Prepare the bundle; Program + dependencies; Versioned model; Site configuration; Check readiness; Can load the model?; Can access data?; Can answer one test request?; An existing process is not yet evidence of an operational service." src="../_images/asset-c6f7dbc22ed0b545.png" /><br>
+Figure 5.2. A deployment bundle includes more than code; readiness is checked against the intended application operation.</p>
+</section>
+<section id="start-with-the-target-not-the-tool">
+<span id="section-5-1-2"></span><h3>5.1.2 Start with the target, not the tool<a class="headerlink" href="#start-with-the-target-not-the-tool" title="Link to this heading"></a></h3>
+<p>For this first deployment, write a small target description: processor architecture, operating system, available memory and storage, required devices, and permitted network access. It is not necessary to inventory every detail of the operating system. The description should answer the compatibility questions that can stop this application from working.</p>
+<p>A tiny microcontroller may receive new firmware rather than a container. A phone receives an application within its mobile operating system’s rules. A Linux-based camera, gateway, development board, or server can host general-purpose services when its resources and software support them. Calling all of these machines “edge nodes” does not make their deployment interfaces identical. Conversely, a Linux development board and a rack server can sometimes use the same application interface even though their capacities differ greatly.</p>
+<p>Our practical path uses a Linux-capable target because it lets us inspect services and containers directly. That choice is a teaching route, not a definition of the edge. In a wearable system, for example, a microcontroller can acquire measurements, a phone can aggregate them, and a nearby computer can provide an optional analysis service. <a class="reference internal" href="ch07.html#chapter-7"><span class="std std-ref">Chapter 7</span></a> will connect such different execution environments.</p>
+<p>A <strong>process</strong> is simply a running instance of a program, with memory and access to resources such as files and network connections. A <strong>service</strong> adds an interface that other components can call and an expectation about when it is available. An analysis script that exits after processing one file and a program that listens continuously for requests may use the same calculation, but they have different execution lifecycles. This distinction is enough operating-systems background to begin the deployment discussion.</p>
+</section>
+<section id="define-one-small-service-before-scaling-the-application">
+<span id="section-5-1-3"></span><h3>5.1.3 Define one small service before scaling the application<a class="headerlink" href="#define-one-small-service-before-scaling-the-application" title="Link to this heading"></a></h3>
+<p>The companion exercise exposes a read-only analysis endpoint. A request supplies an identified window of numeric samples and its unit. The response contains the sample count, mean, root-mean-square value, and the identity of the worker that performed the calculation. The algorithm is ordinary code, not a simulated language model or a validated machine-condition detector. Its purpose is to make deployment and execution visible.</p>
+<p>The interface separates two responsibilities. The caller decides which observation window to submit; the service validates and processes that window. A future agent can use the same endpoint as a tool, and a future camera pipeline can supply a different analysis implementation. We do not need to implement either complete application before learning how a service runs.</p>
+<p>A first local experiment starts the service, sends the supplied sample.json, and checks the numeric output. The response should identify the version and worker so that later experiments can show which deployment served a request. These identifiers are diagnostic information, not authentication. Only synthetic data should be used with the teaching endpoint; a shared deployment needs the authentication and network protections discussed in Chapter 13.</p>
+</section>
+</section>
+<section id="packaging-and-isolation-sharing-a-machine-without-sharing-everything">
+<span id="section-5-2"></span><h2>5.2 Packaging and isolation: sharing a machine without sharing everything<a class="headerlink" href="#packaging-and-isolation-sharing-a-machine-without-sharing-everything" title="Link to this heading"></a></h2>
+<section id="why-a-second-application-changes-the-problem">
+<span id="section-5-2-1"></span><h3>5.2.1 Why a second application changes the problem<a class="headerlink" href="#why-a-second-application-changes-the-problem" title="Link to this heading"></a></h3>
+<p>The workshop computer now hosts two applications. One receives sensor records; the other analyzes them. A second team wants to add a local model service with a different set of libraries. Installing every dependency into one shared environment makes upgrades difficult to coordinate. Giving all programs access to the same folders is convenient but unnecessary. A crash or a large allocation in one application should not routinely disrupt acquisition.</p>
+<p>These are related but distinct requirements. <strong>Packaging</strong> makes the application’s files and dependencies reproducible. <strong>Access isolation</strong> limits what a program can see or modify. <strong>Resource controls</strong> bound how much of a shared resource it can consume. No single label should substitute for checking all three. For example, an isolated filesystem does not tell us whether the application is allowed to consume the node’s remaining memory.</p>
+<p>A virtual machine and a container provide different ways of organizing execution. A virtual machine includes a guest operating system with its own kernel on virtualized hardware. A container runs an isolated application environment while sharing the host kernel. Containers and virtual machines can be combined: a cloud virtual machine can itself host several containers. [<a class="reference internal" href="../references.html#ref-10"><span class="std std-ref">10</span></a>]</p>
+<p id="fig-5-3"><img alt="Isolation boundaries on one shared machine; Direct processes; Application A | B; Libraries and configuration; Process permissions; Host operating-system kernel; Containers; Container A | B; Separate image filesystems; Runtime + configured limits; Shared host kernel; Virtual machines; Application A | B; Guest kernel A | B; Virtual hardware; Hypervisor; Physical CPU, RAM, storage and devices" src="../_images/asset-63d425fe030f6470.png" /><br>
+Figure 5.3. Packaging, visibility and resource limits are separate decisions even when they are configured through one platform.</p>
+<p>The diagram explains the developer’s choices more usefully than a list of definitions. Direct execution may be sufficient for a small, controlled device with one maintained application. A container makes the application’s filesystem and dependencies easier to distribute consistently. A virtual machine can be useful when an application needs a separately managed operating-system environment. The appropriate choice depends on what must be independent and what the target can support.</p>
+</section>
+<section id="images-containers-and-configuration">
+<span id="section-5-2-2"></span><h3>5.2.2 Images, containers, and configuration<a class="headerlink" href="#images-containers-and-configuration" title="Link to this heading"></a></h3>
+<p>In the Docker workflow, an <strong>image</strong> is a packaged filesystem and execution metadata; a <strong>container</strong> is an instance created from an image. The same image can create more than one instance with different configuration. Image layers support reuse, while an individual container has its own writable layer. [<a class="reference internal" href="../references.html#ref-85"><span class="std std-ref">85</span></a>]</p>
+<p>For our analysis service, the image should contain the program and its runtime. A site identifier is better supplied when the instance starts. Sensor history should not become part of an image merely because both happen to be files. Keeping the application artifact separate from its changing data also helps make updates comprehensible: a new program version need not imply a new observation history.</p>
+<p>A minimal Dockerfile for the supplied standard-library service is shown below. The excerpt sets an unprivileged user and a suitable working directory; the full lab file also includes the client and synthetic sample. EXPOSE describes an intended port; the run configuration still determines whether and where it is published.</p>
+<div class="highlight-dockerfile notranslate"><div class="highlight"><pre><span></span><span class="k">FROM</span><span class="w"> </span><span class="s">python:3.12-slim</span>
+<span class="k">WORKDIR</span><span class="w"> </span><span class="s">/app</span>
+<span class="k">COPY</span><span class="w"> </span>edge_service.py<span class="w"> </span>/app/edge_service.py
+<span class="k">ENV</span><span class="w"> </span><span class="nv">EDGE_HOST</span><span class="o">=</span><span class="m">0</span>.0.0.0<span class="w"> </span><span class="nv">EDGE_PORT</span><span class="o">=</span><span class="m">8080</span>
+<span class="k">USER</span><span class="w"> </span><span class="s">10001:10001</span>
+<span class="k">EXPOSE</span><span class="w"> </span><span class="s">8080</span>
+<span class="k">CMD</span><span class="w"> </span><span class="p">[</span><span class="s2">"python"</span><span class="p">,</span><span class="w"> </span><span class="s2">"-u"</span><span class="p">,</span><span class="w"> </span><span class="s2">"/app/edge_service.py"</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>This is a starting recipe, not an immutable release specification. Before a reproducible deployment, record the resolved base-image digest and the resulting application-image digest. A version tag is useful for people, but a tag can be reassigned. The image’s compatibility also matters: an ARM node cannot simply execute arbitrary x86 binaries from an image. Docker supports multi-platform image indexes that select an appropriate platform variant; that support does not remove the need to build and test the variants. [<a class="reference internal" href="../references.html#ref-85"><span class="std std-ref">85</span></a>, <a class="reference internal" href="../references.html#ref-86"><span class="std std-ref">86</span></a>]</p>
+<p>Consider the student who says, “Docker makes the program run anywhere.” A more precise statement is: packaging reduces differences in the application’s userspace environment, while the target still has to supply a compatible kernel, instruction architecture, and required devices. A GPU application may also depend on an appropriate host driver and accelerator runtime. This is why the target description in <a class="reference internal" href="#section-5-1"><span class="std std-ref">Section 5.1</span></a> remains useful after adopting containers.</p>
+<p id="fig-5-4"><img alt="Connect the image, configuration, and running process; Image; reader:v1; app.py + dependencies; A tag is not a digest.; Run configuration; SITE=A101; DATA_DIR=/data; Persistent path mounted; Running instance; Loads SITE=A101; Reads /data; Emits readiness status; The same image can use different site-specific configuration." src="../_images/asset-3e54636f6b226ec0.png" /><br>
+Figure 5.4. An image, a runtime configuration, and a running instance are separate artifacts. This schematic traces SITE=A101 and /data; it is not evidence of an executed Docker deployment.</p>
+</section>
+<section id="separate-environments-then-control-their-resource-use">
+<span id="section-5-2-3"></span><h3>5.2.3 Separate environments, then control their resource use<a class="headerlink" href="#separate-environments-then-control-their-resource-use" title="Link to this heading"></a></h3>
+<p>Imagine a node with 8 GiB of physical memory. For an illustrative budget, reserve 1.5 GiB for the operating environment and management, 0.5 GiB for acquisition, and 1 GiB for storage and the interface. That leaves 5 GiB for analysis. If one analysis worker has a 2 GiB working set, two workers fit this simple budget with 1 GiB left over; a third does not. These numbers are teaching assumptions, not measurements of the supplied program.</p>
+<p>A container memory limit can help contain an unexpectedly large allocation, but it does not create the missing memory or make every request fit. Docker supplies CPU and memory controls; by default, a container does not have application-specific resource constraints unless they are configured. Exceeding an enforced memory limit may terminate work instead of slowing it gracefully. [<a class="reference internal" href="../references.html#ref-11"><span class="std std-ref">11</span></a>]</p>
+<p>For the small teaching service, a first constrained run can use:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>edge-analysis:1.0<span class="w"> </span>.
+docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>--name<span class="w"> </span>analysis-a<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--cpus<span class="o">=</span><span class="m">1</span><span class="w"> </span>--memory<span class="o">=</span>512m<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-p<span class="w"> </span><span class="m">127</span>.0.0.1:8080:8080<span class="w"> </span>edge-analysis:1.0
+</pre></div>
+</div>
+<p>The values are initial lab settings, not measured resource requirements or a latency guarantee. The port binding deliberately exposes the endpoint only on the host’s loopback interface. A remote user can test through an authorized SSH tunnel instead of exposing the unprotected teaching endpoint to the public Internet.</p>
+<p>For two applications, distinguish <strong>limiting interference</strong> from <strong>guaranteeing a share</strong>. A CPU ceiling stops one container from consuming more than its configured allowance; it does not prove the remaining application will always meet a deadline. Both still depend on shared storage, networking, and possibly the same accelerator. Observe the other application’s behavior while changing the analysis load rather than judging isolation from configuration alone.</p>
+<p>Persistent application data needs a separately managed location. Docker volumes outlive an individual container, but persistence on one host is not automatic replication to another host. [<a class="reference internal" href="../references.html#ref-87"><span class="std std-ref">87</span></a>] This is enough state management for the present chapter: understand which data disappears with a process or container and which data remains. Cross-node copies and synchronization are introduced when we need them in Chapter 7.</p>
+</section>
+</section>
+<section id="cross-platform-and-remote-deployment">
+<span id="section-5-3"></span><h2>5.3 Cross-platform and remote deployment<a class="headerlink" href="#cross-platform-and-remote-deployment" title="Link to this heading"></a></h2>
+<section id="a-repeatable-path-from-development-to-the-device">
+<span id="section-5-3-1"></span><h3>5.3.1 A repeatable path from development to the device<a class="headerlink" href="#a-repeatable-path-from-development-to-the-device" title="Link to this heading"></a></h3>
+<p>Once the application runs locally, the next request from the workshop is predictable: install the same version on the actual node without repeating every manual step. A simple workflow is to build an image, publish it to an authorized registry, select a compatible target, provide configuration, and start the container. The registry distributes artifacts; it does not by itself start the application or choose its resource budget.</p>
+<p id="fig-5-5"><img alt="Figure 5.5. A common source can produce platform-specific images. The target obtains a compatible artifact and receives its own configuration. Moving an application package does not transfer live memory or automatically reconnect local devices." src="../_images/asset-1360f42f8ada8dea.png" /><br>
+Figure 5.5. A common source can produce platform-specific images. The target obtains a compatible artifact and receives its own configuration. Moving an application package does not transfer live memory or automatically reconnect local devices.</p>
+<p>Suppose IMAGE names a repository and version in a registry that the developer may use. A multi-platform build can publish Linux variants for x86-64 and ARM64:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set IMAGE to your authorized registry/repository:version first.</span>
+docker<span class="w"> </span>buildx<span class="w"> </span>build<span class="w"> </span>--platform<span class="w"> </span>linux/amd64,linux/arm64<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-t<span class="w"> </span><span class="s2">"</span><span class="nv">$IMAGE</span><span class="s2">"</span><span class="w"> </span>--push<span class="w"> </span>.
+</pre></div>
+</div>
+<p>The command needs an appropriately configured builder and access to the registry. Building multiple variants is not evidence that both were executed on real hardware. The publication workflow and build options are documented by Docker; the lab record should identify which target architectures were actually tested. [<a class="reference internal" href="../references.html#ref-86"><span class="std std-ref">86</span></a>, <a class="reference internal" href="../references.html#ref-106"><span class="std std-ref">106</span></a>]</p>
+<p>For remote control, Docker supports an SSH-based context. This uses an authorized account on the target instead of opening an unprotected Docker daemon port. Access to a Docker daemon is powerful and must be restricted to the intended administrators. [<a class="reference internal" href="../references.html#ref-88"><span class="std std-ref">88</span></a>]</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># EDGE_HOST is an authorized user@host; IMAGE was set above.</span>
+docker<span class="w"> </span>context<span class="w"> </span>create<span class="w"> </span>workshop<span class="w"> </span>--docker<span class="w"> </span><span class="s2">"host=ssh://</span><span class="nv">$EDGE_HOST</span><span class="s2">"</span>
+docker<span class="w"> </span>--context<span class="w"> </span>workshop<span class="w"> </span>pull<span class="w"> </span><span class="s2">"</span><span class="nv">$IMAGE</span><span class="s2">"</span>
+docker<span class="w"> </span>--context<span class="w"> </span>workshop<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>--name<span class="w"> </span>analysis-a<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--cpus<span class="o">=</span><span class="m">1</span><span class="w"> </span>--memory<span class="o">=</span>512m<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-p<span class="w"> </span><span class="m">127</span>.0.0.1:8080:8080<span class="w"> </span><span class="s2">"</span><span class="nv">$IMAGE</span><span class="s2">"</span>
+</pre></div>
+</div>
+<p>Reading these commands as a process is more important than memorizing them. The first establishes where management commands go. The second obtains the application artifact. The third creates one running instance with a chosen resource budget and network binding. The host-side port is on the remote node, not the developer’s laptop. Confusing those two locations is a common reason a deployment appears to succeed while the developer cannot reach the service.</p>
+</section>
+<section id="verify-the-application-not-only-the-installation">
+<span id="section-5-3-2"></span><h3>5.3.2 Verify the application, not only the installation<a class="headerlink" href="#verify-the-application-not-only-the-installation" title="Link to this heading"></a></h3>
+<p>After deployment, first inspect the instance and its logs. Next query its health endpoint. Finally submit a known analysis request through the approved connection and compare the result with a local reference calculation. Each observation establishes something different: installation, execution, reachability, and useful behavior.</p>
+<p>A test record should state the application version, target architecture, request identifier, returned worker identity, and result. Add end-to-end request time, but do not interpret one value as a benchmark. A first request may include initialization; later requests may use already prepared resources. <a class="reference internal" href="ch06.html#chapter-6"><span class="std std-ref">Chapter 6</span></a> will make this distinction important for elastic execution.</p>
+<p>Now change only the site’s configuration and repeat. The application version should remain the same while the intended site-specific behavior changes. Then deploy a new version and repeat the known request again. This small sequence teaches an important separation: <strong>a configuration update, a code update, and a data update are different actions</strong>. They should not be indistinguishable because everything was copied into one mutable directory.</p>
+<p>The basic lifecycle here is manual and local: start, check, stop, and replace an instance. We are not yet building a fleet manager. Nevertheless, the developer should know whether a program is a finite task that exits after producing a result or a long-running service that should remain available. Treating a correctly completed batch job as a crashed server would be a management error, not a problem with the job.</p>
+</section>
+<section id="portability-is-not-live-migration">
+<span id="section-5-3-3"></span><h3>5.3.3 Portability is not live migration<a class="headerlink" href="#portability-is-not-live-migration" title="Link to this heading"></a></h3>
+<p>Suppose the workshop replaces its small computer. If a compatible image, configuration, and required files can be installed on the replacement, the application is portable between those environments. But an in-progress request and an in-memory queue are not automatically present there. A camera attached to a local USB port may also need a new connection or a different endpoint.</p>
+<p>At this stage, “move the application” means stop or drain the old instance and start another instance using a documented configuration. Preserving live sessions, moving application state, or shifting a task without interruption requires additional design. That distinction prevents a packaging success from being mistaken for a complete mobility solution.</p>
+<p>The same reasoning applies outside containers. A phone app can be reinstalled while its user data requires a separate backup or synchronization mechanism. A microcontroller firmware update can replace executable code while calibration values need their own preservation policy. The packaging format changes; the distinction between code, configuration, and state remains useful.</p>
+<p id="fig-5-6"><img alt="Can this package run on this target?; 1 CPU instruction set; 2 OS and runtime; 3 Accelerator support; 4 Working memory; A check fails; Rebuild, reconfigure, or; choose another target.; All checks pass → deploy, then test readiness" src="../_images/asset-86864f11140ae831.png" /><br>
+Figure 5.6. A compatible artifact still needs matching runtime capabilities and enough working resources before deployment is feasible.</p>
+</section>
+</section>
+<section id="organizing-execution-on-limited-resources">
+<span id="section-5-4"></span><h2>5.4 Organizing execution on limited resources<a class="headerlink" href="#organizing-execution-on-limited-resources" title="Link to this heading"></a></h2>
+<section id="one-program-or-several-cooperating-services">
+<span id="section-5-4-1"></span><h3>5.4.1 One program or several cooperating services?<a class="headerlink" href="#one-program-or-several-cooperating-services" title="Link to this heading"></a></h3>
+<p>Our first workshop prototype could put acquisition, storage, analysis, and presentation in one program. This can be a reasonable starting point: fewer interfaces need configuration, and debugging a single request is straightforward. It becomes less convenient when a slow analysis blocks acquisition or when the model dependencies change much more often than the collector.</p>
+<p>Splitting the application into services can give those parts separate resource budgets and update lifecycles. The collector can continue receiving observations while analysis restarts. However, separation introduces communication, interface versioning, and more components to observe. “Microservices” names an approach to organizing independently deployable services; it is not a requirement to turn each helper function into a network endpoint.</p>
+<p>For the workshop, begin with a small separation that answers a real need: acquisition and storage remain available while a replaceable analysis service handles requests. A local model can later call that service through the same documented interface. For a battery-powered wearable, the sensible separation may instead be firmware on the wearable and an application on the phone. There is no need to imitate a large cloud architecture on every device.</p>
+</section>
+<section id="waiting-concurrency-and-admission">
+<span id="section-5-4-2"></span><h3>5.4.2 Waiting, concurrency, and admission<a class="headerlink" href="#waiting-concurrency-and-admission" title="Link to this heading"></a></h3>
+<p>A running service may receive a second request before the first finishes. It can handle requests one at a time, execute several concurrently, or queue some work until capacity is available. Each choice should be tied to the resource that actually limits execution.</p>
+<p>Concurrency is useful when one request waits for I/O while another can progress. It can be harmful when every concurrent request holds a large working set and all compete for the same accelerator. The memory budget in <a class="reference internal" href="#section-5-2"><span class="std std-ref">Section 5.2</span></a> gives a simple example: permitting three 2 GiB workers does not become sensible merely because the server library can create three threads.</p>
+<p id="fig-5-7"><img alt="Figure 5.7. An application can preserve acquisition while bounding concurrent analysis. A finite waiting area and an explicit busy response make overload visible; resource limits are a last boundary, not a substitute for deciding which work to admit." src="../_images/asset-852cb47756904532.png" /><br>
+Figure 5.7. An application can preserve acquisition while bounding concurrent analysis. A finite waiting area and an explicit busy response make overload visible; resource limits are a last boundary, not a substitute for deciding which work to admit.</p>
+<p>A useful initial service has a small concurrency limit and a clear response when that limit is reached. It may ask the caller to retry later or offer an asynchronous job identifier, depending on the application. The supplied service chooses a simple bounded policy: it accepts only a configured number of active analyses and returns an explicit busy response to excess requests. This is not an optimized scheduler. It is a concrete way to keep one test from allocating unbounded analysis work.</p>
+<p>Do not hide overload by allowing a queue to grow indefinitely. If work arrives faster than it is completed for a sustained interval, queued requests become older even though none has yet failed. For a live display, an old answer may be less useful than a clear refusal. For a historical report, waiting may be acceptable. The application requirement determines whether to queue, reject, or deliberately discard superseded work.</p>
+</section>
+<section id="keep-a-component-running-or-start-it-when-needed">
+<span id="section-5-4-3"></span><h3>5.4.3 Keep a component running, or start it when needed?<a class="headerlink" href="#keep-a-component-running-or-start-it-when-needed" title="Link to this heading"></a></h3>
+<p>A sensor receiver often needs to remain available as observations arrive. A daily report can run periodically and then exit. A model service may benefit from keeping its model loaded across requests. These are different execution patterns, even when all are packaged as containers.</p>
+<p>The first deployment should make this choice explicit. A component that starts for every request may save some idle resources but repeat initialization. A permanently running component avoids some startup work but consumes memory while idle. <a class="reference internal" href="ch06.html#chapter-6"><span class="std std-ref">Chapter 6</span></a> examines how a platform can manage these choices through elastic and serverless execution. Here, the developer only needs to recognize that packaging and execution timing are separate decisions.</p>
+</section>
+<section id="complete-the-first-deployment-experiment">
+<span id="section-5-4-4"></span><h3>5.4.4 Complete the first deployment experiment<a class="headerlink" href="#complete-the-first-deployment-experiment" title="Link to this heading"></a></h3>
+<p>Use the supplied edge_service.py and client.py to establish a baseline before introducing containers. Start one local process, submit sample.json, and retain the expected result. Then run the same application image with a stated CPU and memory budget. Compare the functional output and identify the worker that served the request. Run a second instance on another local port and observe both while increasing client concurrency.</p>
+<p>The program deliberately uses only Python’s standard library to keep this path inspectable. Its HTTP server is a teaching harness, not an Internet-facing production server; Python’s documentation does not recommend http.server for production. [<a class="reference internal" href="../references.html#ref-105"><span class="std std-ref">105</span></a>] Use loopback or a controlled laboratory network and synthetic input. Do not grant the service broad filesystem privileges simply to bypass an installation problem.</p>
+<p>The experiment is complete when you can explain which artifact ran, how it was configured, where requests entered, and what limited simultaneous execution. Record a failure as well as a successful request: malformed input, a stopped service, or deliberate overload. The next chapter begins when one well-understood node is no longer enough for the offered work.</p>
+<p>The protection supplied by packaging is only one boundary. <a class="reference internal" href="ch13.html#section-13-5"><span class="std std-ref">Section 13.5</span></a> revisits shared-host isolation, while <a class="reference internal" href="ch13.html#section-13-4"><span class="std std-ref">Section 13.4</span></a> connects remote updates to artifact authenticity and release policy.</p>
+<p id="fig-5-8"><img alt="Observe two services sharing one node; Ingestion process; Allocated test buffer; 8 MiB; Observed RSS; 101.14 MiB; CPU, one-core basis; 0.0%; Analysis process; Allocated test buffer; 32 MiB; Observed RSS; 125.16 MiB; CPU, one-core basis; 100.0%; No enforced CPU/RAM limits. RSS includes the process environment, not only the test buffer." src="../_images/asset-2c3da8c351ad015d.png" /><br>
+Figure 5.8. A rendering of two measured local Python processes during a one-second sampling interval. The workloads are synthetic; CPU is reported on a one-core basis, and no CPU or RAM limit was enforced. This is not a container or physical-edge benchmark.</p>
+</section>
+</section>
+<section id="chapter-summary">
+<span id="chapter-5-chapter-summary"></span><h2>Chapter summary<a class="headerlink" href="#chapter-summary" title="Link to this heading"></a></h2>
+<p>Deploying an edge application means matching software and its dependencies to a concrete execution environment. Packaging, isolation, remote distribution, and resource controls address different parts of that task. Devices as well as servers need these capabilities, but not necessarily through the same tools.</p>
+<p>The first useful system is a bounded service on a known node, not a large collection of unexplained platform features. Once its behavior is visible, we can ask whether adding more nodes will actually increase the amount of useful work it completes.</p>
+</section>
+<section id="exercises">
+<span id="chapter-5-exercises"></span><h2>Exercises<a class="headerlink" href="#exercises" title="Link to this heading"></a></h2>
+<p><strong>5.1 Deployment materials.</strong> A team places code, sensor history, a model file, and a cloud credential into one public container image. Explain which materials should be separated and why. Which problems remain even after the image is made private?</p>
+<p><strong>5.2 Portability.</strong> A container works on an x86 laptop but not on an ARM gateway. Identify three compatibility checks to perform before rewriting the application. Explain why a multi-platform image still requires testing.</p>
+<p><strong>5.3 Resource budget.</strong> An 8 GiB node reserves 3 GiB for non-analysis work. Each active worker needs 2 GiB. Calculate the largest number of workers that fits this simplified budget, then identify two reasons a real deployment might choose fewer.</p>
+<p><strong>5.4 Isolation.</strong> Two containers have separate filesystems, but one causes the other’s response time to rise. Give two plausible shared bottlenecks and describe one experiment to distinguish them.</p>
+<p><strong>5.5 Transfer.</strong> Redesign the workshop’s deployment for a phone that collects motion data. Which deployment requirements remain, and which container-specific operations no longer describe the application lifecycle?</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="ch04.html" class="btn btn-neutral float-left" title="Chapter 4. Communication and Networking for IoT and Edge Systems" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ch06.html" class="btn btn-neutral float-right" title="Chapter 6. Scaling Edge Applications and Elastic Execution" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Zheng Song.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

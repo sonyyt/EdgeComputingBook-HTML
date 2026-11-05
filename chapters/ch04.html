@@ -1,0 +1,556 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chapter 4. Communication and Networking for IoT and Edge Systems &mdash; Edge Computing Systems</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/book.css?v=e49485e1" />
+
+  
+    <link rel="canonical" href="https://sonyyt.github.io/EdgeComputingBook-HTML/chapters/ch04.html" />
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=bcebf14d"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script>window.MathJax = {"tex": {"tags": "none"}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      <script src="../_static/book.js?v=917b1e6b"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Chapter 5. Running and Deploying Applications on Edge Nodes" href="ch05.html" />
+    <link rel="prev" title="Chapter 3. IoT Devices and Sensing Systems" href="ch03.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Edge Computing Systems
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">About this book</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../preface.html">Preface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../publication.html">About this web edition</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Part I. Applications, Devices, Communication, and Digital Twins</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="ch01.html">Chapter 1. Introduction to Edge Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch02.html">Chapter 2. An Agentic IoT Application at the Edge</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch03.html">Chapter 3. IoT Devices and Sensing Systems</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Chapter 4. Communication and Networking for IoT and Edge Systems</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#a-network-is-a-set-of-responsibilities">4.1 A network is a set of responsibilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#keep-the-layers-separate">4.2 Keep the layers separate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#local-access-wired-networks-wi-fi-and-bluetooth-le">4.3 Local access: wired networks, Wi-Fi, and Bluetooth LE</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#wired-access-and-wi-fi">4.3.1 Wired access and Wi-Fi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bluetooth-le-discovery-attributes-and-connection-events">4.3.2 Bluetooth LE: discovery, attributes, and connection events</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#low-power-meshes-ieee-802-15-4-zigbee-and-thread">4.4 Low-power meshes: IEEE 802.15.4, Zigbee, and Thread</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#wide-area-iot-lorawan-and-cellular-access">4.5 Wide-area IoT: LoRaWAN and cellular access</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#lora-is-not-lorawan">4.5.1 LoRa is not LoRaWAN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nb-iot-lte-m-and-other-cellular-paths">4.5.2 NB-IoT, LTE-M, and other cellular paths</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#network-transport-discovery-and-protection">4.6 Network, transport, discovery, and protection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#application-interaction-http-mqtt-and-coap">4.7 Application interaction: HTTP, MQTT, and CoAP</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#requestresponse-and-publishsubscribe">4.7.1 Request–response and publish–subscribe</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mqtt-the-broker-is-a-system-component">4.7.2 MQTT: the broker is a system component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#coap-resources-for-constrained-environments">4.7.3 CoAP: resources for constrained environments</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#robotics-industry-and-semantic-interoperability">4.8 Robotics, industry, and semantic interoperability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#work-a-communication-budget-before-choosing-a-stack">4.9 Work a communication budget before choosing a stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#compare-complete-designs-across-applications">4.10 Compare complete designs across applications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#from-iot-data-to-digital-twins">4.11 From IoT Data to Digital Twins</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#start-with-a-purpose-not-a-3d-scene">4.11.1 Start with a purpose, not a 3D scene</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#represent-objects-relationships-and-meaningful-state">4.11.2 Represent objects, relationships, and meaningful state</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#turn-arriving-messages-into-state-updates">4.11.3 Turn arriving messages into state updates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ask-questions-across-equipment-time-and-relationships">4.11.4 Ask questions across equipment, time, and relationships</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#add-a-behavioral-model-without-confusing-prediction-and-observation">4.11.5 Add a behavioral model without confusing prediction and observation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#place-the-digital-representation-across-device-edge-and-cloud">4.11.6 Place the digital representation across device, edge, and cloud</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#keep-requested-settings-separate-from-observed-reality">4.11.7 Keep requested settings separate from observed reality</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#build-a-small-representation-and-test-what-it-means">4.11.8 Build a small representation and test what it means</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#laboratory-inspect-an-exchange-and-its-boundaries">4.12 Laboratory: inspect an exchange and its boundaries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#exercises">4.13 Exercises</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#chapter-perspective">Chapter perspective</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Part II. Building and Operating Edge Systems</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ch05.html">Chapter 5. Running and Deploying Applications on Edge Nodes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch06.html">Chapter 6. Scaling Edge Applications and Elastic Execution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch07.html">Chapter 7. Computation Offloading and Device–Edge–Cloud Collaboration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch08.html">Chapter 8. Scheduling and Optimizing Edge Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch09.html">Chapter 9. Commercial Edge Platforms: From Mechanisms to Deployment</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Part III. Edge AI</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ch10.html">Chapter 10. Running and Optimizing AI on Edge Devices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch11.html">Chapter 11. Collaborative Edge Intelligence: From Perception Models to Language Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch12.html">Chapter 12. Agentic AI and Tool-Driven Applications at the Edge</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Part IV. Security and Multi-Party Trust</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ch13.html">Chapter 13. Security, Privacy, and Safety in Edge Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch14.html">Chapter 14. Multi-Party Trust, Blockchains, and Distributed Ledgers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendices and references</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../appendices/appendix-a.html">Appendix A. Laboratory and Project Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendices/appendix-b.html">Appendix B. Optional Extension: Learning and Adaptation Across Devices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendices/appendix-c.html">Appendix C. Selected Exercise Solutions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendices/appendix-d.html">Appendix D. Glossary and Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendices/appendix-e.html">Appendix E. Evidence and Reproducibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Edge Computing Systems</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Chapter 4. Communication and Networking for IoT and Edge Systems</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/sonyyt/EdgeComputingBook/blob/main/docs/chapters/ch04.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul><div class="rst-breadcrumbs-buttons" role="navigation" aria-label="Sequential page navigation">
+        <a href="ch03.html" class="btn btn-neutral float-left" title="Chapter 3. IoT Devices and Sensing Systems" accesskey="p"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ch05.html" class="btn btn-neutral float-right" title="Chapter 5. Running and Deploying Applications on Edge Nodes" accesskey="n">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+  </div>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="chapter-4-communication-and-networking-for-iot-and-edge-systems">
+<span id="chapter-4"></span><h1>Chapter 4. Communication and Networking for IoT and Edge Systems<a class="headerlink" href="#chapter-4-communication-and-networking-for-iot-and-edge-systems" title="Link to this heading"></a></h1>
+<section id="a-network-is-a-set-of-responsibilities">
+<span id="section-4-1"></span><h2>4.1 A network is a set of responsibilities<a class="headerlink" href="#a-network-is-a-set-of-responsibilities" title="Link to this heading"></a></h2>
+<p>An agricultural sensor sends a few measurements after sleeping for several minutes. A wearable streams short bursts to its owner’s phone. A camera sends compressed video to a nearby server. A robot exchanges observations and commands with neighboring machines. All four applications communicate, but they do not need the same network. Their payloads, deadlines, power sources, mobility, and administrative arrangements differ.</p>
+<p>This chapter builds a map of the available choices and then explains several representative mechanisms. Its objective is not to memorize a universal ranking of protocols. It is to identify which layer makes a decision and which assumptions a proposed stack requires. A complete choice includes the access technology, network organization, transport, application interaction, identity, and operational infrastructure.</p>
+<p>Begin with a traffic description. Record the typical and maximum payload, production frequency, burst size, tolerated loss, delivery deadline, expected outage duration, and direction of traffic. Describe who supplies power, installs gateways, controls credentials, and pays for connectivity. A two-way command channel has different requirements from a one-way historical log, even when both carry the same number of bytes.</p>
+<p><strong>Payload rate is not radio capacity.</strong> Headers, channel acquisition, acknowledgements, contention, retransmissions, and time spent listening all consume resources. A link advertised at a particular physical rate does not provide that rate to every application. Likewise, a device that transmits rarely may still consume substantial energy while keeping a receiver active. Chapters 7 and 8 use measured communication costs rather than infer application performance from a protocol name.</p>
+</section>
+<section id="keep-the-layers-separate">
+<span id="section-4-2"></span><h2>4.2 Keep the layers separate<a class="headerlink" href="#keep-the-layers-separate" title="Link to this heading"></a></h2>
+<p>A practical stack can be read from the bottom upward. The physical and link layers move frames across a local medium. Network mechanisms address nodes and forward packets across networks. Transport mechanisms offer communication between processes. Application protocols organize operations such as publishing an event or reading a resource. Information models define what the data and operations mean.</p>
+<p id="fig-4-1"><img alt="A layered protocol map with compatible paths; IP telemetry; MQTT; TLS / TCP; IP; Wi-Fi / Ethernet; Constrained IP node; CoAP; DTLS / UDP; IPv6 / 6LoWPAN; IEEE 802.15.4; LoRaWAN path; Application server; Network server; LoRaWAN; LoRa radio; Matter supplies application interoperability; Thread supplies IPv6 mesh networking.; LoRaWAN gateways forward to network services over a separate backhaul." src="../_images/asset-5e2ecc5d5e9755a9.png" /><br>
+Figure 4.1. Protocols at different layers can be used together; each path is a complete example, not a universal stack.</p>
+<p>Ethernet and Wi-Fi are familiar access technologies. Bluetooth LE has its own link and host protocols. IEEE 802.15.4 supplies foundations used by several low-power networking systems. Thread builds an IPv6 mesh system; Zigbee defines a different networking and application framework. MQTT and CoAP organize application messages rather than select a radio. Matter addresses application interoperability over IP networks. A question such as “Should we use Wi-Fi or MQTT?” therefore confuses layers. An application can use MQTT over TCP over IP over Wi-Fi. [<a class="reference internal" href="../references.html#ref-5"><span class="std std-ref">5</span></a>, <a class="reference internal" href="../references.html#ref-6"><span class="std std-ref">6</span></a>, <a class="reference internal" href="../references.html#ref-7"><span class="std std-ref">7</span></a>, <a class="reference internal" href="../references.html#ref-59"><span class="std std-ref">59</span></a>, <a class="reference internal" href="../references.html#ref-60"><span class="std std-ref">60</span></a>]</p>
+<p>A gateway also needs a precise description. A router forwards packets between networks. An application gateway terminates one protocol and originates another, potentially translating identities, schemas, and delivery semantics. A Thread border router and an MQTT-to-database ingestion service both connect parts of a system, but perform different functions. A bridge that changes the meaning of acknowledgements or timestamps changes the application contract, not just its wiring.</p>
+</section>
+<section id="local-access-wired-networks-wi-fi-and-bluetooth-le">
+<span id="section-4-3"></span><h2>4.3 Local access: wired networks, Wi-Fi, and Bluetooth LE<a class="headerlink" href="#local-access-wired-networks-wi-fi-and-bluetooth-le" title="Link to this heading"></a></h2>
+<section id="wired-access-and-wi-fi">
+<span id="section-4-3-1"></span><h3>4.3.1 Wired access and Wi-Fi<a class="headerlink" href="#wired-access-and-wi-fi" title="Link to this heading"></a></h3>
+<p>Wired Ethernet is worth considering for fixed cameras, industrial computers, and gateways. Cabling creates installation costs and constrains mobility, but can remove dependence on a shared radio channel. Power over Ethernet can combine power and data where the equipment supports compatible standards. A cable does not eliminate switch congestion, configuration errors, or failures upstream. Deterministic timing requires an end-to-end design, not merely replacing a wireless link with a wire.</p>
+<p>Wi-Fi integrates devices into local IP networks and is a natural candidate when existing infrastructure and substantial data transfer matter. Its actual behavior depends on the supported generation, frequency band, channel width, interference, access-point load, signal conditions, and power-management behavior. A battery sensor’s association and wake-up costs may dominate a short transmission. A camera’s sustained traffic may contend with unrelated users. These are deployment questions to measure, not reasons to label Wi-Fi universally unsuitable for IoT.</p>
+<p>For a first comparison, separate <strong>coverage</strong> from <strong>capacity</strong>. A device may be able to associate at the edge of a coverage area but deliver too little useful throughput for its application. Adding an access point can improve coverage while introducing roaming or channel-planning work. A mobile application’s service endpoint may remain unchanged even though the device changes its radio attachment. Connectivity and computation placement are separate decisions, revisited in Chapter 8.</p>
+</section>
+<section id="bluetooth-le-discovery-attributes-and-connection-events">
+<span id="section-4-3-2"></span><h3>4.3.2 Bluetooth LE: discovery, attributes, and connection events<a class="headerlink" href="#bluetooth-le-discovery-attributes-and-connection-events" title="Link to this heading"></a></h3>
+<p>Bluetooth Low Energy is useful to understand through a wearable–phone exchange. A peripheral can advertise its presence; a phone scans and may establish a connection. Within a connection, communication occurs through scheduled connection events rather than an assumption that the radio transmits continuously. Advertising can also carry data without establishing a conventional point-to-point connection. The relevant modes and parameters must be supported by both devices. [<a class="reference internal" href="../references.html#ref-56"><span class="std std-ref">56</span></a>]</p>
+<p>The Generic Attribute Profile, or GATT, organizes data as services and characteristics. A characteristic has a value and declared operations such as reading, writing, or notification. The client discovers the relevant attributes and uses these operations. A notification does not request an ATT-layer confirmation, while an indication does. Neither should be mistaken for proof that a phone application has committed data to permanent storage. Link-layer recovery and application-level persistence remain different responsibilities. [<a class="reference internal" href="../references.html#ref-57"><span class="std std-ref">57</span></a>]</p>
+<p>The connection’s central/peripheral roles and GATT’s client/server roles describe different relationships. Do not infer which application owns a value only from which device initiated a radio connection. Similarly, pairing or bonding is not a complete authorization policy for every characteristic. The application must decide which authenticated party may read or modify each resource.</p>
+<p id="fig-4-2"><img alt="Figure 4.2. A wearable–phone exchange separates discovery, connection, attribute operations, and application persistence. A protocol acknowledgement and a stored observation are distinct events." src="../_images/asset-dc2438c9ea5fe671.png" /><br>
+Figure 4.2. A wearable–phone exchange separates discovery, connection, attribute operations, and application persistence. A protocol acknowledgement and a stored observation are distinct events.</p>
+<p>Connection intervals, batching, and application wake-ups influence both delay and energy. Suppose a wearable accumulates one second of samples before sending them. Fewer application transactions may reduce overhead, but the oldest sample already has roughly one second of intentional waiting. A notification setting cannot remove a delay introduced before transmission. Bluetooth mesh is another system with its own provisioning and message-delivery mechanisms; it should not be described as a chain of ordinary GATT connections. [<a class="reference internal" href="../references.html#ref-58"><span class="std std-ref">58</span></a>]</p>
+</section>
+</section>
+<section id="low-power-meshes-ieee-802-15-4-zigbee-and-thread">
+<span id="section-4-4"></span><h2>4.4 Low-power meshes: IEEE 802.15.4, Zigbee, and Thread<a class="headerlink" href="#low-power-meshes-ieee-802-15-4-zigbee-and-thread" title="Link to this heading"></a></h2>
+<p>A mesh network can forward data through intermediate nodes rather than require every endpoint to reach one access point directly. This can extend connectivity, but creates routing, capacity, and energy obligations. If a battery endpoint sleeps most of the time, it cannot be treated as a continuously available relay. Powered routers and sleepy endpoints therefore often have different roles.</p>
+<p>Zigbee and Thread illustrate why sharing a radio foundation does not imply interoperability. Zigbee includes networking and application conventions. Thread carries IPv6 through a low-power mesh and connects to adjacent IP networks through border routers. An application protocol can operate over Thread without being identical to Thread. Matter is an important example of an IP-based application framework, but a Thread network is not necessarily a Matter application, and Matter need not use Thread for every device. [<a class="reference internal" href="../references.html#ref-7"><span class="std std-ref">7</span></a>, <a class="reference internal" href="../references.html#ref-59"><span class="std std-ref">59</span></a>, <a class="reference internal" href="../references.html#ref-60"><span class="std std-ref">60</span></a>]</p>
+<p id="fig-4-3"><img alt="Figure 4.3. Zigbee and Thread share some lower-layer foundations but use different stacks. A Thread border router forwards between IP networks; a semantic gateway has additional responsibilities." src="../_images/asset-aa0ed75bf8466963.png" /><br>
+Figure 4.3. Zigbee and Thread share some lower-layer foundations but use different stacks. A Thread border router forwards between IP networks; a semantic gateway has additional responsibilities.</p>
+<p>IPv6’s standard header is large relative to a small low-power frame. The 6LoWPAN adaptation specifications address efficient carriage of IPv6, including header compression. Compression uses information already available in the communication context instead of repeating it unnecessarily. Fragmentation is a related concern when a packet cannot fit into one frame; losing a fragment can prevent reconstruction of the whole packet. RPL is a routing protocol for low-power and lossy IPv6 networks. It is useful as a separate design example, not as a synonym for Thread’s routing system. [<a class="reference internal" href="../references.html#ref-62"><span class="std std-ref">62</span></a>, <a class="reference internal" href="../references.html#ref-63"><span class="std std-ref">63</span></a>]</p>
+<p>A mesh’s hop count is not enough to predict latency. Relays may sleep, contend for the same channel, or maintain limited queues. A path with good individual links can still become overloaded when many devices converge on one relay. A useful deployment exercise therefore identifies router roles, failure alternatives, and aggregate traffic near the border, rather than merely demonstrating that every device once delivered a packet.</p>
+</section>
+<section id="wide-area-iot-lorawan-and-cellular-access">
+<span id="section-4-5"></span><h2>4.5 Wide-area IoT: LoRaWAN and cellular access<a class="headerlink" href="#wide-area-iot-lorawan-and-cellular-access" title="Link to this heading"></a></h2>
+<section id="lora-is-not-lorawan">
+<span id="section-4-5-1"></span><h3>4.5.1 LoRa is not LoRaWAN<a class="headerlink" href="#lora-is-not-lorawan" title="Link to this heading"></a></h3>
+<p>LoRa names a radio technology; LoRaWAN specifies a network architecture and protocol above the radio. A typical LoRaWAN deployment connects end devices through gateways to a network server and application services. A transmission may be received by more than one gateway. The gateway provides a path to the backend rather than running an arbitrary peer mesh among all sensors. Device activation, security state, frame handling, and downlink scheduling are part of the network design. [<a class="reference internal" href="../references.html#ref-61"><span class="std std-ref">61</span></a>]</p>
+<p>LoRaWAN device classes make receive opportunities explicit. Class A devices open receive windows following uplink transmissions. Class B adds scheduled receive opportunities, and Class C listens more continuously except when transmitting. These choices affect when the application can deliver a command and how much energy receiving consumes. A network suited to small, infrequent observations does not thereby provide a continuously responsive control channel. [<a class="reference internal" href="../references.html#ref-61"><span class="std std-ref">61</span></a>]</p>
+<p id="fig-4-4"><img alt="Figure 4.4. A LoRaWAN path separates the radio hop, gateway backhaul, network-server responsibilities, and application processing. Local gateway presence alone does not establish an offline application service." src="../_images/asset-060acd554b2b7156.png" /><br>
+Figure 4.4. A LoRaWAN path separates the radio hop, gateway backhaul, network-server responsibilities, and application processing. Local gateway presence alone does not establish an offline application service.</p>
+<p>For a remote environmental deployment, ask where the network and application servers run. A nearby gateway with an unavailable internet backhaul may still hear transmissions while failing to deliver usable data to a remote application. Offline operation requires an explicit local processing and storage arrangement; it cannot be inferred from gateway placement. Radio settings, regional constraints, downlink capacity, and the chosen operator’s policies must be checked before deployment. This chapter deliberately avoids universal distance and battery-life promises.</p>
+</section>
+<section id="nb-iot-lte-m-and-other-cellular-paths">
+<span id="section-4-5-2"></span><h3>4.5.2 NB-IoT, LTE-M, and other cellular paths<a class="headerlink" href="#nb-iot-lte-m-and-other-cellular-paths" title="Link to this heading"></a></h3>
+<p>NB-IoT and LTE-M provide cellular IoT options rather than require the application owner to install every access point. A representative integrated modem such as Nordic’s nRF9160 supports both technologies, a separate application processor, and power-saving mechanisms such as PSM and eDRX. These capabilities are concrete examples of how radio operation and application execution interact; they do not imply that every operator enables the same features. [<a class="reference internal" href="../references.html#ref-55"><span class="std std-ref">55</span></a>]</p>
+<p>Power Saving Mode can make a device unavailable for immediate downlink while conserving energy. Extended discontinuous reception changes how often a device listens. Consequently, “the modem supports downlink” is not equivalent to “a command will arrive within this application’s deadline.” The application must account for negotiated settings, registration, coverage, retries, and the device’s wake schedule.</p>
+<p>An LTE-M versus NB-IoT choice should be checked against required throughput, mobility behavior, latency, supported bands, certification, subscription, and the actual network. General LTE or 5G access is relevant for richer mobile workloads such as vehicle data upload and video. A private cellular deployment also introduces management responsibilities. None of these access choices alone specifies whether application computation is in a distant cloud, an operator edge site, or an enterprise server.</p>
+</section>
+</section>
+<section id="network-transport-discovery-and-protection">
+<span id="section-4-6"></span><h2>4.6 Network, transport, discovery, and protection<a class="headerlink" href="#network-transport-discovery-and-protection" title="Link to this heading"></a></h2>
+<p>An IP address identifies a network endpoint within a routing context, not a durable physical-device identity. Addresses may change while a device retains its application identity. DNS maps service names to records used to locate endpoints; local discovery mechanisms can help locate nearby services. After discovery, a client must still verify who is answering and whether the requested service is authorized. Discovery is not authentication.</p>
+<p>TCP provides an ordered byte stream with retransmission and congestion control. The application still needs message framing and timeouts. UDP provides datagrams without those same stream guarantees; an application above UDP can add acknowledgements and retries, or deliberately prefer fresh data over retransmission. QUIC builds secured, multiplexed transport over UDP. Its independent streams can avoid one form of application-level head-of-line blocking, but packet loss and congestion still affect performance. HTTP semantics are not inherently tied to one radio or to only one version of the transport stack. [<a class="reference internal" href="../references.html#ref-8"><span class="std std-ref">8</span></a>, <a class="reference internal" href="../references.html#ref-9"><span class="std std-ref">9</span></a>]</p>
+<p>Encryption boundaries matter. TLS protects a stream-based connection; DTLS serves datagram-oriented uses. A gateway terminating a secured connection may see plaintext before forwarding it on another connection. OSCORE provides object security for CoAP messages, allowing protection to be considered beyond a particular transport hop. Appropriate deployment still requires key management, replay handling, and an explicit authorization policy. Security properties do not follow merely from including the word “encrypted” in an architecture diagram. [<a class="reference internal" href="../references.html#ref-64"><span class="std std-ref">64</span></a>]</p>
+<p>A <strong>protocol conversion table</strong> is a useful design artifact. For every boundary, record the incoming identity, outgoing identity, payload schema, timestamp interpretation, error representation, and acknowledgement meaning. If a gateway acknowledges before its local durable write, the system has one recovery contract; if it acknowledges after a replicated commit, it has another. <a class="reference internal" href="ch07.html#chapter-7"><span class="std std-ref">Chapter 7</span></a> develops the resulting correctness issues through synchronization and retry examples.</p>
+</section>
+<section id="application-interaction-http-mqtt-and-coap">
+<span id="section-4-7"></span><h2>4.7 Application interaction: HTTP, MQTT, and CoAP<a class="headerlink" href="#application-interaction-http-mqtt-and-coap" title="Link to this heading"></a></h2>
+<section id="requestresponse-and-publishsubscribe">
+<span id="section-4-7-1"></span><h3>4.7.1 Request–response and publish–subscribe<a class="headerlink" href="#requestresponse-and-publishsubscribe" title="Link to this heading"></a></h3>
+<p>A request–response application asks a known service to perform an operation and returns a result. This is natural for reading a resource or submitting a bounded inference request. Publish–subscribe separates a producer from consumers through named topics or other matching rules. This supports independently evolving consumers, but requires decisions about the intermediary, subscription state, retained data, and delivery behavior.</p>
+<p>HTTP’s resource and method semantics make it useful for service APIs and integration with web infrastructure. A long-lived stream or event channel may be more appropriate than repeatedly polling a changing resource. The choice should follow the interaction pattern and operational environment. Using a familiar web protocol is not automatically excessive; repeatedly waking a constrained device for unnecessary polling is an application-design issue. [<a class="reference internal" href="../references.html#ref-8"><span class="std std-ref">8</span></a>]</p>
+</section>
+<section id="mqtt-the-broker-is-a-system-component">
+<span id="section-4-7-2"></span><h3>4.7.2 MQTT: the broker is a system component<a class="headerlink" href="#mqtt-the-broker-is-a-system-component" title="Link to this heading"></a></h3>
+<p>An MQTT client publishes to a broker; the broker forwards matching messages to subscribers. A topic hierarchy can reflect site and device roles, but a topic name is not an access-control decision. The broker authenticates clients and enforces allowed operations. A retained message can provide a last known value to a later subscriber; it is not an unlimited history. Session settings determine which communication state survives reconnection. [<a class="reference internal" href="../references.html#ref-5"><span class="std std-ref">5</span></a>]</p>
+<p>MQTT offers QoS 0, 1, and 2. QoS 0 avoids a protocol acknowledgement exchange. QoS 1 permits retry and hence duplicates at the receiving protocol endpoint. QoS 2 uses additional state and exchanges to provide exactly-once message delivery within the specified MQTT protocol relationship. Publisher-to-broker and broker-to-subscriber relationships are distinct. None of these levels alone provides exactly-once execution of an arbitrary database transaction, email, or physical command. [<a class="reference internal" href="../references.html#ref-5"><span class="std std-ref">5</span></a>]</p>
+<p>Consider an ingestion worker that receives a message, writes a record, and crashes before completing the relevant acknowledgement. A repeat delivery can lead to a second insert unless the application enforces a stable event identifier. Conversely, acknowledging before a write may lose work after a crash. The transport setting does not choose the database transaction boundary. This reasoning applies to many messaging systems, not just MQTT.</p>
+</section>
+<section id="coap-resources-for-constrained-environments">
+<span id="section-4-7-3"></span><h3>4.7.3 CoAP: resources for constrained environments<a class="headerlink" href="#coap-resources-for-constrained-environments" title="Link to this heading"></a></h3>
+<p>CoAP presents resources and operations in a compact protocol designed for constrained nodes and networks. In its base UDP mapping, confirmable messages use acknowledgements and retransmission, while non-confirmable messages omit that exchange. Message identifiers support duplicate detection and tokens associate requests with responses. An empty acknowledgement can precede a separately delivered response when processing takes longer. [<a class="reference internal" href="../references.html#ref-6"><span class="std std-ref">6</span></a>]</p>
+<p>CoAP Observe lets a client register interest in changes to a resource instead of repeatedly polling it. This is not the same architecture as an MQTT broker matching arbitrary publisher topics to subscribers. CoAP can also use reliable transports through a separate specification; it is incorrect to define CoAP as “always UDP.” Proxies and gateways may connect constrained resources to other systems, but must preserve relevant semantics. [<a class="reference internal" href="../references.html#ref-65"><span class="std std-ref">65</span></a>, <a class="reference internal" href="../references.html#ref-66"><span class="std std-ref">66</span></a>]</p>
+<p id="fig-4-5"><img alt="Figure 4.5. MQTT publish–subscribe and CoAP resource observation organize communication differently. Both need application-level decisions about persistence, freshness, authorization, and failure." src="../_images/asset-7ac73e30e7886696.png" /><br>
+Figure 4.5. MQTT publish–subscribe and CoAP resource observation organize communication differently. Both need application-level decisions about persistence, freshness, authorization, and failure.</p>
+</section>
+</section>
+<section id="robotics-industry-and-semantic-interoperability">
+<span id="section-4-8"></span><h2>4.8 Robotics, industry, and semantic interoperability<a class="headerlink" href="#robotics-industry-and-semantic-interoperability" title="Link to this heading"></a></h2>
+<p>DDS is a data-centric publish–subscribe standard with typed topics and configurable quality-of-service policies. Reliability, history, durability, and deadline-related policies allow a producer and consumer to express more than “send these bytes.” Offered and requested policies must be compatible. A declared deadline can support detection of missing updates; it is not proof that the operating system and network will satisfy a hard real-time bound. DDS and its implementations are important to recognize in robotics and distributed control discussions. [<a class="reference internal" href="../references.html#ref-67"><span class="std std-ref">67</span></a>, <a class="reference internal" href="../references.html#ref-68"><span class="std std-ref">68</span></a>]</p>
+<p>OPC UA adds an explicit information-modeling perspective. A client can discover structured objects and their variables, methods, and relationships rather than interpret an undocumented sequence of registers. OPC UA supports client–server interaction and a publish–subscribe model. Security and deployment choices remain necessary even when the information model is standardized. It should not be reduced to another transport protocol competing at the same layer as Ethernet. [<a class="reference internal" href="../references.html#ref-69"><span class="std std-ref">69</span></a>]</p>
+<p>Within vehicles and machines, networks such as CAN and industrial serial buses connect controllers and sensors. Linux SocketCAN exposes CAN interfaces through a networking-oriented API, but decoding a frame requires the relevant signal definitions. A gateway that exports selected vehicle information must understand that model and enforce a read-only boundary where appropriate. Classroom work should use recordings or virtual interfaces, not connect experimental software to a safety-relevant live bus. [<a class="reference internal" href="../references.html#ref-52"><span class="std std-ref">52</span></a>]</p>
+<p>Matter provides another useful distinction between packet delivery and interoperability. A common IP path is necessary but insufficient for two products to agree about device capabilities, state, and operations. Standardized application models, commissioning, and trust mechanisms address that additional problem. A successful packet exchange is not yet a successful device integration. [<a class="reference internal" href="../references.html#ref-7"><span class="std std-ref">7</span></a>]</p>
+<p id="fig-4-6"><img alt="Figure 4.6. A semantic gateway translates more than bytes. Identity, units, time, operation meaning, and acknowledgement boundaries must survive the conversion." src="../_images/asset-985ba3602972c177.png" /><br>
+Figure 4.6. A semantic gateway translates more than bytes. Identity, units, time, operation meaning, and acknowledgement boundaries must survive the conversion.</p>
+</section>
+<section id="work-a-communication-budget-before-choosing-a-stack">
+<span id="section-4-9"></span><h2>4.9 Work a communication budget before choosing a stack<a class="headerlink" href="#work-a-communication-budget-before-choosing-a-stack" title="Link to this heading"></a></h2>
+<p>Use invented values to separate payload, framing, and time. Suppose a sensor produces a 20-byte payload once per second. Assume the chosen exchange adds 40 bytes of total overhead and the effective serialization rate is 100,000 bits/s. One 60-byte transmission needs <span class="math notranslate nohighlight">\(60 \times 8/100000 = 4.8\)</span> ms of serialization. This is not the end-to-end latency: channel access, waiting, propagation, processing, and retries remain.</p>
+<p>Batching ten measurements produces a 200-byte payload plus the same assumed 40-byte overhead, or 1,920 bits per ten seconds. Sending ten separate messages uses 4,800 bits. The batch reduces this modeled traffic by 60%, but the oldest measurement waits nine seconds before the batch is complete. If the maximum tolerated age is two seconds, this apparent optimization is infeasible. The actual stack may also fragment a larger packet, so the fixed-overhead assumption must be checked.</p>
+<p>A second calculation illustrates loss. If each independent attempt succeeds with probability <span class="math notranslate nohighlight">\(1 - p\)</span>, unlimited retry gives an expected <span class="math notranslate nohighlight">\(1/(1 - p)\)</span> attempts per delivered message. At <span class="math notranslate nohighlight">\(p = 0.2\)</span>, the expectation is 1.25 attempts. Independence, unlimited retries, and an unchanged channel are strong assumptions. Bursty interference, duty constraints, and deadlines invalidate this simple estimate. The formula is a starting model, not a promise of eventual delivery.</p>
+<p>Do not confuse communication reliability with useful information. Replaying every old position after reconnection can overwhelm a robot’s controller with obsolete data. Retaining only the latest position may suit immediate navigation while losing the history needed for investigation. A system can maintain separate paths: a freshness-oriented local stream and a durable event log for later analysis.</p>
+</section>
+<section id="compare-complete-designs-across-applications">
+<span id="section-4-10"></span><h2>4.10 Compare complete designs across applications<a class="headerlink" href="#compare-complete-designs-across-applications" title="Link to this heading"></a></h2>
+<p>A comparison should name a plausible stack, infrastructure, and reason for rejection—not simply select a winning acronym.</p>
+<table class="book-table docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Scenario</strong></p></th>
+<th class="head"><p><strong>Candidate arrangement</strong></p></th>
+<th class="head"><p><strong>Design question to resolve</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Wearable activity sensing</p></td>
+<td><p>Bluetooth LE to a phone; phone forwards approved summaries</p></td>
+<td><p>Does the phone remain available, and what happens when background execution is restricted?</p></td>
+</tr>
+<tr class="row-odd"><td><p>Sparse field measurements</p></td>
+<td><p>LoRaWAN or supported cellular IoT access</p></td>
+<td><p>Who operates gateways or subscriptions, and when can a downlink arrive?</p></td>
+</tr>
+<tr class="row-even"><td><p>Multi-camera inspection</p></td>
+<td><p>Wired or Wi-Fi access to a local inference server</p></td>
+<td><p>Can aggregate traffic and queueing satisfy the deadline under simultaneous streams?</p></td>
+</tr>
+<tr class="row-odd"><td><p>Mobile robot coordination</p></td>
+<td><p>Local IP network with explicitly chosen middleware and QoS</p></td>
+<td><p>Which exchanges require freshness, ordered state, or durable recovery?</p></td>
+</tr>
+<tr class="row-even"><td><p>Multi-vendor device integration</p></td>
+<td><p>A supported interoperable application framework over compatible links</p></td>
+<td><p>Are data models, commissioning, permissions, and update responsibilities aligned?</p></td>
+</tr>
+</tbody>
+</table>
+<p>These are starting hypotheses. A field deployment with no reachable gateway can reject one otherwise attractive radio. A warehouse with available cabling can choose wired communication even though the endpoints are IoT devices. A wearable can compute features locally rather than stream continuously. No single choice is best across all traffic and ownership conditions.</p>
+</section>
+<section id="from-iot-data-to-digital-twins">
+<span id="section-4-11"></span><h2>4.11 From IoT Data to Digital Twins<a class="headerlink" href="#from-iot-data-to-digital-twins" title="Link to this heading"></a></h2>
+<p>The preceding sections explained how observations travel from devices to software. Consider what happens after a maintenance application receives a temperature of 46 °C. The message arrived successfully, but an operator still needs to know which machine it describes, where the sensor is mounted, when the measurement was taken, and whether the machine is operating. Communication delivers information; an application also needs a useful representation of the physical system.</p>
+<p>We will build the idea around a small, fictional pump station with two electric pumps, temperature sensors, and a shared outlet pipe. Its first goal is modest: let an operator inspect the state of a particular pump, relate measurements to equipment, and compare recent history. Later we add a simple what-if calculation. The station, identifiers, measurements, and numerical coefficients in this section are teaching examples, not observations of a deployed plant.</p>
+<p>A digital twin is a digital representation linked to an identifiable real-world entity or system through an explicit updating relationship. Its useful scope may include structure, observed state, history, and computational descriptions of behavior. Definitions differ across industries: some emphasize simulation, bidirectional interaction, or an entire product lifecycle. Rather than resolve every naming difference, we will state what our representation contains, how it stays connected to the physical object, and which questions it can support. NIST discusses both this definitional variation and the importance of a dynamic connection. [<a class="reference internal" href="../references.html#ref-124"><span class="std std-ref">124</span></a>, <a class="reference internal" href="../references.html#ref-125"><span class="std std-ref">125</span></a>]</p>
+<section id="start-with-a-purpose-not-a-3d-scene">
+<span id="section-4-11-1"></span><h3>4.11.1 Start with a purpose, not a 3D scene<a class="headerlink" href="#start-with-a-purpose-not-a-3d-scene" title="Link to this heading"></a></h3>
+<p>Suppose the operator asks, “Which pump in station S1 has a recently observed outlet temperature above 45 °C?” The threshold is an exercise condition, not a safety limit. To answer, the application needs station membership, sensor-to-pump associations, temperature values, and observation times. A photorealistic image of the pump is unnecessary for this query. Conversely, a detailed 3D scene without a connection to actual equipment and changing data cannot answer it.</p>
+<p>Begin with the decisions or questions the application must support, then choose the necessary detail. Tracking equipment identity and recent temperature calls for a different model from predicting mechanical vibration or evaluating a new pipe layout. Greater detail is useful only when it improves a needed result enough to justify the added data collection, calibration, computation, and maintenance.</p>
+<table class="book-table docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Representation</strong></p></th>
+<th class="head"><p><strong>Pump-station example</strong></p></th>
+<th class="head"><p><strong>Question it helps answer</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Description</p></td>
+<td><p>Pump P1 is installed in station S1.</p></td>
+<td><p>Which physical object is this?</p></td>
+</tr>
+<tr class="row-odd"><td><p>Observed state</p></td>
+<td><p>Outlet temperature: 46 °C at 10:00:04.</p></td>
+<td><p>What was most recently observed?</p></td>
+</tr>
+<tr class="row-even"><td><p>History</p></td>
+<td><p>Time-stamped readings and maintenance events.</p></td>
+<td><p>What changed over an interval?</p></td>
+</tr>
+<tr class="row-odd"><td><p>Behavior model</p></td>
+<td><p>A stated relation between load and temperature.</p></td>
+<td><p>What might happen under an assumption?</p></td>
+</tr>
+<tr class="row-even"><td><p>Presentation</p></td>
+<td><p>A list, graph, floor plan, or 3D scene.</p></td>
+<td><p>How can a user understand the information?</p></td>
+</tr>
+</tbody>
+</table>
+<p>These are complementary parts, not a mandatory ladder in which every project must reach 3D simulation and automatic control. A read-only monitoring representation is a useful starting component of a twin application. Name its limits explicitly: it describes accepted observations and relationships, but it does not yet predict failures. In this section, the first version stays read-only.</p>
+<p id="fig-4-7"><img alt="Figure 4.7. From a physical object to an application-facing representation. Observation processing and behavioral analysis are separate responsibilities; visualization is one consumer, not the twin itself." src="../_images/asset-efd07767ae27b5a4.png" /><br>
+Figure 4.7. From a physical object to an application-facing representation. Observation processing and behavioral analysis are separate responsibilities; visualization is one consumer, not the twin itself.</p>
+</section>
+<section id="represent-objects-relationships-and-meaningful-state">
+<span id="section-4-11-2"></span><h3>4.11.2 Represent objects, relationships, and meaningful state<a class="headerlink" href="#represent-objects-relationships-and-meaningful-state" title="Link to this heading"></a></h3>
+<p>Give the equipment and sensors stable identities. In our example, Pump P1 and Pump P2 belong to Station S1, both discharge into Pipe L1, and temperature sensor T17 measures the outlet of P1. These relationships allow software to answer a question about a station without requiring a user to remember every sensor address. <a class="reference internal" href="#fig-4-8"><span class="std std-ref">Figure 4.8</span></a> is an information model, not a diagram of network routes.</p>
+<p id="fig-4-8"><img alt="Figure 4.8. The same physical system can be represented as identified objects and typed relationships. A measures relationship has different meaning from part_of or discharges_into." src="../_images/asset-f54913ad44334f66.png" /><br>
+Figure 4.8. The same physical system can be represented as identified objects and typed relationships. A measures relationship has different meaning from part_of or discharges_into.</p>
+<p>A model describes a kind of object; an instance represents one particular object. A Pump model might define an outlet-temperature property, a nameplate identifier, and a connection to a pipe. P1 and P2 are separate instances with different values. This is similar to a class and its objects in programming. Azure Digital Twins uses models, properties, components, and relationships to define and instantiate such representations. The following record is our teaching schema, not Azure syntax. [<a class="reference internal" href="../references.html#ref-126"><span class="std std-ref">126</span></a>]</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">"twin_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pump-P1"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"model_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Pump.v1"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"temperature"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="mf">46.0</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"unit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"degC"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"observed_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-01-15T10:00:04Z"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"source_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sensor-T17"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"event_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"T17/boot-a/103"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"quality"</span><span class="p">:</span><span class="w"> </span><span class="s2">"valid"</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The identity says what is being described; the type says how to interpret its fields. The value and unit belong together. The timestamp describes the measurement, not the time at which the dashboard was opened. Source and event identifiers preserve a route back to the contributing observation. The valid flag means the record passed declared input checks; it does not prove that a sensor is calibrated or that a physical value is correct.</p>
+<p>A twin is not necessarily one giant JSON document. This compact form explains the information contract. An implementation might store object metadata in one database, observations in a time-series store, and files elsewhere, while presenting a joined view. AWS IoT TwinMaker illustrates this separation through entities and components connected to data sources, including externally stored time-series values. [<a class="reference internal" href="../references.html#ref-128"><span class="std std-ref">128</span></a>]</p>
+<p>A physical change can require a model change even when the network remains unchanged. If T17 is moved from P1 to P2, retain when that association changed so earlier readings are not relabeled as P2 history. Likewise, replacing a pump is not the same event as restarting its software. Identity and relationships must follow the physical meaning the application intends to preserve.</p>
+</section>
+<section id="turn-arriving-messages-into-state-updates">
+<span id="section-4-11-3"></span><h3>4.11.3 Turn arriving messages into state updates<a class="headerlink" href="#turn-arriving-messages-into-state-updates" title="Link to this heading"></a></h3>
+<p>The communication layer delivers a message; a mapping step decides which object and property it should update. In our design, an authenticated device identity selects a registered sensor, the sensor association selects a pump, and a field definition provides the unit and meaning. Accepting an arbitrary pump identifier from an untrusted payload would bypass this mapping. Successful parsing is therefore only the beginning.</p>
+<p>A small ingestion path can validate the record, resolve its source, convert a documented unit if needed, retain the observation in history, and update the appropriate current-state property. Microsoft’s IoT Hub ingestion example similarly uses processing code to translate telemetry into Digital Twins API updates. The transport subscription alone does not create this application mapping. [<a class="reference internal" href="../references.html#ref-127"><span class="std std-ref">127</span></a>]</p>
+<p>For the next trace, assume one trusted temperature source, one boot session, comparable timestamps, and no corrections to an already accepted event. Our teaching policy keeps each unique valid observation in history and uses event time to choose the latest temperature. A repeated event with identical content has no additional effect; conflicting content under the same event identity is held for review. These are explicit example policies, not universal rules for all twins.</p>
+<table class="book-table docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Arrival</strong></p></th>
+<th class="head"><p><strong>Observation</strong></p></th>
+<th class="head"><p><strong>Decision</strong></p></th>
+<th class="head"><p><strong>Latest state</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>10:00:00.2</p></td>
+<td><p>101: 42 °C at 10:00:00</p></td>
+<td><p>Store; update.</p></td>
+<td><p>42 °C, 10:00:00</p></td>
+</tr>
+<tr class="row-odd"><td><p>10:00:04.2</p></td>
+<td><p>103: 46 °C at 10:00:04</p></td>
+<td><p>Store; update.</p></td>
+<td><p>46 °C, 10:00:04</p></td>
+</tr>
+<tr class="row-even"><td><p>10:00:05.0</p></td>
+<td><p>102: 43 °C at 10:00:02</p></td>
+<td><p>Store late history only.</p></td>
+<td><p>46 °C, 10:00:04</p></td>
+</tr>
+<tr class="row-odd"><td><p>10:00:05.1</p></td>
+<td><p>103 repeated, unchanged</p></td>
+<td><p>Ignore duplicate effect.</p></td>
+<td><p>46 °C, 10:00:04</p></td>
+</tr>
+<tr class="row-even"><td><p>10:00:05.2</p></td>
+<td><p>103 repeated as 47 °C</p></td>
+<td><p>Hold conflicting record.</p></td>
+<td><p>46 °C, 10:00:04</p></td>
+</tr>
+</tbody>
+</table>
+<p>The late record is useful for a historical query, but it must not move the current display backward in event time. Different properties can update independently: a new vibration reading does not make an old temperature reading fresh. An application that combines several properties must check whether their observation intervals are suitable for that particular calculation.</p>
+<p>At 10:00:11, the latest accepted temperature in the table is seven seconds old. If the exercise allows at most five seconds, report “46 °C, observed seven seconds ago; stale for the current-state query.” Do not replace missing data with zero or imply that the equipment is normal. Computing age from event time assumes known clock accuracy; an uncertain device clock requires an uncertainty allowance or a qualified statement, not a falsely exact age.</p>
+<p id="fig-4-9"><img alt="Late, duplicate, and fresh updates on one timeline; New observation; event=e2; observed=10:02; value=22; Late observation; event=e1; observed=10:01; value=21; Repeated delivery; event=e2; observed=10:02; value=22; History: e2; Current: e2; History: e1, e2; Current: still e2; No extra event; Current: still e2" src="../_images/asset-b2118b83dd31774e.png" /><br>
+Figure 4.9. Arrival order can differ from observation order; history and current state therefore use explicit update rules.</p>
+</section>
+<section id="ask-questions-across-equipment-time-and-relationships">
+<span id="section-4-11-4"></span><h3>4.11.4 Ask questions across equipment, time, and relationships<a class="headerlink" href="#ask-questions-across-equipment-time-and-relationships" title="Link to this heading"></a></h3>
+<p>Return to the operator’s query about station S1. A useful answer needs more than a database search for values above 45. First find the pumps that belong to S1. Next obtain each pump’s accepted temperature observation and check its age. Apply the threshold only where evidence meets the freshness rule. Finally return the pump identity, value, observation time, and source. This is an object-and-evidence query; it does not require a language model.</p>
+<p>Suppose the query time is 10:00:08. P1 reports 46 °C at 10:00:04; P2 reports 44 °C at 10:00:02. With a five-second rule, P1 satisfies the example condition, while P2 lacks a sufficiently recent observation. The answer should distinguish “P1 is above the exercise threshold” from “P2 cannot be assessed as current.” Treating P2’s older value as a current negative result would conceal missing information.</p>
+<p>A different question, “Which pump warmed faster during the last minute?”, needs history rather than a latest-value field. A question about a shared pipe needs the discharge relationships. A maintenance question may need installation and replacement history. The model earns its complexity by making relevant questions easier to express, not by collecting every possible field.</p>
+<p>The same pattern transfers beyond a pump station. A building representation links rooms, air-handling equipment, and environmental sensors; a fleet representation links vehicles, components, and trips; an agricultural representation links plots, soil sensors, and irrigation equipment. The relationships and update rates differ. Copying the pump schema verbatim would be less useful than asking what objects, evidence, and questions matter in each application.</p>
+</section>
+<section id="add-a-behavioral-model-without-confusing-prediction-and-observation">
+<span id="section-4-11-5"></span><h3>4.11.5 Add a behavioral model without confusing prediction and observation<a class="headerlink" href="#add-a-behavioral-model-without-confusing-prediction-and-observation" title="Link to this heading"></a></h3>
+<p>A structural model explains what the objects are and how they relate. A behavioral model computes how some state might change. It may be an equation, a simulator, a rule set, or a learned model. These two meanings of model should remain distinct: declaring a temperature property does not create a thermal predictor. Digital-twin credibility depends on checking the representation and its results for the intended use, not on visual realism alone. [<a class="reference internal" href="../references.html#ref-129"><span class="std std-ref">129</span></a>]</p>
+<p>To see the distinction, assume a deliberately simplified one-minute update rule for a fictional component. T is temperature in °C, the ambient temperature is fixed at 25 °C, and u is a dimensionless load indicator, either 0 or 1. At each one-minute step, the rule removes 20% of the difference from ambient and adds 2 °C when u = 1:</p>
+<div class="math notranslate nohighlight">
+\[
+T(k + 1) = T(k) + 0.2 \times \left\lbrack 25 - T(k) \right\rbrack + 2u(k)
+\]</div>
+<p>Starting from a measured 45 °C, one loaded step gives 45 + 0.2 × (25 − 45) + 2 = 43 °C. A step with u = 0 gives 41 °C. Repeating the same stated rule produces the table below. A temperature decrease under load is not a contradiction within this toy model: the assumed cooling term is larger than the added heat at this initial state.</p>
+<table class="book-table docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Time from snapshot</strong></p></th>
+<th class="head"><p><strong>Scenario A: u = 1</strong></p></th>
+<th class="head"><p><strong>Scenario B: u = 0</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0 minutes</p></td>
+<td><p>45 °C, observed start</p></td>
+<td><p>45 °C, same observed start</p></td>
+</tr>
+<tr class="row-odd"><td><p>1 minute</p></td>
+<td><p>43.00 °C, predicted</p></td>
+<td><p>41.00 °C, predicted</p></td>
+</tr>
+<tr class="row-even"><td><p>2 minutes</p></td>
+<td><p>41.40 °C, predicted</p></td>
+<td><p>37.80 °C, predicted</p></td>
+</tr>
+<tr class="row-odd"><td><p>3 minutes</p></td>
+<td><p>40.12 °C, predicted</p></td>
+<td><p>35.24 °C, predicted</p></td>
+</tr>
+</tbody>
+</table>
+<p>The table establishes the arithmetic consequences of an assumption; it does not validate a real pump. It omits fluid flow, changing ambient conditions, thermal delays, and equipment-specific parameters. Checking physical adequacy would require independent observations under relevant conditions. A useful experiment first tests data mapping and arithmetic, then separately tests whether the behavior model predicts well enough for its intended purpose.</p>
+<p id="fig-4-10"><img alt="Figure 4.10. A what-if analysis starts from a named observation snapshot and creates separate scenario results. Its predictions must not overwrite the observed-state record." src="../_images/asset-bcd2631cdb607b49.png" /><br>
+Figure 4.10. A what-if analysis starts from a named observation snapshot and creates separate scenario results. Its predictions must not overwrite the observed-state record.</p>
+<p>Keep the initial snapshot, model version, input assumptions, and prediction horizon with each result. If later observations disagree, retain the disagreement as evidence about the model rather than replacing the observations with the prediction. AI can supply a behavior model or help interpret results, but it does not remove this distinction. Detailed model deployment and evaluation belong in the Edge AI part of the book.</p>
+</section>
+<section id="place-the-digital-representation-across-device-edge-and-cloud">
+<span id="section-4-11-6"></span><h3>4.11.6 Place the digital representation across device, edge, and cloud<a class="headerlink" href="#place-the-digital-representation-across-device-edge-and-cloud" title="Link to this heading"></a></h3>
+<p>A digital twin is a logical representation, not a requirement to put every component in one machine or one cloud database. In a candidate pump-station design, sensors acquire measurements, a nearby gateway maintains accepted local state and recent history, and a regional service keeps selected long-term history and compares sites. A browser queries the service appropriate to the task. Model files, graphs, and time-series records do not all need identical placement.</p>
+<p id="fig-4-11"><img alt="Figure 4.11. A candidate deployment separates a local observation path from selective remote synchronization. A cloud view remains available during a link outage only as a last-known or otherwise qualified view." src="../_images/asset-3b224d5f560f3733.png" /><br>
+Figure 4.11. A candidate deployment separates a local observation path from selective remote synchronization. A cloud view remains available during a link outage only as a last-known or otherwise qualified view.</p>
+<p>This arrangement is useful if a local operator must inspect data during a wide-area outage or if raw observations should remain at the site. It is not automatically better than a cloud-centered arrangement. A local gateway needs power, storage, maintenance, and sufficient resources. A task that compares many sites may still benefit from remote aggregation. Choose placement from the operation being supported rather than from the word twin.</p>
+<p>State availability and state freshness are different. A cloud service can answer a query from stored state while receiving no new observations. If the site last synchronized at 10:00 and connectivity failed, an answer at 10:15 must not silently claim that the equipment still has its 10:00 condition. The local view may be newer than the remote view; a remote user must be able to see that limitation.</p>
+<p>The update rate should match the question. A maintenance summary may accept minute-scale data; a rapidly changing position display needs a different policy. Local aggregation can reduce outgoing traffic, but an average alone may hide a short excursion or remove the order of events. Before reducing the data, identify which future queries require the detail. <a class="reference internal" href="ch07.html#chapter-7"><span class="std std-ref">Chapter 7</span></a> develops buffering, synchronization, and consistency; <a class="reference internal" href="ch08.html#chapter-8"><span class="std std-ref">Chapter 8</span></a> develops resource and placement decisions.</p>
+</section>
+<section id="keep-requested-settings-separate-from-observed-reality">
+<span id="section-4-11-7"></span><h3>4.11.7 Keep requested settings separate from observed reality<a class="headerlink" href="#keep-requested-settings-separate-from-observed-reality" title="Link to this heading"></a></h3>
+<p>A digital model may record what an application wants as well as what a device has reported. Suppose an operator requests a two-second reporting interval, while the sensor last reported that it uses five seconds. The representation should preserve both values until there is evidence that the device accepted and applied the change. Updating a database field does not physically reconfigure the device.</p>
+<p>AWS IoT Device Shadow makes this distinction explicit through desired and reported state, with a delta representing differences. Its cloud state can remain accessible while a device is disconnected. That is a useful state-synchronization mechanism, not proof of the device’s present physical condition or a complete physical-behavior model. The product name shadow should not be treated as a universal definition of digital-twin maturity. [<a class="reference internal" href="../references.html#ref-20"><span class="std std-ref">20</span></a>]</p>
+<table class="book-table docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Application request</strong></p></th>
+<th class="head"><p><strong>Device report</strong></p></th>
+<th class="head"><p><strong>What the application may claim</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Report every 2 s</p></td>
+<td><p>Reports every 5 s</p></td>
+<td><p>A change is requested; application is unconfirmed.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Report every 2 s</p></td>
+<td><p>Reports every 2 s, with version and time</p></td>
+<td><p>The device reported applying that version at that time.</p></td>
+</tr>
+</tbody>
+</table>
+<p>Where physical actions are allowed, they require an explicit command path, authorization, local checks, and outcome evidence. A scenario calculation must not acquire those permissions simply because it is attached to a twin. Our exercise changes only recorded information and simulated scenarios; it does not control a live pump. Safety and multi-party trust are developed in Part IV.</p>
+</section>
+<section id="build-a-small-representation-and-test-what-it-means">
+<span id="section-4-11-8"></span><h3>4.11.8 Build a small representation and test what it means<a class="headerlink" href="#build-a-small-representation-and-test-what-it-means" title="Link to this heading"></a></h3>
+<p>For a first exercise, define P1, P2, S1, and the sensor associations. Replay the five arrivals in Section 4.11.3. After each arrival, inspect both the historical records and the displayed latest state. Then advance the query time without sending new data and observe the change from fresh to stale. Finally, run the two scenarios in <a class="reference internal" href="#section-4-11-5"><span class="std std-ref">Section 4.11.5</span></a> from the same initial snapshot.</p>
+<p>This can be completed with structured files and a small local program; a managed platform and a 3D renderer are unnecessary for the first version. The companion replay illustrates the mapping, latest-state policy, evidence query, and arithmetic. It is not a networked twin platform, a physical simulator validated against equipment, or a security-complete service.</p>
+<p>Evaluate three different properties. First, the information mapping: does T17 update P1 rather than another pump, with correct units and timing? Second, the update behavior: do late and duplicate messages preserve the declared policy? Third, the application result: can an answer distinguish observed state, missing evidence, and predicted scenarios? Passing the first two does not validate physical predictions.</p>
+<p>Platform documentation provides recognizable implementations of these responsibilities. Azure Digital Twins emphasizes typed entities and relationships; its ingestion path needs explicit logic to turn device data into updates. AWS IoT TwinMaker illustrates contextual models connected to multiple data stores and user-facing scenes. These are architecture examples, not requirements that every twin use a cloud service. Platform deployment details are reserved for Chapter 9. [<a class="reference internal" href="../references.html#ref-126"><span class="std std-ref">126</span></a>, <a class="reference internal" href="../references.html#ref-127"><span class="std std-ref">127</span></a>, <a class="reference internal" href="../references.html#ref-128"><span class="std std-ref">128</span></a>]</p>
+<p>The essential transition is now complete: communication produces delivered records, while an explicitly maintained representation makes those records usable in questions about real objects. The next part of the book asks where the software should run, how it scales, and how components cooperate. Those decisions apply to twin updates and queries just as they apply to other edge applications.</p>
+<p>The digital representation is evidence about a physical object, not independent proof of its condition. Chapters 13 and 14 revisit source authentication, stale state, and cross-organization provenance.</p>
+</section>
+</section>
+<section id="laboratory-inspect-an-exchange-and-its-boundaries">
+<span id="section-4-12"></span><h2>4.12 Laboratory: inspect an exchange and its boundaries<a class="headerlink" href="#laboratory-inspect-an-exchange-and-its-boundaries" title="Link to this heading"></a></h2>
+<p>Choose two application patterns: request–response and publish–subscribe. Use a local HTTP service and a local MQTT broker when available; otherwise, produce annotated message traces from supplied or synthetic records. Identify the sender, receiver, payload identity, acknowledgement, persistent state, and timeout for each step. Mark where the trace establishes a fact and where it leaves uncertainty.</p>
+<p>Add a simulated delay and duplicate delivery at the application boundary. Verify whether the consumer distinguishes an old observation from a new one and a duplicate from a conflicting record. This laboratory does not require radio hardware and does not validate radio range. An optional hardware extension measures achieved sampling and arrival intervals on a student-owned device with explicit permission.</p>
+</section>
+<section id="exercises">
+<span id="section-4-13"></span><h2>4.13 Exercises<a class="headerlink" href="#exercises" title="Link to this heading"></a></h2>
+<p><strong>4.1</strong> Place BLE, IPv6, TCP, MQTT, Thread, and Matter in a layered diagram. Explain why some pairs can be combined and why others are not direct substitutes.</p>
+<p><strong>4.2</strong> A device emits a 12-byte payload every 200 ms. Assume 36 bytes of overhead per message. Compare separate messages with batches of five. Calculate traffic and the maximum intentional waiting time. State which assumptions can fail on a real stack.</p>
+<p><strong>4.3</strong> A publisher receives an MQTT acknowledgement, but the application’s database contains no record after a crash. Describe two architectures in which this can occur without violating the publisher’s protocol exchange.</p>
+<p><strong>4.4</strong> Compare a Thread border router with a gateway that translates proprietary sensor records into MQTT messages. Identify which one must understand application units and identity mappings.</p>
+<p><strong>4.5</strong> A command must reach a battery device within 500 ms at any time. Explain why average uplink rate and radio range are insufficient for choosing between receive schedules. Do not assume that every low-power mode permits immediate downlink.</p>
+<p><strong>4.6</strong> Design two different communication paths for a vehicle: fresh local state for immediate interpretation and durable historical evidence for later analysis. Specify the consequences of loss, duplication, and reconnection for each.</p>
+<p><strong>4.7</strong> A 3D scene shows pump P1, but its temperature never changes after import. Which parts of a useful digital-twin application are present, and what must be added to answer a current-state query?</p>
+<p><strong>4.8</strong> Using the arrival trace in <a class="reference internal" href="#section-4-11-3"><span class="std std-ref">Section 4.11.3</span></a>, list the accepted unique events and the latest state after all arrivals. At 10:00:11, does the state satisfy a five-second freshness rule? Explain the role of clock assumptions.</p>
+<p><strong>4.9</strong> In the illustrative temperature rule, change the initial observation to 40 °C while keeping u = 1. Calculate two steps. State two observations you would need before treating this rule as a predictor for actual equipment.</p>
+<p><strong>4.10</strong> A remote interface reports a newly requested configuration as already active during a site outage. Explain the mistake and redesign the displayed fields. Then explain why reopening the interface does not refresh physical evidence.</p>
+</section>
+<section id="chapter-perspective">
+<span id="chapter-4-chapter-perspective"></span><h2>Chapter perspective<a class="headerlink" href="#chapter-perspective" title="Link to this heading"></a></h2>
+<p>A protocol is one part of a communication design. Layering clarifies which component provides reachability, which organizes interactions, and which preserves meaning. The engineer’s task is to assemble compatible mechanisms around workload and failure requirements, then measure the resulting system. RoomEdge can use one of these stacks, but the same reasoning must work for wearables, agriculture, industrial inspection, and moving machines.</p>
+<p>Digital-twin questions extend this communication design: delivered observations need identities, relationships, explicit update policies, and a qualified representation of state. <a class="reference internal" href="#section-4-11"><span class="std std-ref">Section 4.11</span></a> connects these concerns to the digital model of the physical system.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="ch03.html" class="btn btn-neutral float-left" title="Chapter 3. IoT Devices and Sensing Systems" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ch05.html" class="btn btn-neutral float-right" title="Chapter 5. Running and Deploying Applications on Edge Nodes" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Zheng Song.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

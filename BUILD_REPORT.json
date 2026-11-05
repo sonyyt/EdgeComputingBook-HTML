@@ -1,0 +1,224 @@
+{
+  "status": "passed",
+  "html_pages": 25,
+  "checks": {
+    "paragraphs": 2329,
+    "images": 159,
+    "math": 80,
+    "tables": 48,
+    "code_blocks": 18,
+    "table_cells": 851,
+    "local_links_assets": 2756,
+    "source_image_hashes": 159,
+    "reference_labels": 211,
+    "figure_labels": 156
+  },
+  "coverage": [
+    {
+      "page": "preface.md",
+      "paragraphs": 5,
+      "table_cells": 0,
+      "images": 0,
+      "math": 0,
+      "tables": 0,
+      "code_blocks": 0
+    },
+    {
+      "page": "chapters/ch01.md",
+      "paragraphs": 207,
+      "table_cells": 131,
+      "images": 16,
+      "math": 1,
+      "tables": 8,
+      "code_blocks": 0
+    },
+    {
+      "page": "chapters/ch02.md",
+      "paragraphs": 138,
+      "table_cells": 94,
+      "images": 10,
+      "math": 6,
+      "tables": 4,
+      "code_blocks": 1
+    },
+    {
+      "page": "chapters/ch03.md",
+      "paragraphs": 101,
+      "table_cells": 33,
+      "images": 6,
+      "math": 19,
+      "tables": 2,
+      "code_blocks": 0
+    },
+    {
+      "page": "chapters/ch04.md",
+      "paragraphs": 140,
+      "table_cells": 84,
+      "images": 11,
+      "math": 5,
+      "tables": 5,
+      "code_blocks": 1
+    },
+    {
+      "page": "chapters/ch05.md",
+      "paragraphs": 93,
+      "table_cells": 18,
+      "images": 8,
+      "math": 0,
+      "tables": 1,
+      "code_blocks": 4
+    },
+    {
+      "page": "chapters/ch06.md",
+      "paragraphs": 93,
+      "table_cells": 20,
+      "images": 7,
+      "math": 0,
+      "tables": 1,
+      "code_blocks": 3
+    },
+    {
+      "page": "chapters/ch07.md",
+      "paragraphs": 92,
+      "table_cells": 33,
+      "images": 8,
+      "math": 0,
+      "tables": 2,
+      "code_blocks": 1
+    },
+    {
+      "page": "chapters/ch08.md",
+      "paragraphs": 88,
+      "table_cells": 72,
+      "images": 8,
+      "math": 0,
+      "tables": 4,
+      "code_blocks": 0
+    },
+    {
+      "page": "chapters/ch09.md",
+      "paragraphs": 151,
+      "table_cells": 75,
+      "images": 9,
+      "math": 3,
+      "tables": 5,
+      "code_blocks": 0
+    },
+    {
+      "page": "chapters/ch10.md",
+      "paragraphs": 160,
+      "table_cells": 82,
+      "images": 18,
+      "math": 0,
+      "tables": 4,
+      "code_blocks": 1
+    },
+    {
+      "page": "chapters/ch11.md",
+      "paragraphs": 159,
+      "table_cells": 57,
+      "images": 17,
+      "math": 0,
+      "tables": 3,
+      "code_blocks": 1
+    },
+    {
+      "page": "chapters/ch12.md",
+      "paragraphs": 142,
+      "table_cells": 58,
+      "images": 17,
+      "math": 0,
+      "tables": 3,
+      "code_blocks": 5
+    },
+    {
+      "page": "chapters/ch13.md",
+      "paragraphs": 94,
+      "table_cells": 24,
+      "images": 12,
+      "math": 0,
+      "tables": 2,
+      "code_blocks": 1
+    },
+    {
+      "page": "chapters/ch14.md",
+      "paragraphs": 89,
+      "table_cells": 27,
+      "images": 12,
+      "math": 0,
+      "tables": 2,
+      "code_blocks": 0
+    },
+    {
+      "page": "appendices/appendix-a.md",
+      "paragraphs": 30,
+      "table_cells": 24,
+      "images": 0,
+      "math": 0,
+      "tables": 1,
+      "code_blocks": 0
+    },
+    {
+      "page": "appendices/appendix-b.md",
+      "paragraphs": 23,
+      "table_cells": 0,
+      "images": 0,
+      "math": 7,
+      "tables": 0,
+      "code_blocks": 0
+    },
+    {
+      "page": "appendices/appendix-c.md",
+      "paragraphs": 200,
+      "table_cells": 0,
+      "images": 0,
+      "math": 22,
+      "tables": 0,
+      "code_blocks": 0
+    },
+    {
+      "page": "appendices/appendix-d.md",
+      "paragraphs": 91,
+      "table_cells": 33,
+      "images": 0,
+      "math": 17,
+      "tables": 1,
+      "code_blocks": 0
+    },
+    {
+      "page": "appendices/appendix-e.md",
+      "paragraphs": 16,
+      "table_cells": 0,
+      "images": 0,
+      "math": 0,
+      "tables": 0,
+      "code_blocks": 0
+    },
+    {
+      "page": "references.md",
+      "paragraphs": 225,
+      "table_cells": 0,
+      "images": 0,
+      "math": 0,
+      "tables": 0,
+      "code_blocks": 0
+    }
+  ],
+  "errors": [],
+  "scope": "Rendered normalized prose/table-cell inclusion, exact source image hashes, structural counts and local anchors. Browser behavior and scientific correctness are separate checks.",
+  "source_repository": "sonyyt/EdgeComputingBook",
+  "source_commit": "aac9a7f88348df9e149447a2ad2916dbf8125d1e",
+  "target_repository": "sonyyt/EdgeComputingBook-HTML",
+  "packaging_checks": {
+    "compiled_image_sha256_checks": 159,
+    "css_local_asset_checks": 0,
+    "chapter_pages": 14,
+    "appendix_pages": 5,
+    "font_binaries_bundled": 0,
+    "nojekyll_present": true,
+    "errors": []
+  },
+  "publication_scope": "Generated files and ZIP only; no source-repository, domain, or Pages-setting changes.",
+  "license_handling": "Target LICENSE retained; original source license copied to LICENSE-SOURCE.",
+  "browser_validation": "This workflow checks content and local resources, not live browser search or external CDN availability."
+}

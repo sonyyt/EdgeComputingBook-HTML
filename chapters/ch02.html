@@ -1,0 +1,569 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chapter 2. An Agentic IoT Application at the Edge &mdash; Edge Computing Systems</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/book.css?v=e49485e1" />
+
+  
+    <link rel="canonical" href="https://sonyyt.github.io/EdgeComputingBook-HTML/chapters/ch02.html" />
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=bcebf14d"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script>window.MathJax = {"tex": {"tags": "none"}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      <script src="../_static/book.js?v=917b1e6b"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Chapter 3. IoT Devices and Sensing Systems" href="ch03.html" />
+    <link rel="prev" title="Chapter 1. Introduction to Edge Computing" href="ch01.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Edge Computing Systems
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">About this book</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../preface.html">Preface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../publication.html">About this web edition</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Part I. Applications, Devices, Communication, and Digital Twins</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="ch01.html">Chapter 1. Introduction to Edge Computing</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Chapter 2. An Agentic IoT Application at the Edge</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#from-a-fixed-dashboard-to-on-demand-analysis">2.1 From a Fixed Dashboard to On-Demand Analysis</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#three-requests-one-set-of-capabilities">2.1.1 Three requests, one set of capabilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#what-makes-the-application-agentic">2.1.2 What makes the application agentic?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#two-kinds-of-planning">2.1.3 Two kinds of planning</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#why-a-language-model-and-why-at-the-edge">2.2 Why a Language Model, and Why at the Edge?</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#language-as-an-interface-to-composable-computation">2.2.1 Language as an interface to composable computation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#a-local-slm-and-an-optional-remote-llm">2.2.2 A local SLM and an optional remote LLM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#four-deployment-motivations">2.2.3 Four deployment motivations</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#the-components-and-their-responsibilities">2.3 The Components and Their Responsibilities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#two-paths-through-the-same-system">2.3.1 Two paths through the same system</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-model-proposes-the-runtime-executes">2.3.2 The model proposes; the runtime executes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#generated-programs-are-analysis-artifacts">2.3.3 Generated programs are analysis artifacts</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#data-and-tool-contracts-that-support-planning">2.4 Data and Tool Contracts That Support Planning</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#an-observation-needs-meaning-not-only-a-value">2.4.1 An observation needs meaning, not only a value</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#a-catalog-tells-the-model-what-can-be-investigated">2.4.2 A catalog tells the model what can be investigated</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tools-expose-capabilities-not-every-implementation-detail">2.4.3 Tools expose capabilities, not every implementation detail</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#follow-a-request-from-goal-to-result">2.5 Follow a Request from Goal to Result</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#resolve-the-goal-and-inspect-the-available-evidence">2.5.1 Resolve the goal and inspect the available evidence</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#execute-the-plan-and-preserve-the-missing-data-distinction">2.5.2 Execute the plan and preserve the missing-data distinction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#interpret-the-result-then-change-the-request">2.5.3 Interpret the result, then change the request</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#a-new-rule-may-require-a-generated-program">2.5.4 A new rule may require a generated program</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#preserve-local-usefulness-without-the-cloud">2.5.5 Preserve local usefulness without the cloud</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#requirements-initial-deployment-and-the-work-ahead">2.6 Requirements, Initial Deployment, and the Work Ahead</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#specify-success-before-selecting-the-host">2.6.1 Specify success before selecting the host</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#account-for-the-complete-request">2.6.2 Account for the complete request</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#evaluate-task-completion-and-flexibility">2.6.3 Evaluate task completion and flexibility</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#choose-a-low-cost-feasible-starting-configuration">2.6.4 Choose a low-cost feasible starting configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#build-the-pieces-then-improve-the-system">2.6.5 Build the pieces, then improve the system</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#chapter-summary">Chapter Summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#exercises">Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ch03.html">Chapter 3. IoT Devices and Sensing Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch04.html">Chapter 4. Communication and Networking for IoT and Edge Systems</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Part II. Building and Operating Edge Systems</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ch05.html">Chapter 5. Running and Deploying Applications on Edge Nodes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch06.html">Chapter 6. Scaling Edge Applications and Elastic Execution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch07.html">Chapter 7. Computation Offloading and Device–Edge–Cloud Collaboration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch08.html">Chapter 8. Scheduling and Optimizing Edge Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch09.html">Chapter 9. Commercial Edge Platforms: From Mechanisms to Deployment</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Part III. Edge AI</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ch10.html">Chapter 10. Running and Optimizing AI on Edge Devices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch11.html">Chapter 11. Collaborative Edge Intelligence: From Perception Models to Language Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch12.html">Chapter 12. Agentic AI and Tool-Driven Applications at the Edge</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Part IV. Security and Multi-Party Trust</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ch13.html">Chapter 13. Security, Privacy, and Safety in Edge Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch14.html">Chapter 14. Multi-Party Trust, Blockchains, and Distributed Ledgers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendices and references</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../appendices/appendix-a.html">Appendix A. Laboratory and Project Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendices/appendix-b.html">Appendix B. Optional Extension: Learning and Adaptation Across Devices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendices/appendix-c.html">Appendix C. Selected Exercise Solutions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendices/appendix-d.html">Appendix D. Glossary and Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendices/appendix-e.html">Appendix E. Evidence and Reproducibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Edge Computing Systems</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Chapter 2. An Agentic IoT Application at the Edge</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/sonyyt/EdgeComputingBook/blob/main/docs/chapters/ch02.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul><div class="rst-breadcrumbs-buttons" role="navigation" aria-label="Sequential page navigation">
+        <a href="ch01.html" class="btn btn-neutral float-left" title="Chapter 1. Introduction to Edge Computing" accesskey="p"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ch03.html" class="btn btn-neutral float-right" title="Chapter 3. IoT Devices and Sensing Systems" accesskey="n">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+  </div>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="chapter-2-an-agentic-iot-application-at-the-edge">
+<span id="chapter-2"></span><h1>Chapter 2. An Agentic IoT Application at the Edge<a class="headerlink" href="#chapter-2-an-agentic-iot-application-at-the-edge" title="Link to this heading"></a></h1>
+<p>A building manager opens a dashboard and sees two temperature curves. The dashboard answers the questions its developer anticipated: show a reading, select a date, calculate an average. Now the manager asks, “Compare the rooms only while they were occupied. Use five-minute intervals, and leave gaps where the measurements are incomplete.” A second request changes the definition of an event rather than simply changing a date. A third asks for an explanation of the resulting graph. Should a developer have to build a separate screen and analysis pipeline for every such request?</p>
+<p>This chapter introduces <strong>RoomEdge</strong>, a local IoT analysis assistant whose processing steps can change with the user’s goal. A language model helps interpret the request, select data, organize a workflow, and propose tool calls or a small analysis program. Software outside the model executes the operations and returns their results. The user receives an answer, a table, or a graph grounded in the site’s observations. The model is therefore involved before analysis begins, not merely asked to describe an answer that a fixed pipeline has already produced.</p>
+<p>We will examine the application as a user and a system designer. The examples specify observable behavior and use clearly identified synthetic data; they are not transcripts of an executed model session. The numerical results can be reproduced independently of a model. Installation commands, model adapters, and executor source code are not needed to follow this chapter. Later chapters develop those components and their optimizations.</p>
+<section id="from-a-fixed-dashboard-to-on-demand-analysis">
+<span id="section-2-1"></span><h2>2.1 From a Fixed Dashboard to On-Demand Analysis<a class="headerlink" href="#from-a-fixed-dashboard-to-on-demand-analysis" title="Link to this heading"></a></h2>
+<section id="three-requests-one-set-of-capabilities">
+<span id="section-2-1-1"></span><h3>2.1.1 Three requests, one set of capabilities<a class="headerlink" href="#three-requests-one-set-of-capabilities" title="Link to this heading"></a></h3>
+<p>Suppose two rooms contain temperature sensors and a source of occupancy observations. Devices transmit records to a nearby computer, which keeps a local history. A user can access only rooms for which the application grants permission. The initial application reads observations and produces analysis artifacts; it does not change heating settings, unlock doors, or control other physical equipment.</p>
+<p>Consider three requests to the same system:</p>
+<p><strong>A current observation.</strong> “What is the latest temperature in A101, and when was it observed?” The system identifies the room and variable, retrieves an appropriate record, and reports its value and age. A fresh answer requires a recent observation, not an imaginative explanation of an old one.</p>
+<p><strong>A comparison.</strong> “Compare A101 and A102 yesterday while they were occupied. Calculate five-minute means and draw a graph.” The system needs temperature and occupancy information, a common time interpretation, a selection rule, grouped calculations, and a presentation. Simply retrieving the most recent temperature cannot answer it.</p>
+<p><strong>A new analysis rule.</strong> “Find warming events: temperature more than 2°C above the preceding fifteen-minute median, sustained for at least three minutes. Compare event counts during occupied and unoccupied periods.” The user has supplied a definition that need not exist as a preprogrammed application feature. The system must turn that definition into operations, resolve ambiguous details, and check the output. The threshold is an invented analysis rule, not a safety or comfort standard.</p>
+<p id="fig-2-1"><img alt="Figure 2.1. The same data and tools can support different user goals. The first request needs a lookup; the second combines filtering, alignment, aggregation, and plotting; the third introduces a user-defined calculation. The paths illustrate possible workflows, not a claim that a particular model generated them." src="../_images/asset-20393cc874aff020.png" /><br>
+Figure 2.1. The same data and tools can support different user goals. The first request needs a lookup; the second combines filtering, alignment, aggregation, and plotting; the third introduces a user-defined calculation. The paths illustrate possible workflows, not a claim that a particular model generated them.</p>
+<p>The useful flexibility is a change in <strong>what the system does</strong>, not just how it phrases a response. Changing “five minutes” to “ten minutes” modifies a parameter. Asking to filter by occupancy adds a dependency on another stream. Defining an event can introduce a new calculation. Each kind of change should be visible in the task plan and in the resulting analysis. A fluent response that ignores the changed condition is not successful adaptation.</p>
+<p id="fig-2-2"><img alt="One interface, three changing requests; 01 Read; Latest observation in A101?; Return value + observation; time.; 02 Compare; Five-minute occupied; means.; A102 at 09:10: 3/5 valid → not; accepted.; 03 Redefine; Now use ten-minute bins.; 09:10–09:20: 8/10 → 23.7375; °C." src="../_images/asset-351d6febd6bbc9fb.png" /><br>
+Figure 2.2. Different goals reuse the same data and tools; these prepared panels demonstrate the application contract, not measured model-planning ability.</p>
+</section>
+<section id="what-makes-the-application-agentic">
+<span id="section-2-1-2"></span><h3>2.1.2 What makes the application agentic?<a class="headerlink" href="#what-makes-the-application-agentic" title="Link to this heading"></a></h3>
+<p>A <strong>tool</strong> is an operation that application software exposes for a model to request: discover available fields, query a time interval, run an analysis, or create a plot. A <strong>workflow</strong> is a set of tasks and dependencies, such as retrieving two streams before joining them. An <strong>agentic application</strong> uses a model to help choose or revise those tasks in response to the goal and to observations returned by tools. This usage follows the distinction between predetermined workflows and model-directed tool use described in contemporary agent architectures. [<a class="reference internal" href="../references.html#ref-81"><span class="std std-ref">81</span></a>, <a class="reference internal" href="../references.html#ref-82"><span class="std std-ref">82</span></a>]</p>
+<p>The distinction is easiest to see at a decision point. A fixed pipeline always computes a daily average because its developer selected that operation. In the proposed application, the model can request a median or a time-ordered series because the user’s question requires it. After discovering a missing field, it can ask for clarification or revise the analysis. The surrounding program still determines which operations exist and which are allowed.</p>
+<p>One model and a small tool set are enough for this example. Multiple agents, a sophisticated planning algorithm, and a large orchestration framework are not prerequisites. Nor must every request invoke an open-ended loop: a well-understood lookup can follow a short, predictable path. The reason to include an agentic path is to handle useful variation without writing a complete business workflow for every anticipated question.</p>
+</section>
+<section id="two-kinds-of-planning">
+<span id="section-2-1-3"></span><h3>2.1.3 Two kinds of planning<a class="headerlink" href="#two-kinds-of-planning" title="Link to this heading"></a></h3>
+<p><strong>Task planning occurs while the application runs.</strong> The model proposes how to answer a particular request: identify inputs, query a history, compute an event, and display a result. The plan may be revised when a tool reports unavailable data or a failed calculation.</p>
+<p><strong>System design occurs when the application is built and deployed.</strong> Developers choose the sensors, data schema, host, model, tool interfaces, execution limits, and deployment arrangement. They decide which behaviors must work without the cloud and what performance to target. A model that can plan a data analysis has not automatically solved those infrastructure decisions.</p>
+<p>An observable plan is a compact task artifact, such as “retrieve these variables over this interval, then calculate this statistic.” It is not a transcript of a model’s hidden reasoning and does not prove that the plan is sound. Its value is that the user and the runtime can examine the intended operations and compare them with what actually happened.</p>
+</section>
+</section>
+<section id="why-a-language-model-and-why-at-the-edge">
+<span id="section-2-2"></span><h2>2.2 Why a Language Model, and Why at the Edge?<a class="headerlink" href="#why-a-language-model-and-why-at-the-edge" title="Link to this heading"></a></h2>
+<section id="language-as-an-interface-to-composable-computation">
+<span id="section-2-2-1"></span><h3>2.2.1 Language as an interface to composable computation<a class="headerlink" href="#language-as-an-interface-to-composable-computation" title="Link to this heading"></a></h3>
+<p>Ordinary code is excellent at executing a defined calculation. A language model adds a way to translate varied human requests into candidate calculations and tool interactions. The developer supplies a vocabulary of data and capabilities; the user supplies a goal; the model proposes how to connect them. Tool-using systems interleave these proposals with actual results rather than relying solely on text generated from model parameters. [<a class="reference internal" href="../references.html#ref-82"><span class="std std-ref">82</span></a>]</p>
+<p>The model can contribute at several points: resolving a room alias, identifying the needed fields, decomposing a comparison, proposing a program for a new event definition, and explaining the returned output. These roles do not require the model to perform arithmetic mentally. A program can calculate an exact mean even when the model chose which values to include. The important question is whether that choice matches the user’s request.</p>
+<p>The system’s flexibility remains bounded by available data, tools, permissions, and model capability. It cannot recover a variable that was never measured. It cannot make unsupported software available by naming it. It should ask about genuinely ambiguous requests rather than silently select a convenient meaning. For a fixed daily report with no meaningful variation, a conventional pipeline may be simpler and more predictable.</p>
+</section>
+<section id="a-local-slm-and-an-optional-remote-llm">
+<span id="section-2-2-2"></span><h3>2.2.2 A local SLM and an optional remote LLM<a class="headerlink" href="#a-local-slm-and-an-optional-remote-llm" title="Link to this heading"></a></h3>
+<p>In this chapter, <strong>SLM</strong> means a language model selected to fit a constrained local serving budget; <strong>LLM</strong> refers to a larger or more resource-intensive alternative in our comparisons. The terms do not impose a universal parameter-count boundary. Size, capability, and execution location are separate properties. A small model can run in a cloud service, and a sufficiently capable local server can host a larger model.</p>
+<p>Our initial design puts a tool-capable SLM on the <strong>edge server</strong>, not on the tiny sensing microcontroller. The same nearby host runs the local data service and the application runtime. A remote LLM can be available as an optional enhancement for permitted requests, but it is not required for every local analysis. Model candidates must be tested on tool selection, task interpretation, and generated analysis before choosing one; a model’s name or size does not establish that it can perform these tasks.</p>
+<p>Tool-calling support in a serving interface makes the interaction possible, not reliable by itself. For example, Ollama documents a loop in which a model proposes tool calls, the client application executes them, and the tool results are included in a subsequent model request. This is one possible implementation interface, not a requirement that all edge applications use that runtime. [<a class="reference internal" href="../references.html#ref-83"><span class="std std-ref">83</span></a>]</p>
+</section>
+<section id="four-deployment-motivations">
+<span id="section-2-2-3"></span><h3>2.2.3 Four deployment motivations<a class="headerlink" href="#four-deployment-motivations" title="Link to this heading"></a></h3>
+<p><strong>Keep sensitive context local.</strong> Occupancy histories, user questions, and analysis results may reveal information about a site. Local interpretation and computation can avoid sending them to an outside model service. This is a data-flow choice, not an automatic privacy guarantee. Access controls, logs, retained conversations, and exported artifacts still require appropriate protection. The model’s proposal to send something remotely does not authorize that transfer.</p>
+<p><strong>Reduce wide-area communication.</strong> A local analysis can retrieve full-resolution history without uploading it for every model interaction. The runtime can return a compact result to the local model or release an approved summary to a remote service. A useful design keeps large tables as local artifacts and passes handles and relevant descriptions between components, rather than repeatedly copying every record into a prompt. Local network and local process communication still occur; reducing cloud traffic does not mean eliminating all data movement.</p>
+<p><strong>Avoid unnecessary remote round trips.</strong> A multi-step task may require several model/tool exchanges. Keeping the model near the tools can shorten the network component of each exchange. Yet a smaller local host may execute inference more slowly or queue behind other requests. Compare the whole request, not just the distance to the model. Local–remote collaboration research similarly studies a trade-off among model capability, communication, and serving cost rather than guaranteeing a universal improvement. [<a class="reference internal" href="../references.html#ref-31"><span class="std std-ref">31</span></a>]</p>
+<p><strong>Retain useful flexibility during a cloud-link outage.</strong> A fixed local dashboard can keep showing a predefined chart. A local tool-using model could also process a <em>new</em> permitted request while the wide-area link is down. This is a stronger application goal: preserve some ability to interpret and organize work, not merely preserve cached display content. It requires the model, runtime, data, tool dependencies, usable identity, and user interface to be available locally. The local network and power are still needed.</p>
+<p>These benefits can occur separately. A remote model that receives only summaries might reduce raw-data disclosure but still require connectivity for every task. A local model may support disconnected use without achieving the lowest latency. Deployment should be selected for the specific combination of requirements that matters.</p>
+</section>
+</section>
+<section id="the-components-and-their-responsibilities">
+<span id="section-2-3"></span><h2>2.3 The Components and Their Responsibilities<a class="headerlink" href="#the-components-and-their-responsibilities" title="Link to this heading"></a></h2>
+<section id="two-paths-through-the-same-system">
+<span id="section-2-3-1"></span><h3>2.3.1 Two paths through the same system<a class="headerlink" href="#two-paths-through-the-same-system" title="Link to this heading"></a></h3>
+<p>The <strong>observation path</strong> operates whether or not a user asks a question. Sensors acquire measurements; devices attach identity, time, and units; a local receiver accepts records; and a data service stores them. For initial development, a replay source can supply records through the same interface. Replay validates software behavior, not sensor calibration or wireless performance.</p>
+<p>The <strong>request path</strong> begins with an authenticated user. The local service establishes the user’s permitted scope, then gives the model the request and descriptions of relevant capabilities. The model proposes an operation, the runtime checks it, and a tool executes it. Results return to the model until it can complete the request, needs clarification, or reaches a stopping condition. The observation store remains distinct from the model conversation: the model does not have to memorize the entire history.</p>
+<p id="fig-2-3"><img alt="Figure 2.3. A local agentic IoT application. The observation path continuously maintains site data; the request path invokes the model and tools as needed. Model proposals do not bypass authorization. A remote LLM is optional and receives only an explicitly permitted payload. Devices, the edge host, and the cloud are different execution locations." src="../_images/asset-bb68f62735d69cf9.png" /><br>
+Figure 2.3. A local agentic IoT application. The observation path continuously maintains site data; the request path invokes the model and tools as needed. Model proposals do not bypass authorization. A remote LLM is optional and receives only an explicitly permitted payload. Devices, the edge host, and the cloud are different execution locations.</p>
+<p>A practical demonstration can use two sensor nodes, a local network, one Linux-capable edge host, and a browser on a phone or laptop. Temperature and occupancy are separate information sources even when delivered in one record. The host needs enough memory for the chosen model and its runtime as well as the data service and analysis processes. No universal RAM requirement follows from this architecture; <a class="reference internal" href="ch05.html#chapter-5"><span class="std std-ref">Chapter 5</span></a> develops resource accounting, <a class="reference internal" href="ch10.html#chapter-10"><span class="std std-ref">Chapter 10</span></a> explains model weights and working memory, and <a class="reference internal" href="ch11.html#chapter-11"><span class="std std-ref">Chapter 11</span></a> examines language-model serving state.</p>
+</section>
+<section id="the-model-proposes-the-runtime-executes">
+<span id="section-2-3-2"></span><h3>2.3.2 The model proposes; the runtime executes<a class="headerlink" href="#the-model-proposes-the-runtime-executes" title="Link to this heading"></a></h3>
+<p>The <strong>model service</strong> produces a proposed tool call, analysis program, clarification question, or answer. The <strong>application runtime</strong> manages the interaction, invokes permitted tools, tracks the task’s budget, and records outcomes. A <strong>tool service</strong> retrieves data or performs a computation. These may be processes on one computer or separate services, but their responsibilities are distinct.</p>
+<p>Suppose the model proposes reading A102 while the user is authorized only for A101. The data-access boundary must reject that operation. The model cannot override the decision by describing the request as important. Conversely, an authorized request can fail because its data is absent; the returned error should distinguish missing information from denied access without exposing unauthorized details. Authentication identifies the caller, while authorization limits what that caller may obtain or do.</p>
+<p>A tool call is not an executed action until the runtime has performed it and received an outcome. An acknowledgment that a job started is also not a completed calculation. This matters when the model summarizes its own progress: “I will compare the rooms” describes a plan, whereas “the comparison returned these values” requires a corresponding result.</p>
+<p id="fig-2-4"><img alt="An agent proposal crosses an execution gate; Model / user; Runtime; Tools / data; Propose next step; Tool + arguments; Check every action; Scope, arguments,; budget; Execute permitted call; Return result or error; Record observation; A denial is not execution.; Choose next step; Use actual returned; evidence.; Denied → no tool call; report the reason." src="../_images/asset-8215b11f9ef86c3f.png" /><br>
+Figure 2.4. A model proposes the next operation; the runtime checks it and returns the result or a bounded error before the next step.</p>
+<p>The runtime need not ask the model about every low-level operation. A single approved analysis job may perform many arithmetic steps. The developer determines the granularity of tools; the model chooses among those capabilities. Too-coarse tools can limit useful variation, while too-fine tools can create unnecessary rounds and overhead. We will first make this boundary explicit and later evaluate alternative designs.</p>
+</section>
+<section id="generated-programs-are-analysis-artifacts">
+<span id="section-2-3-3"></span><h3>2.3.3 Generated programs are analysis artifacts<a class="headerlink" href="#generated-programs-are-analysis-artifacts" title="Link to this heading"></a></h3>
+<p>For a request that exceeds a fixed aggregation tool, the model may propose a short program. The program receives selected data and produces a table, plot, or event list. It is not an instruction to execute arbitrary commands on the edge host. A controlled analysis environment should limit reachable files, libraries, network access, execution time, memory, and output size. Source records should be read-only, and ordinary users should not gain device-control authority through generated code. Documentation on code-executing agents emphasizes that a restricted interpreter is not automatically a complete security boundary. [<a class="reference internal" href="../references.html#ref-84"><span class="std std-ref">84</span></a>]</p>
+<p>Execution separates three questions: did the program run, did it calculate what the user requested, and are its conclusions supported by the input? A program can terminate normally while using the wrong time window or unit. The system should retain an inspectable analysis specification and output provenance so that those errors can be detected. A second model’s approval is not a substitute for checking known numeric properties or test cases.</p>
+<p>The first application permits analysis artifacts, not physical actuation. This scope still supports substantial flexibility: new filters, comparisons, event definitions, and displays. Adding equipment control later would introduce different hazards and authority requirements, not merely one more harmless tool.</p>
+</section>
+</section>
+<section id="data-and-tool-contracts-that-support-planning">
+<span id="section-2-4"></span><h2>2.4 Data and Tool Contracts That Support Planning<a class="headerlink" href="#data-and-tool-contracts-that-support-planning" title="Link to this heading"></a></h2>
+<section id="an-observation-needs-meaning-not-only-a-value">
+<span id="section-2-4-1"></span><h3>2.4.1 An observation needs meaning, not only a value<a class="headerlink" href="#an-observation-needs-meaning-not-only-a-value" title="Link to this heading"></a></h3>
+<p>The following is an illustrative observation, not executable application code. The room aliases A101 and A102 correspond to stable identifiers r101 and r102. Times are recorded unambiguously; user-facing calendar phrases are resolved using the site’s time zone. This schema illustrates the application design and is richer than the minimal ingestion exercise in Appendix A.</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">"schema_version"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"device_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sensor-101"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"boot_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"boot-a"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"seq"</span><span class="p">:</span><span class="w"> </span><span class="mi">17</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"room_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"r101"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"observed_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-09-14T09:12:00-04:00"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"received_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-09-14T09:12:02-04:00"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"values"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"temperature_c"</span><span class="p">:</span><span class="w"> </span><span class="mf">23.2</span><span class="p">,</span><span class="w"> </span><span class="nt">"occupied"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">},</span>
+<span class="w">  </span><span class="nt">"quality"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"temperature_c"</span><span class="p">:</span><span class="w"> </span><span class="s2">"valid"</span><span class="p">,</span><span class="w"> </span><span class="nt">"occupied"</span><span class="p">:</span><span class="w"> </span><span class="s2">"valid"</span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The logical event identifier is the combination of device, boot, and sequence. A new transmission attempt should not invent a new event, and a rebooted device should not make a new event indistinguishable from an earlier one. These fields mostly serve ingestion and deduplication; the model does not need to see every transport detail to plan an analysis.</p>
+<p>Other fields are directly relevant to the requested computation. The room determines which histories can be compared. The unit determines whether subtraction and thresholds are meaningful. Observation time places the value in the physical history, whereas arrival time describes when the service received it. A quality indicator can prevent a failed sensor read from being interpreted as a genuine zero. The schema version identifies the meaning of the fields rather than merely whether JSON parsing succeeds.</p>
+<p>The application must distinguish measurement from inference. An occupancy flag might come from a detector and have different uncertainty from a directly measured temperature. A claim that “people were present” should reflect the semantics of that source. Merely displaying a Boolean field does not establish perfect knowledge of the room.</p>
+</section>
+<section id="a-catalog-tells-the-model-what-can-be-investigated">
+<span id="section-2-4-2"></span><h3>2.4.2 A catalog tells the model what can be investigated<a class="headerlink" href="#a-catalog-tells-the-model-what-can-be-investigated" title="Link to this heading"></a></h3>
+<p>A <strong>data catalog</strong> describes available sources without exposing every observation. For this application it can list room aliases, field meanings, units, available intervals, sampling information, and data-quality conventions. The service returns only catalog information the user is permitted to discover.</p>
+<p>Imagine that a user requests humidity but the catalog contains only temperature and occupancy. The appropriate next step is to report that limitation or ask whether another analysis would be useful. Looking up data capabilities before writing a program prevents a task from depending on imaginary columns. Similarly, a request for “yesterday” requires a definite interval in the site’s calendar; it does not simply mean subtracting 24 hours from the latest timestamp.</p>
+<table class="book-table docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Contract element</strong></p></th>
+<th class="head"><p><strong>What it tells the planner</strong></p></th>
+<th class="head"><p><strong>What still needs enforcement</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Field name, meaning, and unit</p></td>
+<td><p>Which quantity can answer the question</p></td>
+<td><p>Input validation and unit handling</p></td>
+</tr>
+<tr class="row-odd"><td><p>Available interval and sampling description</p></td>
+<td><p>Whether the requested history may exist</p></td>
+<td><p>Actual query coverage and missing-data checks</p></td>
+</tr>
+<tr class="row-even"><td><p>Room and source relationships</p></td>
+<td><p>Which records could be combined</p></td>
+<td><p>Caller authorization and valid joins</p></td>
+</tr>
+<tr class="row-odd"><td><p>Quality and provenance information</p></td>
+<td><p>Which limitations the analysis must consider</p></td>
+<td><p>Consistent filtering and output provenance</p></td>
+</tr>
+<tr class="row-even"><td><p>Tool description and accepted arguments</p></td>
+<td><p>How to request a permitted operation</p></td>
+<td><p>Argument validation, scope, and resource limits</p></td>
+</tr>
+</tbody>
+</table>
+<p>A catalog is not the same as the database, and neither is an access token. Putting room_id in a record does not authenticate its sender or authorize its reader. The trusted receiver associates devices with permitted sources; the query service associates callers with permitted scopes. The model works within those boundaries, not in place of them.</p>
+<p id="fig-2-5"><img alt="From field metadata to a permitted query; Observation; room_id: A101; temperature_c: 23.5; observed_at: ...; Visible catalog; temperature_c → °C; interval: yesterday; fields: temperature,; occupancy; Tool arguments; query_series(; room=&quot;A101&quot;,; field=&quot;temperature_c&quot;); Humidity absent → ask or report limitation; do not invent a field." src="../_images/asset-4d259c48edf35b7a.png" /><br>
+Figure 2.5. Metadata helps formulate a meaningful query; the data service still enforces access and validates the actual request.</p>
+</section>
+<section id="tools-expose-capabilities-not-every-implementation-detail">
+<span id="section-2-4-3"></span><h3>2.4.3 Tools expose capabilities, not every implementation detail<a class="headerlink" href="#tools-expose-capabilities-not-every-implementation-detail" title="Link to this heading"></a></h3>
+<p>The initial tool set can be small: discover fields, query observations, run a specified analysis, and present an artifact. A tool description should state what it accepts, what it returns, and what errors mean. For example, a query returns a bounded data artifact plus its time interval, fields, coverage, and identifier. It does not silently replace missing records with invented measurements.</p>
+<p>A local artifact identifier lets a later tool reuse the selected table without placing every row into the model’s context. The model can inspect metadata, preview a few rows when needed, and request a computation on the artifact. The analysis tool returns numeric results and relevant diagnostics. An artifact handle is not a permission grant: each use remains subject to the caller’s scope, task lifetime, and the service’s limits.</p>
+<p>The three contracts therefore support different decisions. Observations say what happened according to a source. The catalog says what information can be sought. Tool descriptions say how the application can act on it. Together they give the model a grounded vocabulary for planning rather than asking it to infer a database or execution environment from a vague prompt.</p>
+<p id="fig-2-6"><img alt="Figure 2.6. Observations, a catalog, and tool descriptions answer different questions. The model uses authorized descriptions to propose work; the data and execution services enforce the contracts. Large data artifacts can remain local while their identifiers and relevant metadata move through the task loop." src="../_images/asset-eddecc840773e3c6.png" /><br>
+Figure 2.6. Observations, a catalog, and tool descriptions answer different questions. The model uses authorized descriptions to propose work; the data and execution services enforce the contracts. Large data artifacts can remain local while their identifiers and relevant metadata move through the task loop.</p>
+</section>
+</section>
+<section id="follow-a-request-from-goal-to-result">
+<span id="section-2-5"></span><h2>2.5 Follow a Request from Goal to Result<a class="headerlink" href="#follow-a-request-from-goal-to-result" title="Link to this heading"></a></h2>
+<section id="resolve-the-goal-and-inspect-the-available-evidence">
+<span id="section-2-5-1"></span><h3>2.5.1 Resolve the goal and inspect the available evidence<a class="headerlink" href="#resolve-the-goal-and-inspect-the-available-evidence" title="Link to this heading"></a></h3>
+<p>Consider a specific demonstration request: “For September 14, compare A101 and A102 from 09:00 to 09:30 while occupied. Use five-minute means. Omit bins with less than 80% valid temperature coverage.” The time zone is America/Detroit, and the interval includes 09:00 but excludes 09:30. This precise version of the request lets us examine behavior without leaving a calendar or threshold ambiguous.</p>
+<p>The demonstration fixture contains one synthetic temperature opportunity and one known occupancy state per minute for each room. A101 is occupied from 09:10 through 09:29; A102 from 09:05 through 09:24. Two A102 temperature observations, at 09:13 and 09:14, are missing, although their occupancy states are known. The temperature sequences and the missing entries are defined in the companion data fixture. These are classroom values, not measurements from actual occupants or sensors.</p>
+<p>A suitable proposed plan is to inspect the catalog, resolve the two room identifiers, query the temperature and occupancy histories, align them using the fixture’s minute slots, retain occupied slots, group them into five-minute bins, calculate coverage and means, and create a plot. The plan refers to data and tool capabilities; it does not assume that the model already knows the answer.</p>
+<p>For less precise requests, the system may ask one focused question or present an explicit assumption for confirmation. It should not silently reinterpret “while occupied” as “during office hours.” Nor should it treat a request for a room comparison as permission to search every room in the building.</p>
+</section>
+<section id="execute-the-plan-and-preserve-the-missing-data-distinction">
+<span id="section-2-5-2"></span><h3>2.5.2 Execute the plan and preserve the missing-data distinction<a class="headerlink" href="#execute-the-plan-and-preserve-the-missing-data-distinction" title="Link to this heading"></a></h3>
+<p>The query service first selects an authorized, stable data snapshot. The analysis then joins observations according to the declared time relationship. In this fixture the streams use the same minute slots; a real installation may require a tolerance, a different join, or a policy for unknown occupancy. Those are part of the analysis meaning, not details to hide inside plotting code.</p>
+<p>For a bin, the denominator is the number of minute slots <em>known to be occupied</em>. The numerator is how many of those slots contain valid temperature observations. The demonstration therefore counts the two missing A102 temperatures against coverage rather than making them disappear by dropping the rows before counting. If occupancy itself were unknown, it would require a separate reported limitation.</p>
+<p id="fig-2-7"><img alt="Figure 2.7. The comparison workflow. Coverage is calculated before a result is accepted for plotting. The branch for insufficient coverage produces a gap with an explanation, not an invented mean. A changed user definition can produce a different workflow over the same tools and data." src="../_images/asset-f4f05fb2d720a494.png" /><br>
+Figure 2.7. The comparison workflow. Coverage is calculated before a result is accepted for plotting. The branch for insufficient coverage produces a gap with an explanation, not an invented mean. A changed user definition can produce a different workflow over the same tools and data.</p>
+<p>The following results are independently computed from the synthetic fixture. Bins start at the displayed time and last five minutes. A dash means that no mean is presented; the reason distinguishes no occupied slots from insufficient temperature coverage.</p>
+<table class="book-table docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Bin start</strong></p></th>
+<th class="head"><p><strong>A101 mean</strong></p></th>
+<th class="head"><p><strong>A102 mean</strong></p></th>
+<th class="head"><p><strong>Interpretation</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>09:00</p></td>
+<td><p>—</p></td>
+<td><p>—</p></td>
+<td><p>Neither room has occupied slots</p></td>
+</tr>
+<tr class="row-odd"><td><p>09:05</p></td>
+<td><p>—</p></td>
+<td><p>23.35°C</p></td>
+<td><p>A102 has 5/5 valid occupied slots</p></td>
+</tr>
+<tr class="row-even"><td><p>09:10</p></td>
+<td><p>23.20°C</p></td>
+<td><p>—</p></td>
+<td><p>A101 has 5/5; A102 has only 3/5</p></td>
+</tr>
+<tr class="row-odd"><td><p>09:15</p></td>
+<td><p>23.70°C</p></td>
+<td><p>23.85°C</p></td>
+<td><p>Both rooms have 5/5</p></td>
+</tr>
+<tr class="row-even"><td><p>09:20</p></td>
+<td><p>24.20°C</p></td>
+<td><p>24.10°C</p></td>
+<td><p>Both rooms have 5/5</p></td>
+</tr>
+<tr class="row-odd"><td><p>09:25</p></td>
+<td><p>24.70°C</p></td>
+<td><p>—</p></td>
+<td><p>A102 has no occupied slots</p></td>
+</tr>
+</tbody>
+</table>
+<p>At 09:10, A102’s three available temperatures do have an arithmetic mean, 23.55°C. The task rejects that bin because 3/5 = 60% is below the requested coverage rule. A successful system preserves that distinction: the value is not mathematically impossible, but it is outside the user’s accepted evidence policy. A graph that draws through the gap could conceal precisely the limitation the user asked to see.</p>
+<p id="fig-2-8"><img alt="Figure 2.8. Five-minute occupied-period means from the synthetic fixture. Markers represent accepted bins; missing bins break the line. The graph demonstrates the specified calculation, not real room conditions or measured language-model accuracy." src="../_images/asset-0574f2b86a3a1dde.png" /><br>
+Figure 2.8. Five-minute occupied-period means from the synthetic fixture. Markers represent accepted bins; missing bins break the line. The graph demonstrates the specified calculation, not real room conditions or measured language-model accuracy.</p>
+</section>
+<section id="interpret-the-result-then-change-the-request">
+<span id="section-2-5-3"></span><h3>2.5.3 Interpret the result, then change the request<a class="headerlink" href="#interpret-the-result-then-change-the-request" title="Link to this heading"></a></h3>
+<p>A grounded answer can state that A101’s accepted means rise across the displayed occupied bins and that the A102 comparison is incomplete at 09:10. It should identify the interval, units, coverage rule, and underlying artifact. The data alone does not establish why a temperature changed. Interpreting an association is different from proving a physical cause.</p>
+<p>Now change the request: “Use ten-minute bins instead.” The model does not need to invent a new data source. It changes the grouping operation and the expected output. For A102’s 09:10–09:20 bin, eight of ten occupied temperature opportunities are valid, so its 80% coverage reaches the threshold. The accepted mean is 23.7375°C. Previously excluded observations can therefore participate in an accepted <em>different</em> grouping. That does not retrospectively make the five-minute result wrong.</p>
+<p>A second change, “Use the median rather than the mean,” changes the statistic but not the permissions. A third change, “Compare the unoccupied periods instead,” changes the selection and coverage denominator. These transformations are practical tests of flexibility: the task representation and computation must change where the request changes, while unchanged assumptions remain visible.</p>
+<p id="fig-2-9"><img alt="A result, a limitation, and a revised request; Five-minute result; 09:10: 3/5 valid; 60% coverage; Mean withheld; User changes the bin; Use ten-minute bins.; Keep the 80% rule.; Different valid grouping; 09:10–09:20: 8/10; 80% coverage; 23.7375 °C" src="../_images/asset-a96d8d18b9dc3a56.png" /><br>
+Figure 2.9. A missing interval is visible evidence about coverage; changing the request changes the analysis contract rather than filling the gap by invention.</p>
+</section>
+<section id="a-new-rule-may-require-a-generated-program">
+<span id="section-2-5-4"></span><h3>2.5.4 A new rule may require a generated program<a class="headerlink" href="#a-new-rule-may-require-a-generated-program" title="Link to this heading"></a></h3>
+<p>Return to the warming-event request in Section 2.1. A possible plan queries temperature with an additional fifteen minutes of history before the requested analysis interval. Without that earlier history, the first rolling baseline cannot be formed as specified. It then computes a preceding-window median, tests the 2°C difference, groups qualifying intervals, checks duration, and associates events with occupancy information.</p>
+<p>Several details matter to the meaning of the program. Does the preceding window exclude the current value? What minimum coverage is needed for a median? How are missing minutes treated? Does “three minutes” mean three complete one-minute measurement intervals, or merely three timestamped samples? Three instantaneous samples one minute apart do not prove that a physical condition held continuously for three minutes. The system can propose an explicit sampled-event definition and obtain confirmation where needed.</p>
+<p>Once the definition is settled, the model can generate a small analysis program rather than asking the developer to add a new dashboard feature. The runtime executes it in the restricted analysis environment. An empty event list, a table of detected intervals, or an execution error is returned as an actual result. A budgeted repair can correct a program error; repeated retries cannot manufacture missing measurements. We need not read the program’s source here to understand the division of responsibility.</p>
+<p>Known test cases should distinguish a correctly working event calculation from code that merely runs. A constant input should not create a warming event under this definition; a deliberately constructed qualifying interval should be detected; a missing-data gap should trigger the declared policy. These checks support the calculation, not a claim that a classroom event detector is a validated building-control system.</p>
+</section>
+<section id="preserve-local-usefulness-without-the-cloud">
+<span id="section-2-5-5"></span><h3>2.5.5 Preserve local usefulness without the cloud<a class="headerlink" href="#preserve-local-usefulness-without-the-cloud" title="Link to this heading"></a></h3>
+<p>A revealing demonstration disconnects the edge host’s wide-area link while leaving its local network and power intact, then submits a <em>new</em> permitted analysis request. The desired observation is that the local model can still select tools and that the local data and analysis services complete their work. Replaying a cached answer to an earlier question would test something weaker.</p>
+<p>Optional remote assistance becomes unavailable. The application can identify which tasks remain supported, ask the user to simplify an unsupported request, or return verified results without a generated explanation. It should not silently export private data when connectivity returns, nor label a deterministic demonstration response as a real model result. Running-process, process-restart, and host-reboot tests establish different levels of disconnected readiness; the reliability and platform chapters develop them in detail.</p>
+</section>
+</section>
+<section id="requirements-initial-deployment-and-the-work-ahead">
+<span id="section-2-6"></span><h2>2.6 Requirements, Initial Deployment, and the Work Ahead<a class="headerlink" href="#requirements-initial-deployment-and-the-work-ahead" title="Link to this heading"></a></h2>
+<section id="specify-success-before-selecting-the-host">
+<span id="section-2-6-1"></span><h3>2.6.1 Specify success before selecting the host<a class="headerlink" href="#specify-success-before-selecting-the-host" title="Link to this heading"></a></h3>
+<p>The application offers a useful function, but several configurations might provide it. Before choosing hardware or a model, specify the intended request classes, users, available history, response targets, data-release constraints, and essential disconnected behavior. Also name the workload: an occasional classroom question is not the same as many concurrent requests to one shared model.</p>
+<p>For an illustrative exercise, assume ten registered users, at most two simultaneous requests, and a two-room history. A simple lookup should complete within 2 seconds, a routine comparison within 6 seconds, and a custom analysis within 15 seconds. These are proposed teaching targets, not measurements or general user-interface standards. They should be evaluated per task class; an average across mostly easy lookups could hide poor custom-analysis behavior.</p>
+<p>The offline requirement might cover lookups and routine comparisons using data already local. Remote assistance for complex requests could be optional. A stricter requirement could include locally generated custom analysis as well, but then the selected model and host must demonstrate it. The permitted remote payload must also be specified: task text itself can be sensitive, and a numerical summary is not automatically safe to release.</p>
+</section>
+<section id="account-for-the-complete-request">
+<span id="section-2-6-2"></span><h3>2.6.2 Account for the complete request<a class="headerlink" href="#account-for-the-complete-request" title="Link to this heading"></a></h3>
+<p>For a simple serial execution, divide elapsed time into nonoverlapping intervals:</p>
+<div class="math notranslate nohighlight">
+\[
+T_{request} = T_{model} + T_{tools} + T_{communication} + T_{runtime}.
+\]</div>
+<p>Here <span class="math notranslate nohighlight">\(T_{model}\)</span> includes all model-service intervals, not just the final answer. <span class="math notranslate nohighlight">\(T_{tools}\)</span> covers query and analysis service intervals, including their waiting time when measured at that boundary. <span class="math notranslate nohighlight">\(T_{communication}\)</span> contains transfers and path delays not already included in the service intervals. <span class="math notranslate nohighlight">\(T_{runtime}\)</span> covers local coordination, checks, and presentation. A wall-clock trace is used to avoid counting a nested model call twice. Parallel execution requires a critical-path analysis instead of adding overlapping intervals; <a class="reference internal" href="ch08.html#chapter-8"><span class="std std-ref">Chapter 8</span></a> develops performance tracing, and <a class="reference internal" href="ch12.html#chapter-12"><span class="std std-ref">Chapter 12</span></a> examines workflow dependencies.</p>
+<p>Suppose the task trace is assigned the following hypothetical times. They are inputs to a budget calculation, not results obtained from a particular SLM.</p>
+<table class="book-table docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Request stage</strong></p></th>
+<th class="head"><p><strong>Assumed duration</strong></p></th>
+<th class="head"><p><strong>What happens</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Model: interpret goal and inspect capabilities</p></td>
+<td><p>1.10 s</p></td>
+<td><p>Propose the first data operations</p></td>
+</tr>
+<tr class="row-odd"><td><p>Catalog and data tools</p></td>
+<td><p>0.35 s</p></td>
+<td><p>Obtain descriptions and a data artifact</p></td>
+</tr>
+<tr class="row-even"><td><p>Model: form the analysis request or program</p></td>
+<td><p>1.80 s</p></td>
+<td><p>Specify the calculation</p></td>
+</tr>
+<tr class="row-odd"><td><p>Analysis and plot tools</p></td>
+<td><p>0.60 s</p></td>
+<td><p>Execute and check numerical outputs</p></td>
+</tr>
+<tr class="row-even"><td><p>Model: interpret returned results</p></td>
+<td><p>1.40 s</p></td>
+<td><p>Form the user-facing explanation</p></td>
+</tr>
+<tr class="row-odd"><td><p>Remaining communication and runtime work</p></td>
+<td><p>0.55 s</p></td>
+<td><p>Dispatch, transfer, validate, and display</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Total</strong></p></td>
+<td><p><strong>5.80 s</strong></p></td>
+<td><p>End-to-end completion</p></td>
+</tr>
+</tbody>
+</table>
+<p id="fig-2-10"><img alt="Figure 2.10. One hypothetical serial request budget. Three separate model intervals contribute to the response. The total of 5.80 seconds leaves only 0.20 seconds under a 6-second target; it is not a measured latency or a guarantee for other requests." src="../_images/asset-852ed7a37a7dec38.png" /><br>
+Figure 2.10. One hypothetical serial request budget. Three separate model intervals contribute to the response. The total of 5.80 seconds leaves only 0.20 seconds under a 6-second target; it is not a measured latency or a guarantee for other requests.</p>
+<p>The total fits the assumed comparison target, but one additional 1.5-second repair would raise it to 7.30 seconds. Likewise, three remote model round trips with an additional 0.12 seconds each would add 0.36 seconds <em>if everything else remained unchanged</em>. A real remote model could change compute time, number of rounds, and task quality, so this isolated calculation is not a local-versus-cloud benchmark.</p>
+<p>In a running system, measure latency distributions and failures under the intended concurrency. Report the fraction of requests that finish correctly before the deadline, not only the speed of successful easy cases. A locally loaded model also does not eliminate queueing when two users need the same resource.</p>
+</section>
+<section id="evaluate-task-completion-and-flexibility">
+<span id="section-2-6-3"></span><h3>2.6.3 Evaluate task completion and flexibility<a class="headerlink" href="#evaluate-task-completion-and-flexibility" title="Link to this heading"></a></h3>
+<p>“Accuracy” needs a task definition. For a lookup, compare the returned value, unit, source, and time with the selected record. For an analysis, check that the program uses the requested rooms, interval, filter, statistic, and missing-data policy. For a plot, check that it represents the computed values and gaps. Explanations should not contradict those artifacts or conceal important limitations.</p>
+<p>Build tests whose expected properties are known independently of the model. Include ordinary requests, changed conditions, a new combination of familiar operations, an absent field, an ambiguous time phrase, denied access, incomplete observations, and a cloud outage. Keep development examples separate from held-out combinations used to report results. Success on one rehearsed request does not establish flexible task completion.</p>
+<p>Report both coverage and correctness. If 18 of 20 answerable tasks receive an answer and 16 answers satisfy the rubric, coverage is 90%, correctness among answered tasks is about 88.9%, and successful completion over all answerable tasks is 80%. Report correctly handled unanswerable or unauthorized requests separately. A system that refuses every request must not appear perfect because it made no factual claims.</p>
+<p>Model-generated programs additionally require functional checks. A test that the execution environment rejects forbidden access is different from a test that the calculation is correct. Likewise, valid JSON does not establish valid analysis. The task’s plan and provenance make errors easier to locate, but do not replace evaluation.</p>
+</section>
+<section id="choose-a-low-cost-feasible-starting-configuration">
+<span id="section-2-6-4"></span><h3>2.6.4 Choose a low-cost feasible starting configuration<a class="headerlink" href="#choose-a-low-cost-feasible-starting-configuration" title="Link to this heading"></a></h3>
+<p>Three candidate arrangements illustrate the first design choice. A <strong>local arrangement</strong> keeps the model, data, and analysis on the edge host. A <strong>remote-planner arrangement</strong> sends permitted requests and tool results to a cloud model while some data tools remain on site. A <strong>hybrid arrangement</strong> handles supported requests locally and uses remote assistance only when policy permits. These labels describe roles, not guaranteed cost or capability rankings.</p>
+<p>The objective is to find a low-cost configuration among those meeting the quality, response, data-handling, and disconnected-use requirements. A small host that cannot run the selected model is infeasible; a fast cloud service may be infeasible under the data-release rule. A local model that fails the requested analysis quality is not made acceptable by having no API bill.</p>
+<p>Use a common workload and accounting interval. Under invented values, suppose a dedicated edge host costs 600 cost units, has a three-year accounting life, consumes an average 20 W continuously, and requires 40 units of annual maintenance. With energy priced at 0.20 units/kWh, its annual allocation is</p>
+<div class="math notranslate nohighlight">
+\[
+600/3 + (0.020 \times 8760 \times 0.20) + 40 = 275.04\ \text{cost units/year}.
+\]</div>
+<p>At 100 requests per day, this is about 0.00754 units per request. At 10 requests per day, it is about 0.0754. These figures omit common sensing and networking costs and assume all listed host costs are attributed to this service. They are not market prices. An already-owned shared host requires a separate distinction between incremental cost and an allocated share of total cost.</p>
+<p>A remote or hybrid estimate must include its own retained site components, remote invocation charges, transferred data, and operational effort. A low token price alone is not the cost of the complete application. The initial exercise can compare two or three feasible candidates; it need not solve a global optimization problem. <a class="reference internal" href="ch08.html#chapter-8"><span class="std std-ref">Chapter 8</span></a> develops placement and adaptation, while <a class="reference internal" href="ch11.html#chapter-11"><span class="std std-ref">Chapter 11</span></a> examines efficient serving and model collaboration.</p>
+</section>
+<section id="build-the-pieces-then-improve-the-system">
+<span id="section-2-6-5"></span><h3>2.6.5 Build the pieces, then improve the system<a class="headerlink" href="#build-the-pieces-then-improve-the-system" title="Link to this heading"></a></h3>
+<p>This application exposes a coherent set of implementation questions without requiring their answers all at once. How does a phone or sensor produce a usable observation? How does the record reach a local service? How is a model hosted and called? How is a query made repeatable? How does a tool request become a real operation? Each question needs a working foundation before advanced optimization becomes meaningful.</p>
+<table class="book-table docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Part of the application</strong></p></th>
+<th class="head"><p><strong>Foundational work developed later</strong></p></th>
+<th class="head"><p><strong>Questions raised by optimization</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Sensing and observation records</p></td>
+<td><p>Acquire data, attach time and units, handle basic quality checks; <a class="reference internal" href="ch03.html#chapter-3"><span class="std std-ref">Chapter 3</span></a></p></td>
+<td><p>Sampling, energy, and useful local preprocessing</p></td>
+</tr>
+<tr class="row-odd"><td><p>Device-to-service communication</p></td>
+<td><p>Establish an exchange and inspect its messages; <a class="reference internal" href="ch04.html#chapter-4"><span class="std std-ref">Chapter 4</span></a></p></td>
+<td><p>Protocols, batching, retries, and bandwidth</p></td>
+</tr>
+<tr class="row-even"><td><p>Model and tool execution</p></td>
+<td><p>Run services on a host and understand their resource boundaries; <a class="reference internal" href="ch05.html#chapter-5"><span class="std std-ref">Chapter 5</span></a></p></td>
+<td><p>Startup, concurrency, memory, and isolation</p></td>
+</tr>
+<tr class="row-odd"><td><p>Data and task state</p></td>
+<td><p>Store, query, identify, and recover records; <a class="reference internal" href="ch07.html#chapter-7"><span class="std std-ref">Chapter 7</span></a></p></td>
+<td><p>Caching, replication, and consistency</p></td>
+</tr>
+<tr class="row-even"><td><p>Evaluation and placement</p></td>
+<td><p>Measure scaling, offloading, and candidate policies; Chapters 6–8</p></td>
+<td><p>Bottlenecks, load, mobility, and offloading</p></td>
+</tr>
+<tr class="row-odd"><td><p>Deployment and trust</p></td>
+<td><p>Manage components and enforce access; Chapters 9 and 13</p></td>
+<td><p>Fleet operations, safe updates, and data protection</p></td>
+</tr>
+<tr class="row-even"><td><p>Model cooperation and task loops</p></td>
+<td><p>Connect local/remote model roles and coordinate tool outcomes; Chapters 11–12</p></td>
+<td><p>Serving efficiency, bounded workflows, and recovery</p></td>
+</tr>
+</tbody>
+</table>
+<p>A prepared demonstration helps us recognize these parts. It is not evidence that a full autonomous implementation already exists in the companion exercises. Appendix A distinguishes the ingestion-and-summary foundation, the tool-driven runtime developed in <a class="reference internal" href="ch12.html#chapter-12"><span class="std std-ref">Chapter 12</span></a>, and actual-model planning that still requires evaluation. Keeping that distinction explicit prevents a deterministic demonstration from being mistaken for model reasoning or planning.</p>
+<p>The broader lessons do not depend on classrooms. A field technician might analyze vibration histories; a person might ask a phone to compare an approved activity log; a retailer might investigate local inventory events. The sensing, timing, authority, and resource constraints change. The common opportunity is to connect flexible task interpretation with computation placed appropriately near data and users.</p>
+</section>
+</section>
+<section id="chapter-summary">
+<span id="chapter-2-chapter-summary"></span><h2>Chapter Summary<a class="headerlink" href="#chapter-summary" title="Link to this heading"></a></h2>
+<p>An agentic edge application can use a language model to interpret a goal, organize analysis, propose tools or programs, and respond to actual execution results. This differs from attaching a prose generator to a fixed data-processing pipeline. The flexibility comes from model-guided composition of capabilities; its usefulness depends on data meaning, reliable tools, permissions, and task evaluation.</p>
+<p>Local model execution can support data control, reduced wide-area traffic, shorter communication paths, and useful operation without a cloud connection. None of these benefits follows from the model label alone. A complete design identifies the observation path, request path, execution locations, and authority boundaries, then checks quality, latency, resources, and cost under a stated workload. The following chapters develop the basic implementations and the mechanisms needed to improve them.</p>
+<p><strong>Key terms:</strong> agentic application; SLM; LLM; tool; workflow; task plan; runtime; data catalog; observation contract; artifact; provenance; authorization; task coverage; end-to-end latency; feasible deployment.</p>
+</section>
+<section id="exercises">
+<span id="chapter-2-exercises"></span><h2>Exercises<a class="headerlink" href="#exercises" title="Link to this heading"></a></h2>
+<p><strong>2.1 Flexibility.</strong> Compare a daily temperature dashboard with the three requests in Section 2.1. Identify a parameter change, a change in task dependencies, and a new computation. Explain what must change in the processing, not merely in the wording of the answer.</p>
+<p><strong>2.2 Roles.</strong> A model proposes reading an unauthorized room and then plotting the result. Identify which component should reject the access and what the model may legitimately do next. Why does a tool-call message not establish that an operation has executed?</p>
+<p><strong>2.3 Contracts.</strong> Explain how units, observation time, quality, and a data catalog affect the warming-event analysis. Which identifier fields primarily support ingestion rather than model planning? Why is a room identifier not an authorization credential?</p>
+<p><strong>2.4 Coverage.</strong> Reproduce the A102 decisions for the 09:10 five-minute bin and the 09:10–09:20 ten-minute bin. Explain why 23.55°C is omitted from the former plot while 23.7375°C is permitted in the latter. State the denominator in each coverage calculation.</p>
+<p><strong>2.5 Budget.</strong> Recalculate the 5.80-second request after one 1.5-second repair. Then consider only three additional network round trips of 0.12 seconds each. Which version meets a 6-second target? Explain why the latter comparison is not enough to choose a real remote model.</p>
+<p><strong>2.6 Evaluation.</strong> A system answers 18 of 20 answerable tasks, with 16 correct. Calculate coverage, conditional correctness, and overall successful completion. Propose two held-out request changes that test flexibility rather than memorized wording.</p>
+<p><strong>2.7 Deployment.</strong> Reproduce the annual local-host cost in Section 2.6.4. Compare its allocated cost per request at 10 and 100 daily requests. Name two costs a remote comparison must include and one nonfinancial requirement that could rule out the cheaper design.</p>
+<p><strong>2.8 Demonstration versus implementation.</strong> Design an observation sheet for a prepared demonstration: user goal, proposed operations, executed tools, data artifact, output, total time, and failure behavior. Explain which evidence would establish a new local analysis during a cloud outage, and which implementation and security properties that observation would still not establish.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="ch01.html" class="btn btn-neutral float-left" title="Chapter 1. Introduction to Edge Computing" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ch03.html" class="btn btn-neutral float-right" title="Chapter 3. IoT Devices and Sensing Systems" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Zheng Song.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

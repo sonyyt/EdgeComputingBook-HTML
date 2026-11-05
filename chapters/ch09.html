@@ -1,0 +1,569 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chapter 9. Commercial Edge Platforms: From Mechanisms to Deployment &mdash; Edge Computing Systems</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/book.css?v=e49485e1" />
+
+  
+    <link rel="canonical" href="https://sonyyt.github.io/EdgeComputingBook-HTML/chapters/ch09.html" />
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=bcebf14d"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script>window.MathJax = {"tex": {"tags": "none"}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      <script src="../_static/book.js?v=917b1e6b"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Chapter 10. Running and Optimizing AI on Edge Devices" href="ch10.html" />
+    <link rel="prev" title="Chapter 8. Scheduling and Optimizing Edge Systems" href="ch08.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Edge Computing Systems
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">About this book</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../preface.html">Preface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../publication.html">About this web edition</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Part I. Applications, Devices, Communication, and Digital Twins</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ch01.html">Chapter 1. Introduction to Edge Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch02.html">Chapter 2. An Agentic IoT Application at the Edge</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch03.html">Chapter 3. IoT Devices and Sensing Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch04.html">Chapter 4. Communication and Networking for IoT and Edge Systems</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Part II. Building and Operating Edge Systems</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="ch05.html">Chapter 5. Running and Deploying Applications on Edge Nodes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch06.html">Chapter 6. Scaling Edge Applications and Elastic Execution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch07.html">Chapter 7. Computation Offloading and Device–Edge–Cloud Collaboration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch08.html">Chapter 8. Scheduling and Optimizing Edge Systems</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Chapter 9. Commercial Edge Platforms: From Mechanisms to Deployment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#read-a-platform-through-the-system-it-must-support">9.1 Read a platform through the system it must support</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#four-questions-carried-forward">9.1.1 Four questions carried forward</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#keep-deployment-location-and-management-location-separate">9.1.2 Keep deployment location and management location separate</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#greengrass-and-iot-core-manage-software-on-devices-you-already-have">9.2 Greengrass and IoT Core: manage software on devices you already have</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#the-application-problem-and-the-architecture">9.2.1 The application problem and the architecture</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#follow-installation-observation-and-configuration-separately">9.2.2 Follow installation, observation, and configuration separately</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#what-this-case-teaches-about-scaling-and-functions">9.2.3 What this case teaches about scaling and functions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#wavelength-shared-compute-in-a-communications-providers-network">9.3 Wavelength: shared compute in a communications provider’s network</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#begin-with-a-mobile-request-not-a-server-location">9.3.1 Begin with a mobile request, not a server location</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#multi-tenancy-and-isolation-chapter-5-in-a-managed-infrastructure">9.3.2 Multi-tenancy and isolation: Chapter 5 in a managed infrastructure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scaling-distinguish-workers-control-and-request-distribution">9.3.3 Scaling: distinguish workers, control, and request distribution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-continuum-keep-only-justified-work-on-the-critical-path">9.3.4 The continuum: keep only justified work on the critical path</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#where-does-lambda-execute-in-this-design">9.3.5 Where does Lambda execute in this design?</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#local-zones-place-selected-services-near-a-regions-users">9.4 Local Zones: place selected services near a region’s users</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#a-different-access-problem">9.4.1 A different access problem</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#trace-the-dependency-then-choose-the-placement">9.4.2 Trace the dependency, then choose the placement</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#a-minimal-deployment-and-a-meaningful-test">9.4.3 A minimal deployment and a meaningful test</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#outposts-bring-managed-infrastructure-to-the-site">9.5 Outposts: bring managed infrastructure to the site</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#when-software-management-alone-is-not-enough">9.5.1 When software management alone is not enough</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#shared-resources-and-the-two-paths-out-of-the-rack">9.5.2 Shared resources and the two paths out of the rack</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#place-the-control-plane-deliberately">9.5.3 Place the control plane deliberately</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#cloudfront-functions-and-lambda-edge-execute-within-a-delivery-path">9.6 CloudFront functions and Lambda&#64;Edge: execute within a delivery path</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#the-task-changes-before-the-runtime-changes">9.6.1 The task changes before the runtime changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#isolation-and-restrictions-are-part-of-the-interface">9.6.2 Isolation and restrictions are part of the interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#compare-four-uses-of-function-execution">9.6.3 Compare four uses of function execution</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#cloudflare-workers-a-second-managed-runtime-perspective">9.7 Cloudflare Workers: a second managed runtime perspective</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#compare-the-mechanism-not-only-the-provider-name">9.7.1 Compare the mechanism, not only the provider name</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#follow-downstream-work-before-choosing-a-location">9.7.2 Follow downstream work before choosing a location</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#combine-platforms-according-to-requirements-not-a-universal-price-rule">9.8 Combine platforms according to requirements, not a universal price rule</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#a-capacity-and-cost-example">9.8.1 A capacity-and-cost example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#check-feasibility-before-interpreting-the-saving">9.8.2 Check feasibility before interpreting the saving</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#keep-mechanisms-configuration-and-optimization-separate">9.8.3 Keep mechanisms, configuration, and optimization separate</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#turn-architectural-understanding-into-a-bounded-deployment">9.9 Turn architectural understanding into a bounded deployment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#chapter-summary">Chapter summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#exercises">Exercises</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Part III. Edge AI</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ch10.html">Chapter 10. Running and Optimizing AI on Edge Devices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch11.html">Chapter 11. Collaborative Edge Intelligence: From Perception Models to Language Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch12.html">Chapter 12. Agentic AI and Tool-Driven Applications at the Edge</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Part IV. Security and Multi-Party Trust</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ch13.html">Chapter 13. Security, Privacy, and Safety in Edge Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch14.html">Chapter 14. Multi-Party Trust, Blockchains, and Distributed Ledgers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendices and references</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../appendices/appendix-a.html">Appendix A. Laboratory and Project Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendices/appendix-b.html">Appendix B. Optional Extension: Learning and Adaptation Across Devices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendices/appendix-c.html">Appendix C. Selected Exercise Solutions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendices/appendix-d.html">Appendix D. Glossary and Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendices/appendix-e.html">Appendix E. Evidence and Reproducibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Edge Computing Systems</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Chapter 9. Commercial Edge Platforms: From Mechanisms to Deployment</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/sonyyt/EdgeComputingBook/blob/main/docs/chapters/ch09.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul><div class="rst-breadcrumbs-buttons" role="navigation" aria-label="Sequential page navigation">
+        <a href="ch08.html" class="btn btn-neutral float-left" title="Chapter 8. Scheduling and Optimizing Edge Systems" accesskey="p"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ch10.html" class="btn btn-neutral float-right" title="Chapter 10. Running and Optimizing AI on Edge Devices" accesskey="n">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+  </div>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="chapter-9-commercial-edge-platforms-from-mechanisms-to-deployment">
+<span id="chapter-9"></span><h1>Chapter 9. Commercial Edge Platforms: From Mechanisms to Deployment<a class="headerlink" href="#chapter-9-commercial-edge-platforms-from-mechanisms-to-deployment" title="Link to this heading"></a></h1>
+<p>The workshop application now serves several buildings. Its local analysis works, its replicas can share requests, and a policy can send suitable work to a remote service. A new requirement changes the problem: technicians also want to use the application from phones while visiting customers. Managers want daily reports across all sites. A public dashboard needs to deliver selected results to many readers.</p>
+<p>One deployment arrangement need not serve all three needs. A computer beside a machine has direct access to local observations. Infrastructure in a communications provider’s network may offer a useful path to mobile users. A regional service can combine historical records from many sites. A content-delivery service can distribute a public dashboard without becoming the place where private sensor analysis runs. The application has become a practical example of the continuum from Chapter 7.</p>
+<p>This chapter examines how commercial platforms implement the execution, scaling, collaboration, and policy mechanisms of Chapters 5–8. AWS provides several contrasting deployment structures; Cloudflare Workers supplies a second provider’s example of managed function execution. Each case begins with an application requirement and follows the request and management paths. Product capabilities are documented facts; the proposed application arrangements and numerical examples are teaching designs, not reports of deployments that have been performed.</p>
+<section id="read-a-platform-through-the-system-it-must-support">
+<span id="section-9-1"></span><h2>9.1 Read a platform through the system it must support<a class="headerlink" href="#read-a-platform-through-the-system-it-must-support" title="Link to this heading"></a></h2>
+<section id="four-questions-carried-forward">
+<span id="section-9-1-1"></span><h3>9.1.1 Four questions carried forward<a class="headerlink" href="#four-questions-carried-forward" title="Link to this heading"></a></h3>
+<p>The first question is <strong>what runs, and where</strong>. A deployable unit might be a program on a customer-selected device, a container inside a virtual machine, or a function inside a provider-managed runtime. This connects directly to Chapter 5. A platform name alone does not identify the executable artifact, required dependencies, or isolation boundary.</p>
+<p>The second question is <strong>how additional work is accommodated</strong>. A fleet-management service can install the same component on many devices without automatically distributing incoming requests among them. Conversely, a managed function service may handle requests without exposing replica counts to the developer. <a class="reference internal" href="ch06.html#chapter-6"><span class="std std-ref">Chapter 6</span></a> supplies the vocabulary for distinguishing software distribution, replication, load balancing, and elasticity.</p>
+<p>The third question is <strong>how computation and state are divided</strong>. Follow a request beyond its first nearby server. Does it need a regional database before answering? Which records remain local, which are copied, and which configuration is actually applied? These are <a class="reference internal" href="ch07.html#chapter-7"><span class="std std-ref">Chapter 7</span></a>’s collaboration and consistency questions.</p>
+<p>The fourth question is <strong>who chooses the policy</strong>. A platform can expose metrics and deployment APIs while leaving the developer responsible for a cost-aware routing rule or a quality constraint. <a class="reference internal" href="ch08.html#chapter-8"><span class="std std-ref">Chapter 8</span></a> is not made unnecessary by buying a managed service.</p>
+<table class="book-table docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Earlier chapter</strong></p></th>
+<th class="head"><p><strong>Look for this mechanism</strong></p></th>
+<th class="head"><p><strong>Ask this application question</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>5: execution and deployment</p></td>
+<td><p>Runtime, artifact, configuration, isolation</p></td>
+<td><p>Can the required program run here, with the right access and resources?</p></td>
+</tr>
+<tr class="row-odd"><td><p>6: scaling and elasticity</p></td>
+<td><p>Replicas, request entry point, health, capacity</p></td>
+<td><p>What grows when demand grows, and what remains limited?</p></td>
+</tr>
+<tr class="row-even"><td><p>7: offloading and collaboration</p></td>
+<td><p>Network paths, data copies, local dependencies</p></td>
+<td><p>Which work stays nearby, and which remote dependencies remain?</p></td>
+</tr>
+<tr class="row-odd"><td><p>8: scheduling and optimization</p></td>
+<td><p>Measurements, controls, placement and routing choices</p></td>
+<td><p>Which decisions are automatic, configurable, or still application-built?</p></td>
+</tr>
+</tbody>
+</table>
+<p>The important output is a responsibility map, not a checklist on which every product must score equally. A lightweight request function and a GPU-equipped virtual machine intentionally expose different execution environments. They are useful for different portions of an application.</p>
+</section>
+<section id="keep-deployment-location-and-management-location-separate">
+<span id="section-9-1-2"></span><h3>9.1.2 Keep deployment location and management location separate<a class="headerlink" href="#keep-deployment-location-and-management-location-separate" title="Link to this heading"></a></h3>
+<p>A cloud API can install software that subsequently runs on a customer device. A regional Kubernetes control plane can manage workers located elsewhere. A function can be published through a regional interface and executed through a content-delivery network. In all three cases, the location of an administrative action does not by itself establish the location of application computation. [<a class="reference internal" href="../references.html#ref-15"><span class="std std-ref">15</span></a>, <a class="reference internal" href="../references.html#ref-109"><span class="std std-ref">109</span></a>, <a class="reference internal" href="../references.html#ref-118"><span class="std std-ref">118</span></a>]</p>
+<p><a class="reference internal" href="#fig-9-1"><span class="std std-ref">Figure 9.1</span></a> organizes the platform cases by their execution boundary. It is not a chain through which every observation must travel. A complete application should use only the locations and services justified by its requirements.</p>
+<p id="fig-9-1"><img alt="Platform families mapped to system responsibilities; Greengrass; Customer device; ; Component runtime + cloud; management; Wavelength; Carrier-network location; ; Near-user compute + regional; dependencies; Local Zones; Provider site near users; ; Selected regional services; extended locally; Outposts; Managed hardware on premises; ; Local resource pool + service; link; CloudFront; HTTP delivery path; ; Caching + selected function; triggers; Workers; Provider distributed runtime; ; Isolates + explicit state; dependencies" src="../_images/asset-1a1d81fcf035e3b9.png" /><br>
+Figure 9.1. A platform combines execution, management and data responsibilities; similar edge labels can describe different boundaries.</p>
+</section>
+</section>
+<section id="greengrass-and-iot-core-manage-software-on-devices-you-already-have">
+<span id="section-9-2"></span><h2>9.2 Greengrass and IoT Core: manage software on devices you already have<a class="headerlink" href="#greengrass-and-iot-core-manage-software-on-devices-you-already-have" title="Link to this heading"></a></h2>
+<section id="the-application-problem-and-the-architecture">
+<span id="section-9-2-1"></span><h3>9.2.1 The application problem and the architecture<a class="headerlink" href="#the-application-problem-and-the-architecture" title="Link to this heading"></a></h3>
+<p>The workshop already owns suitable Linux gateways. It needs to deliver an analysis component to twenty sites, set a different sensor mapping at each site, and observe which version is running. Replacing every gateway with provider-owned hardware is not part of this requirement.</p>
+<p>AWS IoT Greengrass combines software running on a compatible core device with cloud-based deployment and management. A component packages application functionality through a recipe and artifacts. AWS IoT Core is a distinct cloud service for device communication and related functions. [<a class="reference internal" href="../references.html#ref-14"><span class="std std-ref">14</span></a>, <a class="reference internal" href="../references.html#ref-15"><span class="std std-ref">15</span></a>, <a class="reference internal" href="../references.html#ref-16"><span class="std std-ref">16</span></a>] In our design, acquisition and a bounded history remain local; selected results can be exported. Greengrass manages the installed components but does not decide what the analysis should conclude.</p>
+<p id="fig-9-2"><img alt="Figure 9.2. A Greengrass deployment separates the cloud management path from the local application path. Connecting a sensor requires an actual local interface or messaging adapter; installing a component alone does not create that connection." src="../_images/asset-c6f575a7d5342156.png" /><br>
+Figure 9.2. A Greengrass deployment separates the cloud management path from the local application path. Connecting a sensor requires an actual local interface or messaging adapter; installing a component alone does not create that connection.</p>
+<p><a class="reference internal" href="ch05.html#chapter-5"><span class="std std-ref">Chapter 5</span></a>’s packaging concepts now acquire concrete names. The artifact holds the application files. The recipe states version, configuration, dependencies, applicable platform conditions, and lifecycle actions. Installing the artifact does not supply an absent accelerator driver, a missing model, or a user’s data access permission. The device must still satisfy the execution contract.</p>
+</section>
+<section id="follow-installation-observation-and-configuration-separately">
+<span id="section-9-2-2"></span><h3>9.2.2 Follow installation, observation, and configuration separately<a class="headerlink" href="#follow-installation-observation-and-configuration-separately" title="Link to this heading"></a></h3>
+<p>A minimal deployment proceeds from a versioned artifact and recipe to a target device, then to runtime verification. First test the component on an authorized core; only then publish it for an approved remote target. The Greengrass development CLI supports local deployments, while the cloud deployment operation specifies target identities and component versions. [<a class="reference internal" href="../references.html#ref-17"><span class="std std-ref">17</span></a>, <a class="reference internal" href="../references.html#ref-38"><span class="std std-ref">38</span></a>] The companion systems lab provides staging helpers and a small read-only analysis service.</p>
+<p>The service’s correct output is a stronger check than a status saying that a process has started. A test request should expose the actual application version, returned result, and execution host. During an update, compare these values before and after replacement. Keep application history outside a disposable code artifact, as in Chapter 5.</p>
+<p>The sensor path is different. Local device MQTT, local component publish/subscribe, and cloud MQTT are separate communication domains. A configured bridge can route selected messages among supported domains; a data adapter must still understand the observation schema. [<a class="reference internal" href="../references.html#ref-18"><span class="std std-ref">18</span></a>, <a class="reference internal" href="../references.html#ref-19"><span class="std std-ref">19</span></a>] An HTTP-only analysis component is not a live MQTT consumer merely because it shares a device with a broker.</p>
+<p>Configuration makes <a class="reference internal" href="ch07.html#chapter-7"><span class="std std-ref">Chapter 7</span></a>’s state discussion visible. An operator requests a sampling interval, the device applies it, and then reports its applied value. IoT Device Shadows represent desired and reported state and identify differences; the application implements the actual transition. [<a class="reference internal" href="../references.html#ref-20"><span class="std std-ref">20</span></a>] During a disconnection, the latest desired value in the cloud need not be the value currently used by the device.</p>
+</section>
+<section id="what-this-case-teaches-about-scaling-and-functions">
+<span id="section-9-2-3"></span><h3>9.2.3 What this case teaches about scaling and functions<a class="headerlink" href="#what-this-case-teaches-about-scaling-and-functions" title="Link to this heading"></a></h3>
+<p>Sending the same component to twenty gateways is <strong>fleet deployment</strong>. It does not create a pool in which any gateway may serve any other site’s private requests. Such sharing would require suitable connectivity, authorization, routing, and capacity rules. This is a useful boundary between <a class="reference internal" href="ch06.html#chapter-6"><span class="std std-ref">Chapter 6</span></a>’s cluster scaling and <a class="reference internal" href="ch07.html#chapter-7"><span class="std std-ref">Chapter 7</span></a>’s collaboration among sites.</p>
+<p>Greengrass also supports importing eligible Lambda functions as components on supported core devices. Its documented lifecycles include on-demand and long-lived functions. [<a class="reference internal" href="../references.html#ref-114"><span class="std std-ref">114</span></a>] This is local function execution, not the regional Lambda service magically moving into the gateway. The local device supplies the capacity. A warm model may reduce initialization work for repeated requests, but the application must budget for the memory it retains.</p>
+<p>For the workshop, consider a long-running acquisition component, a reusable analysis service, and an occasional report task. The operator chooses this organization using <a class="reference internal" href="ch06.html#chapter-6"><span class="std std-ref">Chapter 6</span></a>’s reasoning about warm resources and intermittent demand. Deployment management cannot make insufficient device memory disappear.</p>
+<p>This case connects all four chapters: the component is packaged and constrained locally; management maintains its lifecycle; observations and configuration cross selected boundaries; the application team chooses concurrency and export policy. It also leaves physical work at the site: power, cabling, storage, and sensor quality still need an owner.</p>
+</section>
+</section>
+<section id="wavelength-shared-compute-in-a-communications-providers-network">
+<span id="section-9-3"></span><h2>9.3 Wavelength: shared compute in a communications provider’s network<a class="headerlink" href="#wavelength-shared-compute-in-a-communications-providers-network" title="Link to this heading"></a></h2>
+<section id="begin-with-a-mobile-request-not-a-server-location">
+<span id="section-9-3-1"></span><h3>9.3.1 Begin with a mobile request, not a server location<a class="headerlink" href="#begin-with-a-mobile-request-not-a-server-location" title="Link to this heading"></a></h3>
+<p>A technician points a phone at a machine and requests visual assistance. Assume, for teaching, that the interaction has a response-time target and that some computation is too large for the phone. The question from <a class="reference internal" href="ch07.html#chapter-7"><span class="std std-ref">Chapter 7</span></a> is whether a nearby remote execution site can help. Distance on a map is insufficient; the path from the actual phone, access network, and service endpoint must be measured.</p>
+<p>Wavelength places selected AWS compute and storage resources in communications service provider infrastructure. A Wavelength Zone extends a parent AWS Region; a VPC can include a subnet in that zone. An EC2 instance there can run the application’s nearby computation while using other services in the Region. [<a class="reference internal" href="../references.html#ref-22"><span class="std std-ref">22</span></a>] We will study a carrier-network deployment, without assuming that every current Wavelength location has identical access arrangements.</p>
+<p>The proposed application separates a short interactive path from background work. The phone prepares a request; a Wavelength service performs the selected analysis and returns a compact result. Approved event summaries are also sent to a regional service for later aggregation. The regional report is not required before the interactive response is returned.</p>
+<p id="fig-9-3"><img alt="Figure 9.3. A proposed Wavelength application keeps the interactive path near the mobile client and sends approved background work to the parent Region. Dashed links show management relationships, not extra stages that every response must traverse." src="../_images/asset-c5a29aa5800e4198.png" /><br>
+Figure 9.3. A proposed Wavelength application keeps the interactive path near the mobile client and sends approved background work to the parent Region. Dashed links show management relationships, not extra stages that every response must traverse.</p>
+<p>Follow both directions of the interactive exchange. Upload size, carrier access, service load, and returned data all matter. Adding a nearby compute resource helps only when the complete request path meets the application’s requirements. Keep a regional or local fallback explicit; an endpoint change should not silently claim identical latency or task quality.</p>
+</section>
+<section id="multi-tenancy-and-isolation-chapter-5-in-a-managed-infrastructure">
+<span id="section-9-3-2"></span><h3>9.3.2 Multi-tenancy and isolation: Chapter 5 in a managed infrastructure<a class="headerlink" href="#multi-tenancy-and-isolation-chapter-5-in-a-managed-infrastructure" title="Link to this heading"></a></h3>
+<p>Wavelength is a shared infrastructure offering rather than a promise of a dedicated physical edge server. AWS describes multi-tenant use, and the documented EC2 considerations exclude Dedicated Instances and Dedicated Hosts in Wavelength Zones. [<a class="reference internal" href="../references.html#ref-107"><span class="std std-ref">107</span></a>, <a class="reference internal" href="../references.html#ref-109"><span class="std std-ref">109</span></a>] A customer selects supported virtual resources, not arbitrary access to the provider’s host.</p>
+<p>The isolation discussion has several levels. EC2 supplies a virtual execution boundary; AWS describes Nitro as part of the infrastructure supporting instance isolation. [<a class="reference internal" href="../references.html#ref-110"><span class="std std-ref">110</span></a>] A VPC and its routing describe the customer’s network arrangement, and security groups control permitted traffic to associated resources. [<a class="reference internal" href="../references.html#ref-111"><span class="std std-ref">111</span></a>] Within an instance, the application team may run one service or several containers, applying the access and resource rules introduced in Chapter 5.</p>
+<table class="book-table docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Boundary</strong></p></th>
+<th class="head"><p><strong>What to identify in the design</strong></p></th>
+<th class="head"><p><strong>What it does not decide for the application</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Provider infrastructure and EC2 instance</p></td>
+<td><p>Virtual compute allocation and provider-managed isolation</p></td>
+<td><p>Which business user may read a particular record</p></td>
+</tr>
+<tr class="row-odd"><td><p>VPC, routes, and security groups</p></td>
+<td><p>Reachability and permitted network traffic</p></td>
+<td><p>Whether returned content is valid or sufficiently fresh</p></td>
+</tr>
+<tr class="row-even"><td><p>Processes or containers inside an instance</p></td>
+<td><p>Dependencies, permissions, and resource limits</p></td>
+<td><p>Which request should have priority</p></td>
+</tr>
+<tr class="row-odd"><td><p>Application service</p></td>
+<td><p>User identity, data scope, request budget</p></td>
+<td><p>How much physical capacity the provider can supply</p></td>
+</tr>
+</tbody>
+</table>
+<p>This table is a design decomposition, not a claim that every row independently guarantees security. For example, a permitted HTTPS connection can still carry a wrong user’s identifier. Application authorization remains necessary. Similarly, infrastructure isolation should not be mistaken for an end-to-end response-time guarantee: test the service under its intended load.</p>
+<p>Imagine two tenants with different request patterns. One sends short interactive requests; another submits large batch analyses. They may need separate instance groups, quotas, or queues. The platform supplies execution and network boundaries; <a class="reference internal" href="ch08.html#chapter-8"><span class="std std-ref">Chapter 8</span></a>’s policy determines whether one workload can delay the other. Multi-tenancy therefore connects isolation to scheduling, rather than ending the discussion at the existence of virtual machines.</p>
+<p id="fig-9-4"><img alt="A Wavelength host is not the entire continuum; Mobile client; Carrier network; Wavelength subnet; Application execution; Configured EC2 / container; workload; Separate tenant workload; Explicit isolation and resource; policies; Parent Region; Control services; Shared data; Background work; Regional execution; A request still waits for any regional dependency on its critical path." src="../_images/asset-18f96ed37caba1b6.png" /><br>
+Figure 9.4. The design separates tenant execution and the latency-sensitive path from approved regional work; management and execution locations are distinct.</p>
+</section>
+<section id="scaling-distinguish-workers-control-and-request-distribution">
+<span id="section-9-3-3"></span><h3>9.3.3 Scaling: distinguish workers, control, and request distribution<a class="headerlink" href="#scaling-distinguish-workers-control-and-request-distribution" title="Link to this heading"></a></h3>
+<p>The <a class="reference internal" href="ch06.html#chapter-6"><span class="std std-ref">Chapter 6</span></a> service can be deployed on compatible EC2 instances and managed through supported ECS or EKS arrangements. In the Wavelength EKS arrangement described by AWS, cluster creation uses regional Availability Zones, while self-managed workers can be placed in a Wavelength Zone. [<a class="reference internal" href="../references.html#ref-109"><span class="std std-ref">109</span></a>] The control plane and the application workers should consequently be shown separately.</p>
+<p>Now ask three different questions. How many application replicas are desired? How many compatible worker instances are available? How does traffic reach the replicas? A larger desired replica count does not itself obtain additional hardware or establish a usable mobile entry point.</p>
+<p>Load-balancing support must be checked for the chosen location. At the documentation check for this chapter, AWS lists Application Load Balancer support in selected Wavelength Zones, while Network Load Balancer and cross-Wavelength-Zone load balancing are not supported there. [<a class="reference internal" href="../references.html#ref-108"><span class="std std-ref">108</span></a>] The durable lesson is to validate a concrete entry path, not to memorize an assumption that either all regional load balancers or none of them exist at the edge.</p>
+<p>A scaling experiment should use the actual client network and verify which zone and instance answered. Otherwise a successful Kubernetes deployment can conceal a regional request path. Keep capacity availability, account quota, application readiness, and routing as separate observations. Each can prevent a nominal scale-out action from producing useful throughput.</p>
+</section>
+<section id="the-continuum-keep-only-justified-work-on-the-critical-path">
+<span id="section-9-3-4"></span><h3>9.3.4 The continuum: keep only justified work on the critical path<a class="headerlink" href="#the-continuum-keep-only-justified-work-on-the-critical-path" title="Link to this heading"></a></h3>
+<p>AWS’s Wavelength architecture guide recommends a hub-and-spoke relationship with the Region, assigning latency-sensitive components to Wavelength and considering the Region for shared, persistent, or less latency-sensitive work. [<a class="reference internal" href="../references.html#ref-108"><span class="std std-ref">108</span></a>] This is an application of <a class="reference internal" href="ch07.html#chapter-7"><span class="std std-ref">Chapter 7</span></a>’s decomposition rather than a rule that all data must leave the edge.</p>
+<p>For our teaching design, nearby inference returns the immediate result. A compact audit event enters a regional history; daily aggregation and model evaluation run later. A model version and required reference data are prepared before the request arrives. If every nearby inference must first wait for several serial regional database calls, the architecture has put the network delay back into the interactive path.</p>
+<p>Data requirements can overturn the first design. Raw images may need to remain under local control; a report may need only counts. A current authorization decision may not tolerate the same staleness as yesterday’s totals. Specify what is copied and how it is refreshed. A cache is useful only when its contents and freshness are appropriate for the operation.</p>
+<p>The argument is not that edge compute is universally more expensive. Available capacity, utilization, commitments, data transfer, and operating effort affect cost differently in each deployment. The aim is to avoid consuming scarce or costly nearby resources on work that does not need them. <a class="reference internal" href="#section-9-8"><span class="std std-ref">Section 9.8</span></a> works through a hypothetical comparison.</p>
+</section>
+<section id="where-does-lambda-execute-in-this-design">
+<span id="section-9-3-5"></span><h3>9.3.5 Where does Lambda execute in this design?<a class="headerlink" href="#where-does-lambda-execute-in-this-design" title="Link to this heading"></a></h3>
+<p>Do not infer a local Lambda runtime from the name Wavelength. The official Wavelength resource list emphasizes EC2, EBS, VPC and related services; it does not describe standard regional Lambda as a native execution service inside a Wavelength Zone. [<a class="reference internal" href="../references.html#ref-22"><span class="std std-ref">22</span></a>] In the design here, a regional Lambda function handles an approved asynchronous report event <strong>in the Region</strong>, while the interactive service runs on EC2 in Wavelength.</p>
+<p>Giving a regional Lambda function access to a VPC is a networking configuration, not a mechanism for placing its runtime on an EC2 worker. Lambda’s VPC documentation distinguishes the managed execution environment from access to customer VPC resources. [<a class="reference internal" href="../references.html#ref-112"><span class="std std-ref">112</span></a>] This is the same separation between connectivity and placement used throughout the book.</p>
+<p>There are two other, different possibilities. Lambda&#64;Edge executes in CloudFront’s request/response system, discussed in Section 9.6. Alternatively, a team could investigate operating a function layer on its own compatible edge workers. That would be an additional, self-managed design whose networking, scaling, and resource use must be validated; it is not a Wavelength-native Lambda guarantee.</p>
+<p>A clear diagram should therefore label both the trigger and the execution site of each function. “Serverless” describes how execution is managed, not a unique physical location.</p>
+</section>
+</section>
+<section id="local-zones-place-selected-services-near-a-regions-users">
+<span id="section-9-4"></span><h2>9.4 Local Zones: place selected services near a region’s users<a class="headerlink" href="#local-zones-place-selected-services-near-a-regions-users" title="Link to this heading"></a></h2>
+<section id="a-different-access-problem">
+<span id="section-9-4-1"></span><h3>9.4.1 A different access problem<a class="headerlink" href="#a-different-access-problem" title="Link to this heading"></a></h3>
+<p>Consider a design team using an interactive visualization application from offices and home networks. The organization wants nearby provider-operated compute but does not need to own hardware at each office or rely on a particular carrier access path.</p>
+<p>AWS Local Zones extend selected regional capabilities to additional locations. To use one, the developer enables it, creates a subnet there, and launches supported resources in that subnet. A Local Zone has its own internet connectivity and can support Direct Connect. [<a class="reference internal" href="../references.html#ref-113"><span class="std std-ref">113</span></a>, <a class="reference internal" href="../references.html#ref-115"><span class="std std-ref">115</span></a>] Availability of individual services and instance types is location-specific; it is not a complete copy of the parent Region.</p>
+<p>The application may place an interactive rendering or inference service in the Local Zone while keeping project history and asynchronous processing in the Region. This is another instance of the same continuum design, but with a different access path and infrastructure responsibility from both Greengrass and Wavelength.</p>
+<p id="fig-9-5"><img alt="Figure 9.5. In a proposed Local Zone design, the interactive service is near the users while selected background services remain regional. A required regional read is still part of the response path even when the front-end process is nearby." src="../_images/asset-659019ce297e9545.png" /><br>
+Figure 9.5. In a proposed Local Zone design, the interactive service is near the users while selected background services remain regional. A required regional read is still part of the response path even when the front-end process is nearby.</p>
+</section>
+<section id="trace-the-dependency-then-choose-the-placement">
+<span id="section-9-4-2"></span><h3>9.4.2 Trace the dependency, then choose the placement<a class="headerlink" href="#trace-the-dependency-then-choose-the-placement" title="Link to this heading"></a></h3>
+<p>Suppose a visualization request needs a scene description, a compute step, and a final image. Keeping the compute step near the user may help, but repeatedly retrieving a large scene from the Region can dominate the request. Possible changes include preparing a local working copy, reusing a versioned scene across requests, or moving only a different stage.</p>
+<p>These are application choices. A private network address does not imply zero communication cost, and a nearby service is not useful if its important dependencies are poorly placed. Local Zone networking documentation also distinguishes direct local paths from paths that traverse the parent Region. [<a class="reference internal" href="../references.html#ref-113"><span class="std std-ref">113</span></a>] Measure the route that the deployment actually uses.</p>
+<p>The practical mapping to earlier chapters is straightforward: <a class="reference internal" href="ch05.html#chapter-5"><span class="std std-ref">Chapter 5</span></a> selects a compatible execution artifact; <a class="reference internal" href="ch06.html#chapter-6"><span class="std std-ref">Chapter 6</span></a> provides replicas and an entry point; <a class="reference internal" href="ch07.html#chapter-7"><span class="std std-ref">Chapter 7</span></a> determines the scene and history placement; <a class="reference internal" href="ch08.html#chapter-8"><span class="std std-ref">Chapter 8</span></a> compares latency, capacity, and cost. The developer does not need a new systems vocabulary for Local Zones, but must verify a new set of service and network conditions.</p>
+</section>
+<section id="a-minimal-deployment-and-a-meaningful-test">
+<span id="section-9-4-3"></span><h3>9.4.3 A minimal deployment and a meaningful test<a class="headerlink" href="#a-minimal-deployment-and-a-meaningful-test" title="Link to this heading"></a></h3>
+<p>The basic workflow is to enable the chosen zone, create the subnet and intended routes, launch a supported instance with narrow permissions, deploy the previously tested service, and issue the same request from the relevant client location. [<a class="reference internal" href="../references.html#ref-115"><span class="std std-ref">115</span></a>] A regional instance can serve as a comparison where the application permits it.</p>
+<p>Record the zone, instance configuration, software version, input, response quality, and end-to-end time. Separately identify transfer, initialization, and compute costs. A comparison between a warm Local Zone instance and a cold regional process with a different resource allocation does not isolate location.</p>
+<p>The purpose is not to select a universally better zone. It is to learn how a locality-oriented infrastructure choice changes a complete application path.</p>
+</section>
+</section>
+<section id="outposts-bring-managed-infrastructure-to-the-site">
+<span id="section-9-5"></span><h2>9.5 Outposts: bring managed infrastructure to the site<a class="headerlink" href="#outposts-bring-managed-infrastructure-to-the-site" title="Link to this heading"></a></h2>
+<section id="when-software-management-alone-is-not-enough">
+<span id="section-9-5-1"></span><h3>9.5.1 When software management alone is not enough<a class="headerlink" href="#when-software-management-alone-is-not-enough" title="Link to this heading"></a></h3>
+<p>A larger factory wants several applications to share on-site compute and storage. Its requirements include local access to high-volume data and consistent infrastructure operations. The question is different from Greengrass’s software management on an existing gateway: the organization is also choosing who supplies and manages the on-site infrastructure.</p>
+<p>Outposts extends selected AWS infrastructure and services to customer premises. The rack case studied here uses provider-supplied hardware with a connection to a parent Region. [<a class="reference internal" href="../references.html#ref-77"><span class="std std-ref">77</span></a>] It is not software that converts an arbitrary old server into an Outpost.</p>
+<p>The physical resource pool is finite. In a hypothetical 64-vCPU application budget, three services requesting 24 vCPUs each require 72 vCPUs before reserve capacity is considered. A deployment controller cannot make the extra capacity appear. The operator must reduce simultaneous demand, resize, move permitted work, or obtain more capacity. This revisits <a class="reference internal" href="ch06.html#chapter-6"><span class="std std-ref">Chapter 6</span></a>’s distinction between requesting more replicas and actually having resources for them.</p>
+</section>
+<section id="shared-resources-and-the-two-paths-out-of-the-rack">
+<span id="section-9-5-2"></span><h3>9.5.2 Shared resources and the two paths out of the rack<a class="headerlink" href="#shared-resources-and-the-two-paths-out-of-the-rack" title="Link to this heading"></a></h3>
+<p>Several teams may share the infrastructure while using distinct accounts and network scopes. AWS Resource Access Manager support enables selected Outposts resources to be shared across accounts within an organization. [<a class="reference internal" href="../references.html#ref-21"><span class="std std-ref">21</span></a>] Such sharing does not prescribe application priorities. <a class="reference internal" href="ch05.html#chapter-5"><span class="std std-ref">Chapter 5</span></a>’s execution boundaries and <a class="reference internal" href="ch08.html#chapter-8"><span class="std std-ref">Chapter 8</span></a>’s admission and resource policies still matter.</p>
+<p>An Outposts rack uses a local gateway for connections to the site’s network and a service link for management and traffic involving the parent Region. AWS documents the service link as an encrypted connection required for operating the managed infrastructure. [<a class="reference internal" href="../references.html#ref-116"><span class="std std-ref">116</span></a>] The two paths should be drawn separately: an on-site camera request should not be assumed to visit the Region simply because management does, nor assumed to be region-independent simply because the camera is nearby.</p>
+<p>Suppose the analysis service needs a local image but a remote identity service. Its compute and data can be local while one request dependency is not. Test the whole operation. Keeping a file on-site also does not automatically keep backups, logs, metadata, and application outputs there; those paths need explicit review.</p>
+</section>
+<section id="place-the-control-plane-deliberately">
+<span id="section-9-5-3"></span><h3>9.5.3 Place the control plane deliberately<a class="headerlink" href="#place-the-control-plane-deliberately" title="Link to this heading"></a></h3>
+<p>EKS on Outposts provides a particularly useful connection to Chapter 6. AWS distinguishes <strong>extended clusters</strong>, with the Kubernetes control plane in the Region and workers on the Outpost, from <strong>local clusters</strong>, with control plane and workers on the Outpost. [<a class="reference internal" href="../references.html#ref-117"><span class="std std-ref">117</span></a>] This changes which operations depend on the regional connection and how much local capacity management consumes.</p>
+<p id="fig-9-6"><img alt="Figure 9.6. EKS extended and local cluster arrangements put the control plane in different places. Local control consumes on-site resources but can preserve more cluster operations during temporary regional disconnection. Regional dependencies must still be checked individually." src="../_images/asset-e4135113a9e7f5bd.png" /><br>
+Figure 9.6. EKS extended and local cluster arrangements put the control plane in different places. Local control consumes on-site resources but can preserve more cluster operations during temporary regional disconnection. Regional dependencies must still be checked individually.</p>
+<p>The rack FAQ states that Outposts racks are not designed as fully disconnected infrastructure. At the same time, EKS local clusters are specifically designed to support Kubernetes operations through temporary disconnects. [<a class="reference internal" href="../references.html#ref-21"><span class="std std-ref">21</span></a>, <a class="reference internal" href="../references.html#ref-117"><span class="std std-ref">117</span></a>] These statements refer to different scopes. Continued cluster operation does not establish that regional APIs, credential renewal, image downloads, or every application dependency remain available.</p>
+<p>For the factory, the appropriate question is concrete: which already-installed functions and which recovery operations must continue for a stated outage interval? The answer determines local artifacts, identity arrangements, data, management placement, and reserve capacity. “Runs on premises” is only the beginning of that analysis.</p>
+</section>
+</section>
+<section id="cloudfront-functions-and-lambda-edge-execute-within-a-delivery-path">
+<span id="section-9-6"></span><h2>9.6 CloudFront functions and Lambda&#64;Edge: execute within a delivery path<a class="headerlink" href="#cloudfront-functions-and-lambda-edge-execute-within-a-delivery-path" title="Link to this heading"></a></h2>
+<section id="the-task-changes-before-the-runtime-changes">
+<span id="section-9-6-1"></span><h3>9.6.1 The task changes before the runtime changes<a class="headerlink" href="#the-task-changes-before-the-runtime-changes" title="Link to this heading"></a></h3>
+<p>The workshop publishes a dashboard containing approved aggregate information and documentation. Its private analysis does not need to run for every page view. Some requests only need a URL rewrite, a header change, or selection of an already prepared object.</p>
+<p>CloudFront Functions and Lambda&#64;Edge execute code in response to supported CloudFront request/response events. CloudFront Functions targets small, short-running transformations, while Lambda&#64;Edge supports a broader set of event-processing tasks and capabilities. [<a class="reference internal" href="../references.html#ref-118"><span class="std std-ref">118</span></a>] They illustrate <a class="reference internal" href="ch06.html#chapter-6"><span class="std std-ref">Chapter 6</span></a>’s managed execution model at a different boundary from a device runtime or EC2 service.</p>
+<p id="fig-9-7"><img alt="Figure 9.7. In this simplified viewer-request path, a permitted function can transform a request before cache lookup. A cache hit can avoid the origin; a miss proceeds to an origin service. Lambda&#64;Edge additionally supports origin-side events, which are distinct from viewer events." src="../_images/asset-14f6b883798cdf1d.png" /><br>
+Figure 9.7. In this simplified viewer-request path, a permitted function can transform a request before cache lookup. A cache hit can avoid the origin; a miss proceeds to an origin service. Lambda&#64;Edge additionally supports origin-side events, which are distinct from viewer events.</p>
+<p>The code should match the event. A deterministic path normalization is a plausible small function; loading a private model, querying several site databases, and generating an extended analysis is a different task. The phrase “edge function” does not make those resource requirements disappear.</p>
+</section>
+<section id="isolation-and-restrictions-are-part-of-the-interface">
+<span id="section-9-6-2"></span><h3>9.6.2 Isolation and restrictions are part of the interface<a class="headerlink" href="#isolation-and-restrictions-are-part-of-the-interface" title="Link to this heading"></a></h3>
+<p>CloudFront Functions does not expose arbitrary outbound network access or request bodies, and its runtime restricts facilities such as dynamic code evaluation and filesystem access. [<a class="reference internal" href="../references.html#ref-119"><span class="std std-ref">119</span></a>] A design that requires it to send an image body to a model endpoint is therefore not just inefficient; it uses capabilities outside the selected interface.</p>
+<p>Lambda&#64;Edge can support external network requests and additional event types, but has its own restrictions. Deployment uses a numbered function version created in US East (N. Virginia); execution is distributed through CloudFront. VPC attachment and container-image deployment are not supported for Lambda&#64;Edge. [<a class="reference internal" href="../references.html#ref-120"><span class="std std-ref">120</span></a>] Publication location, execution location, and the origin’s location are three different properties.</p>
+<p>This is a direct continuation of <a class="reference internal" href="ch05.html#chapter-5"><span class="std std-ref">Chapter 5</span></a>: portability means matching the artifact and API to the runtime. A Docker image that works on an edge server is not automatically a valid package for every managed function product.</p>
+<p>For the dashboard, separating public static delivery from authenticated live data also makes correctness easier to reason about. A cache key must preserve every request distinction relevant to the cached response. Never improve a hit rate by collapsing two users’ private results into the same cached object. The exercise can use public synthetic content, keeping the mechanism visible without exposing real records.</p>
+</section>
+<section id="compare-four-uses-of-function-execution">
+<span id="section-9-6-3"></span><h3>9.6.3 Compare four uses of function execution<a class="headerlink" href="#compare-four-uses-of-function-execution" title="Link to this heading"></a></h3>
+<table class="book-table docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Function arrangement</strong></p></th>
+<th class="head"><p><strong>Execution site in the design</strong></p></th>
+<th class="head"><p><strong>Where to look for the main constraint</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Regional AWS Lambda</p></td>
+<td><p>Managed regional environment</p></td>
+<td><p>Regional dependencies, invocation limits, initialization and cost</p></td>
+</tr>
+<tr class="row-odd"><td><p>Lambda function component in Greengrass</p></td>
+<td><p>Compatible customer core device</p></td>
+<td><p>Local runtime support, device capacity and lifecycle</p></td>
+</tr>
+<tr class="row-even"><td><p>Lambda&#64;Edge</p></td>
+<td><p>CloudFront-supported execution locations</p></td>
+<td><p>Event contract, package and feature restrictions</p></td>
+</tr>
+<tr class="row-odd"><td><p>Self-managed function layer on edge workers</p></td>
+<td><p>The workers selected by the operator</p></td>
+<td><p>Operator-provided runtime, scaling, networking and capacity</p></td>
+</tr>
+</tbody>
+</table>
+<p>These arrangements share a programming idea but not an identical service contract. [<a class="reference internal" href="../references.html#ref-98"><span class="std std-ref">98</span></a>, <a class="reference internal" href="../references.html#ref-112"><span class="std std-ref">112</span></a>, <a class="reference internal" href="../references.html#ref-114"><span class="std std-ref">114</span></a>, <a class="reference internal" href="../references.html#ref-120"><span class="std std-ref">120</span></a>] A regional function processing a report from Wavelength does not execute in Wavelength. A local Greengrass function does not obtain unlimited regional Lambda capacity. An application team operating its own function layer remains responsible for that layer.</p>
+<p>To evaluate the dashboard, measure the complete response rather than only function CPU time. A tiny function can still trigger an expensive origin request or change cache behavior. <a class="reference internal" href="ch08.html#chapter-8"><span class="std std-ref">Chapter 8</span></a>’s optimization target remains the user’s result, not the smallest isolated runtime metric.</p>
+<p id="fig-9-8"><img alt="Where four function styles actually execute; Regional Lambda; Configured AWS Region; Regional events / requests; CloudFront Functions; CloudFront request path; Selected viewer events; Lambda&#64;Edge; CloudFront distributed; locations; Selected viewer / origin events; Greengrass local function; Enrolled local core device; Configured local component /; trigger" src="../_images/asset-56e1d9142ea28b2f.png" /><br>
+Figure 9.8. Similar function interfaces can hide different execution sites and downstream dependencies; compare the complete request path.</p>
+</section>
+</section>
+<section id="cloudflare-workers-a-second-managed-runtime-perspective">
+<span id="section-9-7"></span><h2>9.7 Cloudflare Workers: a second managed runtime perspective<a class="headerlink" href="#cloudflare-workers-a-second-managed-runtime-perspective" title="Link to this heading"></a></h2>
+<section id="compare-the-mechanism-not-only-the-provider-name">
+<span id="section-9-7-1"></span><h3>9.7.1 Compare the mechanism, not only the provider name<a class="headerlink" href="#compare-the-mechanism-not-only-the-provider-name" title="Link to this heading"></a></h3>
+<p>Suppose the dashboard needs a small application endpoint that validates a request, calls an approved data API, and constructs a response. Cloudflare Workers offers another example of provider-managed execution. Its JavaScript runtime uses V8 isolates, allowing multiple applications to execute within a shared runtime while separating their execution contexts. [<a class="reference internal" href="../references.html#ref-121"><span class="std std-ref">121</span></a>]</p>
+<p>An isolate is not a customer-managed Linux VM and is not a Docker container that the student administers. This is a useful contrast to <a class="reference internal" href="ch05.html#chapter-5"><span class="std std-ref">Chapter 5</span></a>: platform isolation may be implemented below an application-facing interface very different from the operating-system environment used in the first lab.</p>
+<p>The application still needs durable state outside ephemeral execution context. Cloudflare explicitly cautions against relying on mutable global state to persist across requests or assuming consecutive requests reach the same instance. [<a class="reference internal" href="../references.html#ref-121"><span class="std std-ref">121</span></a>] A convenient global variable may cache a reusable value, but should not be the only record that an event was accepted.</p>
+</section>
+<section id="follow-downstream-work-before-choosing-a-location">
+<span id="section-9-7-2"></span><h3>9.7.2 Follow downstream work before choosing a location<a class="headerlink" href="#follow-downstream-work-before-choosing-a-location" title="Link to this heading"></a></h3>
+<p>A Worker that spends little CPU time can still keep a user waiting for a remote database or model. Cloudflare’s limits distinguish CPU time from elapsed duration, and specify memory and other runtime constraints. [<a class="reference internal" href="../references.html#ref-122"><span class="std std-ref">122</span></a>] Thus the <a class="reference internal" href="ch08.html#chapter-8"><span class="std std-ref">Chapter 8</span></a> trace should include downstream calls rather than count only the Worker handler.</p>
+<p>Cloudflare also documents placement facilities intended to reduce latency to back-end services. [<a class="reference internal" href="../references.html#ref-123"><span class="std std-ref">123</span></a>] Their settings and availability should be checked at deployment, rather than assuming that every function always executes physically closest to the user. The general design question is familiar: is it better to place a small coordinator near the client or near a back end that it contacts repeatedly?</p>
+<p>For a teaching comparison, run an equivalent read-only endpoint in two eligible environments and record the client path, back-end path, input, result, and elapsed time. An invocation of a model service should be reported as a separate service operation, not as proof that the model executed in the Worker runtime.</p>
+<p>This short contrast is sufficient to generalize the chapter. Across providers, students should recognize the execution boundary, scaling model, state contract, and remaining policy decisions. Learning another platform should primarily mean identifying how it supplies those mechanisms.</p>
+</section>
+</section>
+<section id="combine-platforms-according-to-requirements-not-a-universal-price-rule">
+<span id="section-9-8"></span><h2>9.8 Combine platforms according to requirements, not a universal price rule<a class="headerlink" href="#combine-platforms-according-to-requirements-not-a-universal-price-rule" title="Link to this heading"></a></h2>
+<section id="a-capacity-and-cost-example">
+<span id="section-9-8-1"></span><h3>9.8.1 A capacity-and-cost example<a class="headerlink" href="#a-capacity-and-cost-example" title="Link to this heading"></a></h3>
+<p>Return to the workshop’s three needs: interactive analysis for technicians, background reports, and public dashboard delivery. We now have several possible execution sites, but using all of them is not a goal. Compare a few explicit designs using the same workload and correctness requirements.</p>
+<p>The following values are <strong>invented teaching assumptions</strong>, not AWS or Cloudflare measurements or prices. Let interactive work require 40 worker-seconds each second at the peak. Background work contributes another 40 worker-seconds per second. Assume each chosen VM worker supplies eight usable worker-seconds per second and we plan not to exceed 70% of that capacity. Identical task quality and processing speed are assumed for this arithmetic.</p>
+<p>A worker therefore contributes a planned capacity of <span class="math notranslate nohighlight">\(8 \times 0.70 = 5.6\)</span> worker-seconds per second. Keeping all work nearby requires</p>
+<div class="math notranslate nohighlight">
+\[
+n_{\text{all-edge}} = \text{ceil}\left( \frac{40 + 40}{5.6} \right) = 15
+\]</div>
+<p>workers. Splitting interactive work and background work requires eight edge workers and eight regional workers. The split needs sixteen workers because each pool is rounded separately; fewer edge workers does not necessarily mean fewer workers overall.</p>
+<p>Assume an edge worker costs 0.80 cost units per hour, a regional worker costs 0.35, and the split adds 0.60 per hour for its extra transfer and coordination. Compare steady operation at the stated demand:</p>
+<table class="book-table docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Candidate</strong></p></th>
+<th class="head"><p><strong>Edge workers</strong></p></th>
+<th class="head"><p><strong>Regional workers</strong></p></th>
+<th class="head"><p><strong>Assumed cost per hour</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>All work at edge</p></td>
+<td><p>15</p></td>
+<td><p>0</p></td>
+<td><p>12.00</p></td>
+</tr>
+<tr class="row-odd"><td><p>Interactive at edge, background regional</p></td>
+<td><p>8</p></td>
+<td><p>8</p></td>
+<td><p>9.80</p></td>
+</tr>
+<tr class="row-even"><td><p>All work regional</p></td>
+<td><p>0</p></td>
+<td><p>15</p></td>
+<td><p>5.25</p></td>
+</tr>
+</tbody>
+</table>
+<p>The split saves about 18.3% relative to all-edge <strong>under these assumptions</strong>. All-regional is still cheaper. It is not selected simply because cost is lower: the interactive requirement must also be met. Conversely, if regional execution meets all constraints, there is no justification for rejecting it just to include an edge platform.</p>
+</section>
+<section id="check-feasibility-before-interpreting-the-saving">
+<span id="section-9-8-2"></span><h3>9.8.2 Check feasibility before interpreting the saving<a class="headerlink" href="#check-feasibility-before-interpreting-the-saving" title="Link to this heading"></a></h3>
+<p>Suppose a hypothetical response-time budget is 120 ms. An assumed nearby path consists of 25 ms of communication, 45 ms of processing, 20 ms of waiting, and 10 ms of other work: 100 ms. An assumed regional path replaces communication with 90 ms: 165 ms. Under those constructed conditions, the all-regional design misses the budget while the nearby path fits.</p>
+<p>These sums are point scenarios, not percentile guarantees. The 70% capacity target does not prove the assumed waiting time or a p95 deadline. A real study must measure the latency distribution, missed deadlines, failed requests, and quality at the stated load. Startup delays, bursts, and multiple failure domains also need separate allowance.</p>
+<p id="fig-9-9"><img alt="Figure 9.9. The worked design separates a latency-sensitive path from deferrable work. Capacity, cost, and latency are evaluated as different questions; the numerical example is an assumption-based comparison, not a vendor benchmark." src="../_images/asset-353a387115e28b90.png" /><br>
+Figure 9.9. The worked design separates a latency-sensitive path from deferrable work. Capacity, cost, and latency are evaluated as different questions; the numerical example is an assumption-based comparison, not a vendor benchmark.</p>
+<p>The break-even reasoning is also useful. Before extra split overhead, the difference is <span class="math notranslate nohighlight">\(12.00 - (6.40 + 2.80) = 2.80\)</span> cost units per hour. If transfer, coordination, and other added costs exceed 2.80, this split no longer saves money relative to the all-edge candidate. If privacy prevents the regional job from receiving its input, the candidate is infeasible regardless of that arithmetic.</p>
+<p>For an actual project, add storage, network charges, idle periods, warm capacity, reservations or commitments, platform charges, and operating effort as applicable. Do not double-count a management charge already included elsewhere. Keep one-time deployment costs separate from recurring request costs. The purpose is a transparent comparison, not a precise bill derived from imaginary prices.</p>
+</section>
+<section id="keep-mechanisms-configuration-and-optimization-separate">
+<span id="section-9-8-3"></span><h3>9.8.3 Keep mechanisms, configuration, and optimization separate<a class="headerlink" href="#keep-mechanisms-configuration-and-optimization-separate" title="Link to this heading"></a></h3>
+<p>A plausible implementation could use Greengrass for workshop-owned devices, a compatible provider-edge service for the mobile path, regional processing for permitted reports, and a content-delivery service for public output. This is a teaching architecture, not a recommendation that every workshop needs four platforms.</p>
+<p>The runtime runs the chosen code; the deployment system installs a chosen version; the load balancer sends traffic to eligible targets; the application’s policy decides which class of work belongs on which path. Each platform replaces some implementation effort, but does not automatically discover the best end-to-end arrangement.</p>
+<p>Use a simpler design whenever it satisfies the same constraints with acceptable cost and effort. A local application plus a regional service may be enough. A public dashboard may not need a custom edge function at all if ordinary caching meets its requirements.</p>
+</section>
+</section>
+<section id="turn-architectural-understanding-into-a-bounded-deployment">
+<span id="section-9-9"></span><h2>9.9 Turn architectural understanding into a bounded deployment<a class="headerlink" href="#turn-architectural-understanding-into-a-bounded-deployment" title="Link to this heading"></a></h2>
+<p>Choose one practical route to implement deeply and analyze two contrasting routes from documentation. A small class project should not purchase racks, open every zone, and deploy every service merely to demonstrate coverage. Each route should produce the same kind of evidence.</p>
+<p><strong>Device route.</strong> On an authorized Greengrass core, deploy the supplied analysis component, send a known request, change its diagnostic version, and verify the change. Trace any added MQTT adapter separately. Test permitted local behavior during cloud-uplink loss and after reconnection; do not claim that all restart conditions have been tested unless they have.</p>
+<p><strong>Infrastructure route.</strong> In an approved Wavelength or Local Zone environment, verify the zone-specific resources and network entry path, launch a compatible instance, and run the same bounded service. Identify execution location separately from the regional management interface. When two replicas are tested, record their actual hosts and the entry mechanism. A pair of VMs elsewhere is useful preparation, but is not a Wavelength network experiment.</p>
+<p><strong>Function route.</strong> Implement a small public-data request transformation or read-only handler that fits the chosen runtime. Deploy a version, trigger the appropriate event, and inspect output and elapsed time. Record any downstream calls and their locations. Do not move private analysis into a public cache path as a shortcut.</p>
+<p>For every route, keep an inventory of created resources, access rules, region and zone, versions, logs, and charges. Remove only the resources created for the exercise after preserving the required results. The companion instructions describe prerequisites and expected observations; no real commercial deployment is established by a successful local unit test.</p>
+<table class="book-table docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Evidence item</strong></p></th>
+<th class="head"><p><strong>The question it answers</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Artifact and version</p></td>
+<td><p>What software was actually installed?</p></td>
+</tr>
+<tr class="row-odd"><td><p>Host, zone, or function execution context</p></td>
+<td><p>Where was the relevant work performed?</p></td>
+</tr>
+<tr class="row-even"><td><p>Input, output, and task checks</p></td>
+<td><p>Did the application perform the intended task?</p></td>
+</tr>
+<tr class="row-odd"><td><p>Trace and traffic observations</p></td>
+<td><p>Which local and remote dependencies contributed to the result?</p></td>
+</tr>
+<tr class="row-even"><td><p>Capacity, failure, and update observations</p></td>
+<td><p>What happened when conditions changed?</p></td>
+</tr>
+<tr class="row-odd"><td><p>Responsibility map</p></td>
+<td><p>What did the platform provide, and what did the team implement?</p></td>
+</tr>
+</tbody>
+</table>
+<p>A final comparison should identify one capability the platform supplies, one setting the operator chooses, one decision left to the application, and one condition still unverified. This makes the commercial example a continuation of Chapters 5–8 rather than a new vocabulary test.</p>
+<p>Device enrollment and service identity do not by themselves establish certification or a jointly maintained history. <a class="reference internal" href="ch14.html#section-14-7"><span class="std std-ref">Section 14.7</span></a> examines an IoT compliance ledger as a separate multi-party case, not a mandatory component of these commercial platforms.</p>
+</section>
+<section id="chapter-summary">
+<span id="chapter-9-chapter-summary"></span><h2>Chapter summary<a class="headerlink" href="#chapter-summary" title="Link to this heading"></a></h2>
+<p>Commercial edge platforms implement different combinations of execution, isolation, distribution, elasticity, and coordination. Greengrass manages software on suitable customer devices. Wavelength and Local Zones offer nearby provider resources under different access arrangements. Outposts brings a managed infrastructure pool to a site. CloudFront functions and Cloudflare Workers expose managed execution interfaces suited to selected request-processing tasks.</p>
+<p>The common method is to begin with a workload, trace where its computation and state go, identify the platform’s actual mechanisms, and evaluate a feasible arrangement. A product’s name cannot establish local execution, offline independence, isolation of business data, or minimum cost. Those conclusions require a specific design and evidence.</p>
+</section>
+<section id="exercises">
+<span id="chapter-9-exercises"></span><h2>Exercises<a class="headerlink" href="#exercises" title="Link to this heading"></a></h2>
+<p><strong>9.1 Map mechanisms.</strong> Choose Greengrass and Wavelength. For each, identify an execution unit from <a class="reference internal" href="ch05.html#chapter-5"><span class="std std-ref">Chapter 5</span></a>, an expansion or management mechanism from <a class="reference internal" href="ch06.html#chapter-6"><span class="std std-ref">Chapter 6</span></a>, a data relationship from <a class="reference internal" href="ch07.html#chapter-7"><span class="std std-ref">Chapter 7</span></a>, and a policy decision from Chapter 8. Explain why deploying to many targets is not necessarily load balancing.</p>
+<p><strong>9.2 Trace a mobile request.</strong> Draw the phone, network entry, Wavelength worker, regional control, and regional report service. Which steps must complete before an interactive response? What evidence would reveal an unexpected regional dependency?</p>
+<p><strong>9.3 Separate isolation from policy.</strong> Two applications use distinct EC2 instances and security groups but share an application-level request queue. Explain which problems those infrastructure boundaries address and which latency or authorization problems remain.</p>
+<p><strong>9.4 Locate the function.</strong> Compare a regional Lambda report handler called by a Wavelength application, a Greengrass Lambda component, and a Lambda&#64;Edge function. State the execution location, trigger, and capacity or interface constraint for each.</p>
+<p><strong>9.5 Control during disconnection.</strong> Compare EKS extended and local clusters on an Outposts rack. Explain why a local control plane can help during a temporary outage without proving that every regional dependency or credential operation is available.</p>
+<p><strong>9.6 Check the cost example.</strong> Recalculate <a class="reference internal" href="#section-9-8"><span class="std std-ref">Section 9.8</span></a> with an edge-worker price of 0.60 cost units per hour. Keep all other assumptions unchanged. Does the split still save money, and what additional evidence is needed before calling either candidate feasible?</p>
+<p><strong>9.7 Choose a runtime.</strong> A proposed CloudFront Function must read an image request body and call an external model. Identify the interface mismatch. Propose a division of work that keeps a lightweight delivery function without pretending it performs the model inference.</p>
+<p><strong>9.8 Challenge a deployment claim.</strong> A team reports “the platform meets our p95 deadline” after timing one warm request. Specify a workload, repeated measurements, output checks, and failure observations needed to evaluate that claim.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="ch08.html" class="btn btn-neutral float-left" title="Chapter 8. Scheduling and Optimizing Edge Systems" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ch10.html" class="btn btn-neutral float-right" title="Chapter 10. Running and Optimizing AI on Edge Devices" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Zheng Song.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,396 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Appendix C. Selected Exercise Solutions &mdash; Edge Computing Systems</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/book.css?v=e49485e1" />
+
+  
+    <link rel="canonical" href="https://sonyyt.github.io/EdgeComputingBook-HTML/appendices/appendix-c.html" />
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=bcebf14d"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script>window.MathJax = {"tex": {"tags": "none"}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      <script src="../_static/book.js?v=917b1e6b"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Appendix D. Glossary and Notation" href="appendix-d.html" />
+    <link rel="prev" title="Appendix B. Optional Extension: Learning and Adaptation Across Devices" href="appendix-b.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Edge Computing Systems
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">About this book</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../preface.html">Preface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../publication.html">About this web edition</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Part I. Applications, Devices, Communication, and Digital Twins</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/ch01.html">Chapter 1. Introduction to Edge Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/ch02.html">Chapter 2. An Agentic IoT Application at the Edge</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/ch03.html">Chapter 3. IoT Devices and Sensing Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/ch04.html">Chapter 4. Communication and Networking for IoT and Edge Systems</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Part II. Building and Operating Edge Systems</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/ch05.html">Chapter 5. Running and Deploying Applications on Edge Nodes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/ch06.html">Chapter 6. Scaling Edge Applications and Elastic Execution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/ch07.html">Chapter 7. Computation Offloading and Device–Edge–Cloud Collaboration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/ch08.html">Chapter 8. Scheduling and Optimizing Edge Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/ch09.html">Chapter 9. Commercial Edge Platforms: From Mechanisms to Deployment</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Part III. Edge AI</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/ch10.html">Chapter 10. Running and Optimizing AI on Edge Devices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/ch11.html">Chapter 11. Collaborative Edge Intelligence: From Perception Models to Language Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/ch12.html">Chapter 12. Agentic AI and Tool-Driven Applications at the Edge</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Part IV. Security and Multi-Party Trust</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/ch13.html">Chapter 13. Security, Privacy, and Safety in Edge Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/ch14.html">Chapter 14. Multi-Party Trust, Blockchains, and Distributed Ledgers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendices and references</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="appendix-a.html">Appendix A. Laboratory and Project Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix-b.html">Appendix B. Optional Extension: Learning and Adaptation Across Devices</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Appendix C. Selected Exercise Solutions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#c-1-chapter-1">C.1 Chapter 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#c-2-chapter-2">C.2 Chapter 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#c-3-chapter-3">C.3 Chapter 3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#c-4-chapter-4">C.4 Chapter 4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#c-5-chapter-5">C.5 Chapter 5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#c-6-chapter-6">C.6 Chapter 6</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#c-7-chapter-7">C.7 Chapter 7</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#c-8-chapter-8">C.8 Chapter 8</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#c-9-chapter-9">C.9 Chapter 9</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#c-10-chapter-10">C.10 Chapter 10</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#c-11-chapter-11">C.11 Chapter 11</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#c-12-chapter-12">C.12 Chapter 12</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#c-13-chapter-13">C.13 Chapter 13</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#c-14-chapter-14">C.14 Chapter 14</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="appendix-d.html">Appendix D. Glossary and Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix-e.html">Appendix E. Evidence and Reproducibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Edge Computing Systems</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Appendix C. Selected Exercise Solutions</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/sonyyt/EdgeComputingBook/blob/main/docs/appendices/appendix-c.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul><div class="rst-breadcrumbs-buttons" role="navigation" aria-label="Sequential page navigation">
+        <a href="appendix-b.html" class="btn btn-neutral float-left" title="Appendix B. Optional Extension: Learning and Adaptation Across Devices" accesskey="p"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="appendix-d.html" class="btn btn-neutral float-right" title="Appendix D. Glossary and Notation" accesskey="n">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+  </div>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="appendix-c-selected-exercise-solutions">
+<span id="appendix-c"></span><h1>Appendix C. Selected Exercise Solutions<a class="headerlink" href="#appendix-c-selected-exercise-solutions" title="Link to this heading"></a></h1>
+<section id="c-1-chapter-1">
+<span id="appendix-c-c-1-chapter-1"></span><h2>C.1 Chapter 1<a class="headerlink" href="#c-1-chapter-1" title="Link to this heading"></a></h2>
+<p><strong>1.1.</strong> A camera can produce an image, execute a counting task, and produce a timestamped count. Device-side execution sends selected results onward; remote execution transfers the input needed by the remote task. The drawing must identify the actual computation, not just the presence of a local gateway. Other applications can give equally valid answers. One shared functional requirement is to display a timestamped count. Two illustrative non-functional requirements are a response within 200 ms and retention of raw images inside the premises; the latter can rule out an otherwise functionally valid remote design.</p>
+<p><strong>1.2.</strong> One billion parameters at two bytes each occupy 2 billion bytes, or 2 decimal GB, for parameter values alone. Runtime code, intermediate results, request state, and other processes require additional working memory. Storage capacity does not automatically provide that RAM, and a model’s total running footprint cannot be inferred from its file size alone.</p>
+<p><strong>1.3.</strong> Classification executes on the shop server; cloud installation and updates are management functions. A link outage can stop new updates without stopping already available local inference. Further checks include local availability of the model, identity validation, configuration, and access to input data.</p>
+<p><strong>1.4.</strong> The changed site budget is <span class="math notranslate nohighlight">\(20 + 10 + 150 + 35 = 215\)</span> ms. Doubling the cloud network contribution yields <span class="math notranslate nohighlight">\(20 + 160 + 30 + 15 = 225\)</span> ms. With both changes, only the original 140 ms on-device path meets the assumed 200 ms target. These are assumed budgets; actual workload, queueing, hardware, and model quality must still be measured.</p>
+<p><strong>1.5.</strong> The original sensors produce 24.8832 MB/day, so a 50% reduction saves 12.4416 MB/day. One assumed video stream produces 21.6 GB/day, saving 10.8 GB/day at 50%. The retained information, installation cost, privacy requirements, and disconnected behavior can matter more than either percentage.</p>
+<p><strong>1.6.</strong> A photograph can establish visible form, connections, and installation context. It does not by itself establish where the application executes, available capacity, network route, ownership, or operational status. A proposed architecture must label those inferences rather than present them as observed facts.</p>
+<p><strong>1.7.</strong> An hourly environmental report may prioritize battery life and communication coverage; interactive image classification may prioritize response time and sufficient compute. A local or remote design is acceptable when the stated constraints support it. A useful experiment varies a condition that could reverse the choice, such as uplink availability or shared-server load.</p>
+<p><strong>1.8.</strong> A valid drawing separates local sensing, data storage, model inference, and any remote management or optional analysis. For an operation to survive a cloud-link outage, its local artifacts, permissions, working resources, and user path must remain available. A local-looking screen alone is not evidence that these dependencies are local. Uploading a permitted summary is a data transfer; choosing to run inference on the site server is a computation-placement decision; assigning memory or adding a worker is a resource-allocation decision. They change different parts of the design.</p>
+<p><strong>1.9. One possible comparison is CDN content delivery and VM-based cloudlets. A CDN moves stored content closer to users to reduce repeated origin trips; a cloudlet offers nearby execution for resource-intensive mobile tasks. Neither automatically establishes privacy, sufficient capacity, or continued operation under all failures. They differ in the work performed: serving an existing object versus computing a new result from an input. Other pairings supported by <a class="reference internal" href="../chapters/ch01.html#table-1-4"><span class="std std-ref">Table 1.4</span></a> are also valid.</strong></p>
+<p><strong>1.10. The parameter ratio is 4.2 / 138 ≈ 0.0304 (about 1/33); the multiply-add ratio is 569 / 15,300 ≈ 0.0372 (about 1/27). Reported accuracy changes by 70.6 − 71.5 = −0.9 percentage points. Neither count ratio measures device latency. An example estimate is the 18.5 billion IoT connections for 2024, which does not count proven edge deployments. An example forecast is IDC’s approximately US$450 billion spending in 2029, which is not realized spending. An experimental result is the reported MobileNet ImageNet accuracy, which does not establish accuracy or response time for an unrelated course application.</strong></p>
+</section>
+<section id="c-2-chapter-2">
+<span id="appendix-c-c-2-chapter-2"></span><h2>C.2 Chapter 2<a class="headerlink" href="#c-2-chapter-2" title="Link to this heading"></a></h2>
+<p><strong>2.1.</strong> Changing five-minute bins to ten-minute bins changes a parameter. Adding an occupancy filter introduces another input and join dependency. A user-defined rolling-median event introduces a new calculation. A flexible implementation must alter the affected computation while retaining the original access scope and unaffected assumptions.</p>
+<p><strong>2.2.</strong> The data-access service or checked tool boundary rejects the unauthorized room. The model may explain the limitation or offer analysis within the authorized scope; it cannot authorize itself. A tool-call message is a proposal until the runtime executes it and receives an outcome.</p>
+<p><strong>2.3.</strong> Units determine the meaning of the difference threshold; observation time determines rolling windows and duration; quality determines which observations may support the calculation; the catalog tells the planner whether the needed fields and history exist. Device, boot, and sequence primarily identify logical events for ingestion. A room field describes scope but is not a verified identity or permission token.</p>
+<p><strong>2.4.</strong> The five-minute bin has three valid observations out of five known-occupied opportunities: 60%, below 80%. Its arithmetic mean is 23.55°C but is omitted under the rule. The ten-minute bin has eight of ten: 80%, which is accepted; the mean is 23.7375°C. Changing aggregation changes the evidence unit, not the earlier rule’s correctness.</p>
+<p><strong>2.5.</strong> With the repair, the request takes <span class="math notranslate nohighlight">\(5.80 + 1.50 = 7.30\)</span> seconds. With only the three extra round trips, it takes <span class="math notranslate nohighlight">\(5.80 + 3(0.12) = 6.16\)</span> seconds. Both exceed 6 seconds; the original 5.80-second budget meets it. A real remote model may change compute time, task quality, and the number of interactions, invalidating an otherwise-equal assumption.</p>
+<p><strong>2.6.</strong> Coverage is <span class="math notranslate nohighlight">\(18/20 = 90\%\)</span>. Correctness among answered tasks is <span class="math notranslate nohighlight">\(16/18 \approx 88.9\%\)</span>. Overall successful completion is <span class="math notranslate nohighlight">\(16/20 = 80\%\)</span>. A changed grouping window and a novel combination of occupancy filtering with an event definition are useful held-out changes. Invalid or unauthorized tasks need their own expected handling, not inclusion as ordinary answerable questions.</p>
+<p><strong>2.7.</strong> Annual hardware allocation is 200, energy is 35.04, and maintenance is 40, totaling 275.04 cost units. At 3,650 and 36,500 yearly requests, the allocated unit costs are approximately 0.0754 and 0.00754. A remote design must account for retained site equipment, service charges, networking, and relevant operations. A data-release restriction or required offline function can exclude a nominally cheaper option.</p>
+<p><strong>2.8.</strong> Observe a new request while the wide-area link is unavailable, verify local model and tool activity, and check a newly computed output against the local data. A cached answer or stub trace is insufficient. This observation still does not establish all restart conditions, multi-user isolation, sandbox security, or general model quality.</p>
+</section>
+<section id="c-3-chapter-3">
+<span id="appendix-c-c-3-chapter-3"></span><h2>C.3 Chapter 3<a class="headerlink" href="#c-3-chapter-3" title="Link to this heading"></a></h2>
+<p><strong>3.1.</strong> A phone is a device class; an accelerometer is a sensing modality/component; activity recognition is an application task. One device can expose several modalities and support several tasks. A smartphone can be a data source, a gateway, or an inference host, but its role does not redefine the sensor physics.</p>
+<p><strong>3.2.</strong> Three 16-bit axes produce <span class="math notranslate nohighlight">\(3 \cdot 2 \cdot 50 = 300\)</span> bytes/s, or <span class="math notranslate nohighlight">\(300 \cdot 28,800 = 8,640,000\)</span> bytes in eight hours. Adding one eight-byte timestamp to each three-axis sample makes the rate <span class="math notranslate nohighlight">\((6 + 8) \cdot 50 = 700\)</span> bytes/s and storage 20,160,000 bytes. Framing, metadata, checksums, indexes, and compression are not included. This is a payload model, not a phone battery estimate.</p>
+<p><strong>3.3.</strong> Repeated averaging can reduce some zero-mean random noise but does not remove a fixed calibration offset. Estimate the offset against a suitable reference, report the correction and uncertainty, and test over the relevant operating conditions. Do not infer higher physical accuracy merely from more decimal places.</p>
+<p><strong>3.5.</strong> The displacement scale is <span class="math notranslate nohighlight">\(12\, m/s \times 0.040\, s = 0.48\)</span> m. This is the error contribution of the assumed time offset under constant motion, not the complete localization error. Correct timestamps and transforms, estimate their uncertainty, and account for motion during acquisition.</p>
+</section>
+<section id="c-4-chapter-4">
+<span id="appendix-c-c-4-chapter-4"></span><h2>C.4 Chapter 4<a class="headerlink" href="#c-4-chapter-4" title="Link to this heading"></a></h2>
+<p><strong>4.1.</strong> Wi-Fi is an access/link technology; IP supplies network addressing and forwarding; TCP supplies a reliable ordered byte stream; MQTT defines an application messaging exchange. Thread supplies an IP-based low-power mesh stack, while Matter adds application interoperability. These can be complementary rather than interchangeable; choose complete stacks with compatible interfaces.</p>
+<p><strong>4.2.</strong> At five observations/s, individual messages carry <span class="math notranslate nohighlight">\(5(12 + 36) = 240\)</span> bytes/s, or 1,920 bits/s. One batch of five each second carries <span class="math notranslate nohighlight">\(5 \cdot 12 + 36 = 96\)</span> bytes/s, or 768 bits/s: a 60% reduction in this simplified byte budget. If a batch is sent immediately when its fifth observation arrives, the oldest waits 0.8 s. The answer excludes radio scheduling, loss, and connection setup.</p>
+<p><strong>4.3.</strong> A protocol acknowledgment belongs to its specified exchange. It does not automatically prove that the subscriber has committed its database transaction or that a physical action completed. Specify the application result, stable identity, durable state, and retry behavior separately.</p>
+<p><strong>4.4.</strong> An IP border router connects networks and forwards compatible IP traffic; it does not by itself translate device attributes into a shared application meaning. Semantic interoperability additionally needs agreed data models, units, operations, discovery, and authorization. A bridge that translates those meanings adds a distinct trust and state boundary.</p>
+<p><strong>4.5.</strong> For a device that can receive only during infrequent receive windows, a 500 ms downlink requirement may be infeasible even when the radio offers sufficient throughput. Check the maximum wait for a receive opportunity, network scheduling, retransmissions, and wake/processing time. Either revise the mode or requirement, or retain the time-critical decision locally; do not infer a deadline guarantee from a nominal bit rate.</p>
+<p>4.7. The scene supplies presentation and possibly structural geometry. A current-state question additionally needs identified equipment, source-to-property mapping, an observation/update path, and timestamps/quality with a freshness rule. A new rendering alone does not create new observations.</p>
+<p>4.8. Accept unique observations 101, 103, and 102; the second 103 is a duplicate, while its altered version is a conflict. Latest state stays 46 °C at 10:00:04. At 10:00:11 its age is 7 s, exceeding the assumed 5 s threshold. This uses comparable clocks; uncertain clock offset requires qualification.</p>
+<p>4.9. Starting at 40 °C: step 1 is 40 + 0.2(25 − 40) + 2 = 39 °C; step 2 is 39 + 0.2(25 − 39) + 2 = 38.2 °C. Actual validation would require independent temperature trajectories under stated ambient/load conditions and evidence about sensor accuracy and whether the coefficients transfer across the intended operating range. Arithmetic agreement alone is insufficient.</p>
+<p>4.10. Desired configuration is not reported configuration. Show both versions/values with request and observation times, and mark application as pending or unconfirmed. Reloading a stored page changes its display time, not the age of its physical evidence.</p>
+</section>
+<section id="c-5-chapter-5">
+<span id="appendix-c-c-5-chapter-5"></span><h2>C.5 Chapter 5<a class="headerlink" href="#c-5-chapter-5" title="Link to this heading"></a></h2>
+<p><strong>5.1.</strong> Put application code and its declared runtime dependencies in the distributable package. Keep mutable history in explicitly managed persistent storage; supply device-specific configuration separately. A cloud credential is neither ordinary source code nor public image content: grant only the required access and deliver it through an appropriate protected mechanism. Model artifacts may be distributed separately when size or update frequency makes that useful, but the deployment must still identify the exact artifact and its availability.</p>
+<p><strong>5.2.</strong> An image built only for x86-64 does not become an ARM image merely because both hosts run Linux. Check processor architecture, host/kernel requirements, dependencies, and any device or accelerator interfaces. Build a compatible image variant or use an explicitly supported translation strategy, then validate behavior on the target. Portability of source, binaries, and performance are different claims.</p>
+<p><strong>5.3.</strong> After reserving 3 GiB, the application budget is 5 GiB. At the assumed 2 GiB per worker, two workers fit arithmetically, leaving 1 GiB within that budget. Three require 6 GiB and do not fit. Real transient allocations, shared services, and accelerator memory may require a more conservative concurrency setting; this arithmetic is not a response-time guarantee.</p>
+<p><strong>5.4.</strong> Different container filesystems do not create separate physical processors, memory, storage bandwidth, or power supplies. Resource limits and admission rules can reduce interference, while application permissions determine which data and operations each user can access. All containers on one host still share important failure boundaries.</p>
+</section>
+<section id="c-6-chapter-6">
+<span id="appendix-c-c-6-chapter-6"></span><h2>C.6 Chapter 6<a class="headerlink" href="#c-6-chapter-6" title="Link to this heading"></a></h2>
+<p><strong>6.1.</strong> At the assumed target utilization, each worker contributes <span class="math notranslate nohighlight">\(8 \times 0.6 = 4.8\)</span> requests/s of planned capacity. The replica count is <span class="math notranslate nohighlight">\(\lceil 12/4.8\rceil = 3\)</span>. This model assumes independent requests and enough underlying resources. It does not establish a percentile latency or eliminate shared database and network bottlenecks.</p>
+<p><strong>6.2.</strong> A stateless analyzer whose request contains the necessary input is easier to replicate than a collector that owns a device subscription or a service with an in-memory user session. Replicating the latter requires a deliberate design for ownership, shared state, duplicate processing, and routing. Separate those concerns before interpreting replica count as capacity.</p>
+<p><strong>6.3.</strong> Three replicas on one node provide three execution instances, not three machines or three independent failure domains. They may still be useful if the host has spare capacity, but share its hardware and compete for resources. Observe actual placement and resource use, not only the requested replica count.</p>
+<p><strong>6.4.</strong> Creating five additional Pods does not create five additional machines. If no existing node satisfies their requests and constraints, they can remain pending. Node provisioning requires a separate supported mechanism and available capacity; a fixed classroom cluster cannot manufacture more physical hardware.</p>
+<p><strong>6.5.</strong> A frequently used model with expensive loading may benefit from resident capacity. A short report requested once per day may benefit from on-demand execution. Compare startup time, reuse frequency, memory residency, state dependencies, and management cost. “Serverless” alone does not show that either workload meets its deadline or costs less.</p>
+</section>
+<section id="c-7-chapter-7">
+<span id="appendix-c-c-7-chapter-7"></span><h2>C.7 Chapter 7<a class="headerlink" href="#c-7-chapter-7" title="Link to this heading"></a></h2>
+<p><strong>7.1.</strong> At 100 Mb/s, uploading 2 decimal MB takes <span class="math notranslate nohighlight">\(16/100 = 0.16\)</span> s, or 160 ms. Adding the assumed 30 ms fixed communication, 40 ms waiting, 60 ms execution, and 4 ms return gives 294 ms, below 350 ms locally. For the proposed 0.1 MB representation, transmission takes 8 ms; with 20 ms local preprocessing, the total is <span class="math notranslate nohighlight">\(20 + 8 + 30 + 40 + 60 + 4 = 162\)</span> ms. This second comparison is meaningful only if the representation supports the required result and its release is permitted.</p>
+<p><strong>7.2.</strong> Means and extrema can conceal temporal order, short events, and relations between signals. Retain the information needed by the supported task, not simply the smallest record. Two histories with the same mean can differ in whether a change preceded or followed occupancy.</p>
+<p><strong>7.3.</strong> Desired version 8 records intent; reported version 7 records the last confirmed applied state. Do not display version 8 as running until the device has applied and reported it under the protocol. Include timestamps and uncertainty when the device is disconnected or reports are delayed.</p>
+<p><strong>7.4.</strong> A lost acknowledgment cannot tell the sender whether the receiver committed the event. Keep a stable logical event identifier across retries, retain a durable pending record until acknowledgment, and make receiving the same event again duplicate-safe. A conflicting payload under an existing identifier is not an ordinary duplicate and requires a stated policy.</p>
+</section>
+<section id="c-8-chapter-8">
+<span id="appendix-c-c-8-chapter-8"></span><h2>C.8 Chapter 8<a class="headerlink" href="#c-8-chapter-8" title="Link to this heading"></a></h2>
+<p><strong>8.1.</strong> Increasing a Deployment from two replicas to four changes desired service capacity. Choosing which waiting application request runs next is a different decision. The platform may place the new replicas while an application queue still uses an unchanged request-ordering policy.</p>
+<p><strong>8.2.</strong> When both tasks are waiting, batch-first completes the 200 ms batch at 200 ms and the 40 ms interactive task at 240 ms; the interactive task misses a 100 ms deadline. Interactive-first completes it at 40 ms and the batch at 240 ms. If the non-preemptible batch started 20 ms before the interactive arrival, 180 ms remains, and the interactive response takes 220 ms after its arrival. Reordering the waiting queue cannot interrupt work already executing under this assumption.</p>
+<p><strong>8.3.</strong> A design that sends prohibited raw data to a remote service is infeasible, even when fast or inexpensive. Consider an explicitly permitted representation or local execution; do not assume that removing some fields or generating a feature vector automatically authorizes release.</p>
+<p><strong>8.4.</strong> During an eight-second startup interval, the backlog increases by <span class="math notranslate nohighlight">\((18 - 12) \times 8 = 48\)</span> requests. If capacity then becomes 24 requests/s while arrivals remain at 18, the excess 6 requests/s drains that backlog in eight additional seconds. Capacity of 18 only prevents further growth; it does not drain the accumulated queue. These fluid calculations omit individual service-time variation.</p>
+<p><strong>8.5.</strong> Compare policies using the same task set, offered load, network trace, quality rules, and cost scope. Include startup, transfer, decision overhead, rejected tasks, and failed requests. Report both conditions where adaptation helps and conditions where its overhead or inaccurate measurements make it worse.</p>
+</section>
+<section id="c-9-chapter-9">
+<span id="appendix-c-c-9-chapter-9"></span><h2>C.9 Chapter 9<a class="headerlink" href="#c-9-chapter-9" title="Link to this heading"></a></h2>
+<p><strong>9.1.</strong> For Greengrass, connect a component’s execution environment to <a class="reference internal" href="../chapters/ch05.html#chapter-5"><span class="std std-ref">Chapter 5</span></a>, target deployments and lifecycle management to <a class="reference internal" href="../chapters/ch06.html#chapter-6"><span class="std std-ref">Chapter 6</span></a>, local records and shadow synchronization to <a class="reference internal" href="../chapters/ch07.html#chapter-7"><span class="std std-ref">Chapter 7</span></a>, and admission or release policy to Chapter 8. For Wavelength, connect EC2 and application packaging, compatible worker replicas and request entry, the Wavelength–Region data path, and placement or capacity policy. Distributing software to multiple targets does not itself route user requests among them.</p>
+<p><strong>9.2.</strong> The interactive critical path includes the phone’s upload, eligible network entry, worker waiting and execution, and result return. A deferrable report can follow a separate regional path. Trace downstream requests, storage reads, and identity dependencies to find whether the supposedly nearby answer still waits for a regional operation.</p>
+<p><strong>9.3.</strong> Distinguish tenant host isolation, VPC/network rules, instance or container resource settings, and application authorization. None alone establishes a response-time target. Increasing service replicas also needs available nodes, compatible placement, a working request entry, and the relevant data path. Describe each layer instead of asserting that a platform’s “multi-tenancy” solves all four.</p>
+<p><strong>9.4.</strong> Put the latency-sensitive service on a suitable Wavelength resource, and place deferrable processing on permitted regional resources. A standard regional Lambda function remains regional; a VPC association does not make it a Wavelength execution environment. Lambda&#64;Edge is a separate CloudFront-associated execution service. A self-managed function runtime on an EC2 worker has its own capacity and operational responsibilities.</p>
+<p><strong>9.5.</strong> A local EKS control plane on an Outpost changes where specified cluster-management functions execute. It does not demonstrate independence from every regional dependency, credential service, image source, or application database. Test the particular operation and disconnection duration, distinguishing already-running work from new deployment and restart.</p>
+<p><strong>9.6.</strong> Under the chapter’s hypothetical assumptions, all-edge requires <span class="math notranslate nohighlight">\(\lceil 80/5.6\rceil = 15\)</span> workers. The split needs eight edge and eight regional workers. At edge price 0.60, all-edge costs <span class="math notranslate nohighlight">\(15(0.60) = 9.00\)</span> units/h and the split costs <span class="math notranslate nohighlight">\(8(0.60) + 8(0.35) + 0.60 = 8.20\)</span> units/h, an 8.9% reduction rather than 18.3%. The break-even additional split overhead is <span class="math notranslate nohighlight">\(9.00 - \left\lbrack 8(0.60) + 8(0.35) \right\rbrack = 1.40\)</span> units/h. This exercise is a sensitivity calculation, not a current cloud quotation.</p>
+<p><strong>9.7.</strong> CloudFront Functions does not supply arbitrary request-body access or outbound network calls. Keep permitted header, URL, or cache-key processing at that boundary, and send the image to a suitable regional or near-user application service. That service can call a model under its own data, capacity, and authorization rules; the lightweight function is not thereby performing inference.</p>
+<p><strong>9.8.</strong> Use a declared offered-load pattern, repeated cold and warm requests where relevant, representative inputs, fixed quality checks, and a recorded population of successes, errors, and timeouts. Report a percentile over that population with its sampling limitations, then vary load or connectivity. One warm request cannot establish p95 behavior or future deadline guarantees.</p>
+</section>
+<section id="c-10-chapter-10">
+<span id="appendix-c-c-10-chapter-10"></span><h2>C.10 Chapter 10<a class="headerlink" href="#c-10-chapter-10" title="Link to this heading"></a></h2>
+<p><strong>10.1. Task metrics</strong></p>
+<p>There are 95 true positives, 5 false negatives, 20 false positives, and 1,880 true negatives. Accuracy is 1,975/2,000 = 98.75%; fault recall is 95%; precision is 95/115 ≈ 82.61%. None establishes the harm of a missed fault or an unnecessary intervention. Timing, class prevalence outside the sample, and thresholds still need application-specific analysis.</p>
+<p><strong>10.2. End-to-end latency</strong></p>
+<p>The baseline takes 130 ms. Halving inference changes 70 ms to 35 ms and produces 95 ms overall, a 35 ms or approximately 26.92% reduction. End-to-end speedup is 130/95 ≈ 1.37, not two. Shortening a motion window may remove the evidence needed to recognize an activity; it is then a task change rather than a free timing improvement.</p>
+<p><strong>10.3. Storage and live tensors</strong></p>
+<p>The raw parameter payloads are 4,800,000, 2,400,000, and 1,200,000 bytes. The feature map occupies 1,605,632 bytes (1.53125 MiB) at FP32. Metadata, scales, biases of another precision, live activations, scratch, runtime and application allocations are additional. Quantizing only weights does not establish activation precision or the actual peak RAM.</p>
+<p><strong>10.4. Mapping and clipping</strong></p>
+<p>The codes are −3, 3, 6, and 127. Reconstructed values are −0.3, 0.3, 0.6, and 12.7. Absolute errors are 0.04, 0.04, 0.04 and 2.3. The first three are within half the grid spacing; the last is outside the representable range and is clipped. These inputs avoid the rounding-rule ambiguity of exact half steps.</p>
+<p><strong>10.5. Evidence of integer execution</strong></p>
+<p>Artificially rounded values used by floating-point operators show a numerical approximation, not integer-kernel performance. Inspect the converted graph/backend and actual operator types, tensor representations, and conversion boundaries. Dynamic quantization determines activation ranges at invocation; static PTQ estimates ranges using representative data before deployment. QAT changes preparation by simulating quantization effects while training, and still requires conversion and actual target execution.</p>
+<p><strong>10.6. Two forms of pruning</strong></p>
+<p>A dense 64 × 64 representation still stores 4,096 weight entries after 2,048 become zero. A sparse file can have different storage, but arbitrary zeros only save executed arithmetic with suitable kernels. Removing 32 output units creates 32 × 64 weights plus 32 biases and removes the corresponding 32 inputs from the next layer. Recovery training and quality checks are necessary; remaining parameter counts alone do not predict wall-clock speed.</p>
+<p><strong>10.7. Distillation controls</strong></p>
+<p>More training steps confound the teacher-guidance effect. Start direct and distilled students from the same initialization, use the same data and minibatch sequence, equal maximum budgets, the same selection rule, and a frozen teacher; choose settings without the test set. Report an unfavorable result rather than repeatedly changing settings on test feedback. In the supplied configuration, the same-size direct student is the stronger measured baseline; this is not a general claim against distillation.</p>
+<p><strong>10.8. Architecture arithmetic</strong></p>
+<p>Standard convolution uses 3² × 32 × 64 = 18,432 multiplications per output location. Depthwise plus pointwise uses 3² × 32 + 32 × 64 = 2,336. The ratio is about 7.89 under matched geometry, excluding biases. These graphs differ; the new architecture needs trained weights and quality evaluation. Kernel support, memory traffic and device utilization determine realized timing.</p>
+<p><strong>10.9. Backend boundaries</strong></p>
+<p>Record operator placement, per-operator execution, transfer/layout-conversion time, synchronization, host/device memory and end-to-end timing. Compare a graph with a compatible substitute for the unsupported operator and a CPU-only baseline that avoids repeated crossings. A third possibility is to retain a larger connected subgraph on one processor. Validate unchanged task meaning and acceptable numerical behavior after every change.</p>
+<p><strong>10.10. Data leakage and updates</strong></p>
+<p>Near-duplicate frames of the same physical object can expose object-specific details across training and testing. Split by object, capture session or site as appropriate, and reserve genuinely later or different conditions for deployment evaluation. Use separate development and held-out sets for update selection; preserve old tasks as regression tests. Labels and acceptance criteria must be reliable, including appropriate permission for using field data.</p>
+<p><strong>10.11. A valid laboratory report</strong></p>
+<p>A report names model and preprocessing artifacts, split and seeds, quality and rejection rules, numeric payload and actual serialized size. It defines whether timing covers one model call, the whole application, or startup. Host CPU timings cannot establish a phone/NPU speedup, a peak-memory saving or lower energy use without corresponding measurements. Predictions and parameter counts are directly reproducible from supplied artifacts; new timing values may differ on another machine.</p>
+<p><strong>10.12. Microcontroller feasibility</strong></p>
+<p>The stated SRAM requirement is 306 KiB, exceeding 256 KiB by 50 KiB. Enough flash for the model does not solve the working-memory shortage. If weights are already read from flash, compressing only those weights does not remove the SRAM allocations. Inspect live activation lifetimes, scratch and buffers, or change the model/input/runtime. Recalculate after an actual compatible transformation instead of subtracting model-file savings from RAM.</p>
+</section>
+<section id="c-11-chapter-11">
+<span id="appendix-c-c-11-chapter-11"></span><h2>C.11 Chapter 11<a class="headerlink" href="#c-11-chapter-11" title="Link to this heading"></a></h2>
+<p><strong>11.1.</strong></p>
+<p>Replicas mainly change capacity and fault placement; compare throughput and response time while checking identical behavior. Additional views change evidence; compare matched objects/intervals and quality under missing views. Do not attribute evidence gains solely to more processors.</p>
+<p><strong>11.2.</strong></p>
+<p>Offline coverage is 325/360 = 90.28%. Accepted-answer accuracy is 322/325 = 99.08%. The online cascade answers all 360 inputs and has 346/360 = 96.11% accuracy. The populations and coverage differ.</p>
+<p><strong>11.3.</strong></p>
+<p>Correct count changes by rescued minus damaged: 350 + 1 − 5 = 346. Examine branch errors and optional input-quality/label checks using development or validation data. Freeze the new rule before a genuinely new final evaluation; the inherited test set cannot become an unseen holdout again.</p>
+<p><strong>11.4.</strong></p>
+<p>An early-exit network shares computed prefix activations between the branch head and deeper layers. Independent complete classifiers do not share matching intermediate states unless designed to do so. Both may perform similar preprocessing, but that alone does not provide model-prefix reuse.</p>
+<p><strong>11.5.</strong></p>
+<p>45 + 25,088×8/20,000,000×1,000 + 20 + 60 + 10 = 145.0352 ms, above 130 ms. Measure actual tensor formats, transfer/serialization, queueing, backend numerical behavior, and end-to-end output checks.</p>
+<p><strong>11.6.</strong></p>
+<p>The 50% saving compares 128 bytes to 64×4 = 256 bytes. Compared to a 64-byte pixel payload, the feature doubles the bytes. Both calculations are correct for their respective representations; the report must state which is actually transmitted.</p>
+<p><strong>11.7.</strong></p>
+<p>Each long sequence uses 768 MiB; three require 2,304 MiB = 2.25 GiB. A 1.5 GiB cache budget does not suffice. Admission must account for prompt plus reserved generated continuation, other allocations, and realistic headroom.</p>
+<p><strong>11.8.</strong></p>
+<p>Quality: (784+198)/1,000 = .982. Cost: 3+.5+.2×12 = 5.9. Mean time: 45+5+.2×280 = 106 ms. Twenty percent take 330 ms, so the fixed-mixture p95 is 330 ms; the mean does not certify 300 ms tail latency.</p>
+<p><strong>11.9.</strong></p>
+<p>Accepted mass min(p,q) is (.2,.3,.1). Rejection mass .4 is resampled entirely onto the first token, giving (.6,.3,.1). Accepting all draft proposals gives q rather than p. The supplied categorical demonstration is not a full speculative LM.</p>
+<p><strong>11.10.</strong></p>
+<p>(40+N+30)/3 &lt; 50 implies N &lt; 80 ms. At 80 ms it only breaks even. K counts confirmed progress, so extra proposals can increase rejected work without useful advancement. This serial estimate omits overlap and variability.</p>
+<p><strong>11.11.</strong></p>
+<p>A pre-request router normally has request features but no complete candidate answer. A speculative verifier has draft proposals and target evaluations. A multi-model selector already has candidate outputs and has spent their generation cost. Interfaces and budgets must reflect those differences.</p>
+<p><strong>11.12.</strong></p>
+<p>4,000,000×2 = 8 MB per direction, 16 MB/client/round, 320 MB for 20 clients per round, and 3.2 GB for ten rounds (decimal units). This accounts for an assumed adaptation exchange, not inference traffic; the base artifact, protocol overhead, retries and compression are excluded.</p>
+<p><strong>11.13.</strong></p>
+<p>Use synthetic evidence. Verify local model/version/configuration, disconnect the WAN, then test an already warm request, a process restart, and a cold host restart separately. Record necessary local data, identity, storage and interface dependencies. A local proxy, cached answer, or test double cannot establish actual offline inference.</p>
+<p><strong>11.14.</strong></p>
+<p>Fix an authorized task suite and permit only a specified sanitized subset to leave. Include changed filtering/time rules, missing evidence, and a WAN outage. Record quality, coverage, total calls/tokens, end-to-end timing and resource/cost assumptions. Test-double runs validate plumbing, not comparative model quality.</p>
+</section>
+<section id="c-12-chapter-12">
+<span id="appendix-c-c-12-chapter-12"></span><h2>C.12 Chapter 12<a class="headerlink" href="#c-12-chapter-12" title="Link to this heading"></a></h2>
+<p><strong>12.1.</strong></p>
+<p>A fixed dashboard still follows a developer-selected path; the language model changes presentation. In the second design the model chooses some next operations from an allowed set based on the goal and observed results. That adds flexibility and evaluation burden, not automatic superiority. Compare both on the same tasks and resource budget.</p>
+<p><strong>12.2.</strong></p>
+<p>A useful entry identifies a stream, owner/scope, coordinate frame, acceleration unit, timestamp/time zone, sampling policy, available interval, validity flags and schema version. The planner first needs meanings, available intervals and supported tools, not all raw acceleration rows. Access still comes from a trusted principal, not the catalog text.</p>
+<p><strong>12.3.</strong></p>
+<p>Private passages may already have entered a retrieval result, prompt, cache or log. Apply access filtering before ranking or at an equivalent protected retrieval boundary, then pass only authorized passages to generation. Check again before result release if authority can change. Never rely on the model to discard secrets after reading them.</p>
+<p><strong>12.4.</strong></p>
+<p>A snapshot defines the evidence version; losing it can make reproduction impossible or require a new task. The task record preserves completed operations, result IDs and budget; losing it creates uncertainty about progress. A KV cache accelerates one inference context and can often be rebuilt from permitted context; it is not a durable proof of tool completion. Rebuilding it has a cost and requires remaining context.</p>
+<p><strong>12.5.</strong></p>
+<p>The predicate selects pump-A:2 and pump-A:3, so the count is2. Those are two sampled instants. Counting distinct episodes requires explicit start/end, duration, gap and sampling rules. Neither two samples nor their one-minute spacing establishes a three-minute continuous event.</p>
+<p><strong>12.6.</strong></p>
+<p>Coverage is5/6≈83.33% over all queried slots, before activity filtering. The available active temperatures are22,23,25 and their arithmetic mean is70/3≈23.33 C. With a90% full-interval requirement, return insufficient_evidence and the coverage/gap; do not present that arithmetic mean as an accepted task result. A different denominator requires an explicit different contract.</p>
+<p><strong>12.7.</strong></p>
+<p>Check the asset, time window, unit, input version, missing-data rule, filter, aggregation and meaning of the requested outcome. Verify that numeric claims match executed results and that all required qualifications appear. A program can execute correctly while answering the wrong question; a valid citation can accompany false prose.</p>
+<p><strong>12.8.</strong></p>
+<p>The original non-final-model cost is0.4+1.2+0.3+0.8+0.2=2.9 s. Adding0.7 s leaves6.0−2.9−0.7=2.4 s. A new six-second per-call allowance would exceed the complete-task budget. Real cancellation and timing must be enforced by the actual interfaces.</p>
+<p><strong>12.9.</strong></p>
+<p>Serial lower bound:0.4+0.6+1.0+0.3=2.3 s. Parallel lower bound:0.4+max(0.6,1.0)+0.3=1.7 s. The predicted saving0.6 s assumes independence and spare resources. Shared storage/CPU contention, queueing, launch overhead or a hidden dependency can reduce or remove it.</p>
+<p><strong>12.10.</strong></p>
+<p>Record job ID, owner, logical operation ID, canonical operation/arguments, immutable snapshot ID, status and durable result. Recheck current permission before replay. Identical operation/arguments can return the committed result; changed arguments require a new operation ID. A physical effect additionally needs device-supported identity/acknowledgment and unknown-outcome handling. Local persistence cannot provide remote exactly-once action semantics.</p>
+<p><strong>12.11.</strong></p>
+<p>A new offline question could compare two permitted intervals in locally retained history using installed tools and the local model. A request for the latest remote manual revision must stop or explicitly report the cached revision. State the surviving task family and dependencies. An offline mode is not established solely by using a loopback model URL.</p>
+<p><strong>12.12.</strong></p>
+<p>Compare task correctness, evidence coverage, completed/abstained tasks, whole-task latency, calls/tokens, memory, communication and failures at matched allowances. Extra agents are justified only by measured capability or parallelism/authority needs that outweigh coordination and error propagation. Repeated agreement is not independent evidence.</p>
+<p><strong>12.13.</strong></p>
+<p>A fresh default run gives count2 above28; changing to30 gives1. An expression with a call such as abs(temperature_c) must be rejected because calls are absent from the small language. Save input, proposal, error category and actual result. The planner is a scripted test double in these runs, so the outcomes do not measure LM planning quality.</p>
+<p><strong>12.14.</strong></p>
+<p>Reserve combinations not used while developing prompts: another interval, a changed threshold and output unit, cross-asset comparison with missing coverage, ambiguous episode semantics, denied scope, and a post-commit restart. Write expected facts and required qualifications beforehand. Report per-case execution, semantic outcome and intervention; use additional independent cases for final claims after development inspection.</p>
+</section>
+<section id="c-13-chapter-13">
+<span id="appendix-c-c-13-chapter-13"></span><h2>C.13 Chapter 13<a class="headerlink" href="#c-13-chapter-13" title="Link to this heading"></a></h2>
+<p><strong>13.1.</strong></p>
+<p>Draw phone → authorized local store → analysis/model, with an optional approved outbound path. Device ownership, site operator and remote provider can be separate authorities. Enforce the user’s permitted subject, interval and purpose before retrieving data into model context; output filtering cannot undo disclosure that already happened.</p>
+<p><strong>13.2.</strong></p>
+<p>Bind the verified signing key to a registered sensor identity and allowed assets/sites, then check that the requested operation is observation reporting. The site field is not its own authorization. A key binding proves a source relationship under the enrollment assumptions, not the physical truth of the value.</p>
+<p><strong>13.3.</strong></p>
+<p>With a correct local clock and no revocation-update path, a cached policy may keep accepting the grant until 09:15: up to 14 minutes after central revocation. Requiring a live decision can stop the operation throughout the outage. Choose by operation: cached read-only history may be permitted while a new privileged action is unavailable. State clock uncertainty, restart persistence, credential renewal and policy version.</p>
+<p><strong>13.4.</strong></p>
+<p>Unsigned payload: 100×24 = 2,400 B/s. Per-record signatures: 100×(24+64) = 8,800 B/s. Ten-record batches: 10×(10×24+64) = 3,040 B/s. Ten samples span nine 10-ms intervals, so the first sample may wait 90 ms. These figures omit encoding, headers, key identifiers, transport and verification costs; batching also couples delivery and validation of several samples.</p>
+<p><strong>13.5.</strong></p>
+<p>The version can be incompatible with the target or below an accepted security sequence floor. Accuracy alone does not establish freedom from a known vulnerability. Authorized recovery can package a previously working payload in a newly approved transition with a fresh security sequence; it should not permit arbitrary replay of an old signed envelope. The lab verifies eligibility, not installation.</p>
+<p><strong>13.6.</strong></p>
+<p>Secure boot restricts which startup software is accepted; runtime isolation restricts interactions while programs run; remote attestation supplies evidence about a target for another party’s appraisal. The mechanisms have different roots and freshness assumptions. None alone proves that a sensor is calibrated, a model’s diagnosis is correct, or a physical command is safe in current conditions.</p>
+<p><strong>13.7.</strong></p>
+<p>The totals are 4×23 = 92 and 5×24 = 120, so the added value is 28. Two permitted-looking aggregates can jointly disclose an individual contribution. Query history, overlapping cohorts and auxiliary information matter; suppressing names from each answer does not settle privacy.</p>
+<p><strong>13.8.</strong></p>
+<p>Treat the approval as referring to state version 7. Reject or pause when version 8 is observed, obtain fresh evidence and re-evaluate under the operation policy. Do not silently substitute the new state. Approval authenticates a decision under conditions; it does not establish that those conditions still hold. A real safety controller must enforce its own independently justified bounds.</p>
+<p><strong>13.9.</strong></p>
+<p>Precision = 90/(90+99) = 47.62%; recall = 90/(90+10) = 90%; accuracy = (90+9,801)/10,000 = 98.91%. Precision answers the investigation question for this population. Changing incident prevalence changes that interpretation even with similar conditional error rates. These are hypothetical counts.</p>
+<p><strong>13.10.</strong></p>
+<p>A device can send buffered historical records after reconnection at the same rate as an abusive sender. Useful evidence includes authenticated source scope, stable event identifiers, old event times, schema validity and total admitted work. A bounded response can limit intake rate, preserve an essential queue and request review, rather than irrevocably disconnect every bursty device.</p>
+<p><strong>13.11.</strong></p>
+<p>The authorized test signer really signs the fabricated 99°C value. Signature verification establishes the signed bytes under that key; scope checking establishes permission to report for the subject; neither establishes actual temperature. Independent calibration, cross-sensor checks or physical inspection would support different claims. The successful acceptance is a deliberate negative control.</p>
+<p><strong>13.12.</strong></p>
+<p>No. File permissions and accelerator scheduling address different properties. Measure the essential service’s response time, admitted work and memory while the other tenant is active. Bound concurrent accelerator work or use an enforceable allocation supported by the platform; keep enough headroom for essential work. Do not claim a hard deadline merely from a CPU or memory limit.</p>
+</section>
+<section id="c-14-chapter-14">
+<span id="appendix-c-c-14-chapter-14"></span><h2>C.14 Chapter 14<a class="headerlink" href="#c-14-chapter-14" title="Link to this heading"></a></h2>
+<p><strong>14.1.</strong></p>
+<p>An internal log may have one accepted operator, so authenticated writes, backups and audit can be sufficient. A cross-manufacturer registry may require independent issuer roles and jointly governed acceptance. State whether all parties accept one ordering authority, who can correct records, and how omissions or conflicting views are detected. Several organizations alone do not force a blockchain.</p>
+<p><strong>14.2.</strong></p>
+<p>The replacement digest can match the replacement file perfectly. Obtain the expected digest from a trusted signed manifest, a pinned release record or another authenticated reference independent of the changed pair. The comparison still proves byte agreement, not that the program is suitable or defect-free.</p>
+<p><strong>14.3.</strong></p>
+<p>Examples include the installed unit’s identity, currently loaded software, calibration or physical condition, owner authorization, and present compromise status. Model certification concerns a product/model assertion under its stated scope; the installation process and operation need additional evidence.</p>
+<p><strong>14.4.</strong></p>
+<p>An inclusion proof connects a record to the supplied root. It does not establish that no later root exists, or that every reader received the same root. A trusted checkpoint, consistency checking and appropriately independent monitoring address other parts of the problem. The root’s authority must itself be established.</p>
+<p><strong>14.5.</strong></p>
+<p>The minimum overlap is 3+3−4 = 2. With at most one Byzantine participant, at least one overlapping participant is honest. The safety argument still needs honest-vote/locking rules that prevent that participant from supporting conflicting commits under the full protocol. Merely collecting three signatures is not a complete consensus algorithm.</p>
+<p><strong>14.6.</strong></p>
+<p>Each group can read its previously committed local state, marked with its freshness. A client can submit or queue a proposal, but two votes cannot meet the three-vote rule for a new commit. Restoring connectivity may restore progress subject to the protocol and resource assumptions. Do not report queued submission as shared acceptance.</p>
+<p><strong>14.7.</strong></p>
+<p>Raw application payload is 1,000×200×86,400 = 17,280,000,000 B/day, or 17.28 decimal GB. Metadata is 1,000×768 = 768,000 B/day, or 0.768 MB. Their ratio is 22,500. Four full payload copies total 69.12 GB/day before headers and storage overhead. The metadata does not preserve all raw observations; this is a choice of shared information, not lossless compression.</p>
+<p><strong>14.8.</strong></p>
+<p>Given appropriate interfaces and trusted keys, the program can check issuer role, signature or endorsement policy, fields, version, digest references and allowed state transitions. It cannot independently observe that a physical inspection took place or was competent. An external tester/oracle supplies a statement; the application must identify its authority and limitations.</p>
+<p><strong>14.9.</strong></p>
+<p>Public reading describes access to information; permissioned writing describes who can submit allowed changes; validator governance determines participants and accepted-history rules. A sensor can benefit through an authenticated gateway query without validating the ledger. That arrangement trusts the gateway or endpoint; independent verification requires a supported proof path and trusted state, not just received JSON.</p>
+<p><strong>14.10.</strong></p>
+<p>No. A newer revocation can exist outside the reader’s current view. A cached-grant policy can allow an explicitly bounded read-only operation until age 60 seconds, then refuse; sensitive new actions may instead require online confirmation immediately. The 20-second-old signature proves an issuer’s prior assertion, not the absence of later changes.</p>
+<p><strong>14.11.</strong></p>
+<p>Without an anchor, a valid prefix and two separately signed forks can each pass signature-and-link checks. A checkpoint at record 2a rejects histories that omit or disagree with that anchored position. A checkpoint at record 1 cannot select between later branches. The lab supplies no distributed agreement, complete view-change protocol, newest-state service or trustworthy checkpoint-distribution mechanism.</p>
+<p><strong>14.12.</strong></p>
+<p>Include task ID, requester/provider identity, input digest, model/artifact version, result digest, declared usage and timestamps, and sign the intended receipt context. A requester acknowledgment can establish receipt of named bytes. Actual usage needs agreed instrumentation; correctness needs task validation or stronger evidence appropriate to the application. A provider signature by itself does not prove honest metering or correct inference.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="appendix-b.html" class="btn btn-neutral float-left" title="Appendix B. Optional Extension: Learning and Adaptation Across Devices" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="appendix-d.html" class="btn btn-neutral float-right" title="Appendix D. Glossary and Notation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Zheng Song.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

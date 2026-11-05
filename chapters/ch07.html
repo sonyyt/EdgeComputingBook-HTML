@@ -1,0 +1,384 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chapter 7. Computation Offloading and Device–Edge–Cloud Collaboration &mdash; Edge Computing Systems</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/book.css?v=e49485e1" />
+
+  
+    <link rel="canonical" href="https://sonyyt.github.io/EdgeComputingBook-HTML/chapters/ch07.html" />
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=bcebf14d"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/book.js?v=917b1e6b"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Chapter 8. Scheduling and Optimizing Edge Systems" href="ch08.html" />
+    <link rel="prev" title="Chapter 6. Scaling Edge Applications and Elastic Execution" href="ch06.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Edge Computing Systems
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">About this book</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../preface.html">Preface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../publication.html">About this web edition</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Part I. Applications, Devices, Communication, and Digital Twins</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ch01.html">Chapter 1. Introduction to Edge Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch02.html">Chapter 2. An Agentic IoT Application at the Edge</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch03.html">Chapter 3. IoT Devices and Sensing Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch04.html">Chapter 4. Communication and Networking for IoT and Edge Systems</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Part II. Building and Operating Edge Systems</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="ch05.html">Chapter 5. Running and Deploying Applications on Edge Nodes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch06.html">Chapter 6. Scaling Edge Applications and Elastic Execution</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Chapter 7. Computation Offloading and Device–Edge–Cloud Collaboration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#from-similar-workers-to-different-execution-locations">7.1 From similar workers to different execution locations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#more-capacity-does-not-imply-the-same-role">7.1.1 More capacity does not imply the same role</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#follow-one-computation-from-device-to-remote-service">7.2 Follow one computation from device to remote service</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#offloading-is-a-request-with-a-result">7.2.1 Offloading is a request with a result</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#a-response-time-budget-before-a-placement-decision">7.2.2 A response-time budget before a placement decision</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#time-energy-and-data-disclosure-are-separate-constraints">7.2.3 Time, energy, and data disclosure are separate constraints</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#split-responsibilities-not-just-execution-time">7.3 Split responsibilities, not just execution time</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#a-multi-stage-application-has-choices-at-its-boundaries">7.3.1 A multi-stage application has choices at its boundaries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sequential-requests-and-background-work-need-different-timing">7.3.2 Sequential requests and background work need different timing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#horizontal-collaboration-is-not-another-mandatory-tier">7.3.3 Horizontal collaboration is not another mandatory tier</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#where-data-lives-and-what-consistency-means-to-the-application">7.4 Where data lives, and what consistency means to the application</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#more-execution-locations-create-more-versions-of-knowledge">7.4.1 More execution locations create more versions of knowledge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#keep-observation-time-separate-from-arrival-time">7.4.2 Keep observation time separate from arrival time</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#desired-configuration-and-applied-configuration-are-different-facts">7.4.3 Desired configuration and applied configuration are different facts</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#disconnection-and-recovery-are-part-of-collaboration">7.5 Disconnection and recovery are part of collaboration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#preserve-useful-local-work">7.5.1 Preserve useful local work</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#retain-an-event-until-its-delivery-outcome-is-known">7.5.2 Retain an event until its delivery outcome is known</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#recovery-must-not-overwhelm-current-work">7.5.3 Recovery must not overwhelm current work</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#build-and-compare-a-small-continuum-application">7.6 Build and compare a small continuum application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#chapter-summary">Chapter summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#exercises">Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ch08.html">Chapter 8. Scheduling and Optimizing Edge Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch09.html">Chapter 9. Commercial Edge Platforms: From Mechanisms to Deployment</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Part III. Edge AI</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ch10.html">Chapter 10. Running and Optimizing AI on Edge Devices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch11.html">Chapter 11. Collaborative Edge Intelligence: From Perception Models to Language Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch12.html">Chapter 12. Agentic AI and Tool-Driven Applications at the Edge</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Part IV. Security and Multi-Party Trust</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ch13.html">Chapter 13. Security, Privacy, and Safety in Edge Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch14.html">Chapter 14. Multi-Party Trust, Blockchains, and Distributed Ledgers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendices and references</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../appendices/appendix-a.html">Appendix A. Laboratory and Project Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendices/appendix-b.html">Appendix B. Optional Extension: Learning and Adaptation Across Devices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendices/appendix-c.html">Appendix C. Selected Exercise Solutions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendices/appendix-d.html">Appendix D. Glossary and Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendices/appendix-e.html">Appendix E. Evidence and Reproducibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Edge Computing Systems</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Chapter 7. Computation Offloading and Device–Edge–Cloud Collaboration</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/sonyyt/EdgeComputingBook/blob/main/docs/chapters/ch07.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul><div class="rst-breadcrumbs-buttons" role="navigation" aria-label="Sequential page navigation">
+        <a href="ch06.html" class="btn btn-neutral float-left" title="Chapter 6. Scaling Edge Applications and Elastic Execution" accesskey="p"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ch08.html" class="btn btn-neutral float-right" title="Chapter 8. Scheduling and Optimizing Edge Systems" accesskey="n">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+  </div>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="chapter-7-computation-offloading-and-deviceedgecloud-collaboration">
+<span id="chapter-7"></span><h1>Chapter 7. Computation Offloading and Device–Edge–Cloud Collaboration<a class="headerlink" href="#chapter-7-computation-offloading-and-deviceedgecloud-collaboration" title="Link to this heading"></a></h1>
+<p>The workshop can now expand its analysis service across several similar local computers. A new deployment changes the problem. A field technician carries a small device between sites, some sites have an accelerator-equipped gateway, and a cloud service stores approved long-term reports. The mobile device cannot always use the nearby gateway, and the uplink is sometimes slow or unavailable. The resources are no longer interchangeable copies in one room.</p>
+<p>Should a request run on the device, at a site gateway, or in the cloud? Should the entire request move, or only an expensive stage? Where should the observations and intermediate results remain? Those questions define collaboration across the continuum. Adding resources is still useful, but distance, compatibility, ownership, and data dependencies now influence how they can be used.</p>
+<p>This chapter first follows one offloaded computation. It then extends that exchange into a multi-component application and introduces the data consistency needed to make the collaboration meaningful. The goal is a small working design with explicit responsibilities, not a universal algorithm for choosing the best deployment.</p>
+<section id="from-similar-workers-to-different-execution-locations">
+<span id="section-7-1"></span><h2>7.1 From similar workers to different execution locations<a class="headerlink" href="#from-similar-workers-to-different-execution-locations" title="Link to this heading"></a></h2>
+<section id="more-capacity-does-not-imply-the-same-role">
+<span id="section-7-1-1"></span><h3>7.1.1 More capacity does not imply the same role<a class="headerlink" href="#more-capacity-does-not-imply-the-same-role" title="Link to this heading"></a></h3>
+<p>In <a class="reference internal" href="ch06.html#chapter-6"><span class="std std-ref">Chapter 6</span></a>, the analyzer replicas offered essentially the same interface and could process the same independent input. We deliberately simplified the environment so that replica count and request distribution were the main concerns. A device, a nearby edge node, and a cloud service introduce additional differences.</p>
+<p>The device may have direct access to sensors but little spare memory. A local accelerator may run a computation quickly but serve several users. A cloud service may offer more capacity while requiring an uplink and permission to disclose the input. A peer device may be available only while its owner participates. These are not simply different values of the same “speed” parameter.</p>
+<p>Before choosing a location, ask whether the task is allowed and able to run there. Is the necessary software compatible? Can the input be accessed? Is memory sufficient? Is the route reachable? Is the transfer permitted? Only candidates that pass these checks should enter a performance comparison. A fast but unauthorized location is not a slightly worse choice; it is outside the permitted design.</p>
+<table class="book-table docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Candidate</strong></p></th>
+<th class="head"><p><strong>Possible role in the teaching deployment</strong></p></th>
+<th class="head"><p><strong>Question to check first</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Originating device</p></td>
+<td><p>Acquire data and complete essential local analysis</p></td>
+<td><p>Does the task fit its resources?</p></td>
+</tr>
+<tr class="row-odd"><td><p>Nearby edge node</p></td>
+<td><p>Share an accelerator or a site-local data service</p></td>
+<td><p>Is the service reachable and authorized?</p></td>
+</tr>
+<tr class="row-even"><td><p>Peer device</p></td>
+<td><p>Contribute approved observations or spare processing</p></td>
+<td><p>Can participation end without breaking essential behavior?</p></td>
+</tr>
+<tr class="row-odd"><td><p>Cloud service</p></td>
+<td><p>Combine approved histories or run deferred analysis</p></td>
+<td><p>May the data leave the site, and is the link usable?</p></td>
+</tr>
+</tbody>
+</table>
+<p>A communication link does not itself create a collaboration contract. The participants need compatible interfaces and an agreed meaning for the data. The remainder of the chapter builds those contracts through increasingly complete examples.</p>
+</section>
+</section>
+<section id="follow-one-computation-from-device-to-remote-service">
+<span id="section-7-2"></span><h2>7.2 Follow one computation from device to remote service<a class="headerlink" href="#follow-one-computation-from-device-to-remote-service" title="Link to this heading"></a></h2>
+<section id="offloading-is-a-request-with-a-result">
+<span id="section-7-2-1"></span><h3>7.2.1 Offloading is a request with a result<a class="headerlink" href="#offloading-is-a-request-with-a-result" title="Link to this heading"></a></h3>
+<p>Suppose the technician’s device has collected a window that must be analyzed. In a local design, it calls an analysis function and receives a result. In an offloaded design, it prepares an input representation, sends a request to another execution site, waits for remote processing, and receives the result. The implementation needs a request identifier, an input schema, a result schema, and an explicit timeout or failure outcome.</p>
+<p>Our numerical analysis service makes this boundary easy to inspect. The same sample window can be processed by a local function or submitted to the HTTP endpoint introduced in Chapter 5. Compare the numeric results before comparing speed. If the two paths use different windows, units, or analysis versions, the timing difference cannot be interpreted as a clean placement comparison.</p>
+<p id="fig-7-1"><img alt="Figure 7.1. Offloading includes input preparation, communication, remote waiting and execution, and result return. A local service address and a remote service address can expose the same interface without having the same cost or failure behavior." src="../_images/asset-9f5030647f344b11.png" /><br>
+Figure 7.1. Offloading includes input preparation, communication, remote waiting and execution, and result return. A local service address and a remote service address can expose the same interface without having the same cost or failure behavior.</p>
+<p>A timeout means that the caller did not receive an acceptable result within its waiting policy. It does not prove that the remote worker never executed the request. Repeating a read-only calculation may waste work but does not necessarily change shared state. Repeating a state-changing operation requires a stronger duplicate-handling policy. HTTP’s concept of idempotence concerns the intended effect of repeated requests; choosing a method name is not enough to implement an application’s event identity or result handling. [<a class="reference internal" href="../references.html#ref-8"><span class="std std-ref">8</span></a>]</p>
+<p>For this first comparison, keep the operation read-only and bounded. If the remote path is unavailable, report that outcome or use a documented local fallback. Do not silently change the analysis and still describe the result as identical service.</p>
+</section>
+<section id="a-response-time-budget-before-a-placement-decision">
+<span id="section-7-2-2"></span><h3>7.2.2 A response-time budget before a placement decision<a class="headerlink" href="#a-response-time-budget-before-a-placement-decision" title="Link to this heading"></a></h3>
+<p>For one sequential request, a useful first estimate is:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>T_remote = T_prepare + D_up / B_up + L_path
+           + T_queue + T_compute + D_down / B_down
+</pre></div>
+</div>
+<p>Here D_up and D_down are transmitted input and output sizes, and B_up and B_down are effective transfer rates in matching units. L_path captures fixed communication overhead not already counted in transfer time. It can include a measured round-trip baseline for the exchange. Do not add a full measured network duration again if that duration already includes the payload transfer. Connection setup, retries, and serialization belong in the measured path where they occur.</p>
+<p>Consider a hypothetical image task. Local execution takes 350 ms. Its remote input is 2 MB, using decimal units, so the payload is 16 megabits. Assume a 20 Mb/s uplink, a 30 ms fixed communication component, 40 ms of remote waiting, 60 ms of remote computation, and a 10 kB result returned at 20 Mb/s. Ignore additional preparation for this first calculation.</p>
+<p>The upload takes 800 ms and the result transfer takes 4 ms. Remote completion is therefore 800 + 30 + 40 + 60 + 4 = 934 ms. A faster remote processor has not made the whole request faster. The input transfer dominates the comparison.</p>
+<p>Now consider a different design: 20 ms of local preprocessing produces an approved 0.10 MB representation. Its transfer takes 40 ms. If the remaining assumptions still apply, completion is 20 + 40 + 30 + 40 + 60 + 4 = 194 ms. This is promising only if the smaller representation preserves the information the task requires. Its task quality must be evaluated separately; the timing equation cannot establish that.</p>
+<p id="fig-7-2"><img alt="Figure 7.2. Calculated response components for the hypothetical task: local execution, raw-input offload, and offload after local preprocessing. The values are teaching assumptions, not device or network measurements." src="../_images/asset-efce21f0b5005b5c.png" /><br>
+Figure 7.2. Calculated response components for the hypothetical task: local execution, raw-input offload, and offload after local preprocessing. The values are teaching assumptions, not device or network measurements.</p>
+<p>The calculation suggests a practical order of work. First identify what the application must accomplish. Next measure the local path and the complete remote path. Then investigate whether input preparation or placement should change. Moving a model or computation merely because another machine is faster skips the communication part of the application.</p>
+<p id="fig-7-3"><img alt="A request changes size before it crosses the link; Camera input; 1920 × 1080 × 3; uint8; 6,220,800 bytes; Resize for the task; 224 × 224 × 3; uint8; 150,528 bytes; Selected result; 96 bytes; Hypothetical record; Different information retained; At 10 Mb/s: about 4.98 s, 0.120 s, or 0.077 ms for payload alone." src="../_images/asset-592a2f4569a2364a.png" /><br>
+Figure 7.3. Changing representation changes the bytes crossing the link and the information available later. These are uncompressed payload calculations at an assumed 10 Mb/s; no network speed or equivalent task quality is measured.</p>
+</section>
+<section id="time-energy-and-data-disclosure-are-separate-constraints">
+<span id="section-7-2-3"></span><h3>7.2.3 Time, energy, and data disclosure are separate constraints<a class="headerlink" href="#time-energy-and-data-disclosure-are-separate-constraints" title="Link to this heading"></a></h3>
+<p>A wearable task may be acceptable in latency but unacceptable in daily energy use. A site may have ample bandwidth but prohibit uploading a particular data class. A remote path may save device energy while consuming more total energy across the system. These are different questions and require different measurement boundaries.</p>
+<p>For a device-energy estimate, account for local preparation, radio use, and the device’s behavior while waiting. For a system-wide estimate, include the remote computation and relevant infrastructure as well. Similarly, bandwidth should state which link is being measured. Reducing traffic to the cloud may increase traffic on the local wireless network.</p>
+<p>This chapter compares a few feasible arrangements rather than forcing all outcomes into a single weighted number. Record the required latency, allowed data transfer, minimum task quality, and relevant resource budget. A candidate that satisfies all required conditions can then be compared on the cost or efficiency the application actually values. <a class="reference internal" href="ch08.html#chapter-8"><span class="std std-ref">Chapter 8</span></a> develops that decision process.</p>
+</section>
+</section>
+<section id="split-responsibilities-not-just-execution-time">
+<span id="section-7-3"></span><h2>7.3 Split responsibilities, not just execution time<a class="headerlink" href="#split-responsibilities-not-just-execution-time" title="Link to this heading"></a></h2>
+<section id="a-multi-stage-application-has-choices-at-its-boundaries">
+<span id="section-7-3-1"></span><h3>7.3.1 A multi-stage application has choices at its boundaries<a class="headerlink" href="#a-multi-stage-application-has-choices-at-its-boundaries" title="Link to this heading"></a></h3>
+<p>The new field application collects readings, checks their format, computes local features, requests a heavier analysis when needed, and records a report. These steps can be represented as a small task graph. An edge in the graph means that one step needs information produced by another; it is not a requirement to send every intermediate result to the cloud.</p>
+<p>Keeping acquisition on the device is natural when it owns the sensor interface. A nearby node might combine streams from several devices or provide a shared accelerator. A cloud service might combine approved reports across sites. The exact allocation depends on the workload. A live camera detector and a weekly vibration report can use similar infrastructure while placing their expensive work differently.</p>
+<p id="fig-7-4"><img alt="Figure 7.4. Three possible cuts of the same application: all local, local preparation with nearby analysis, and local processing with cloud aggregation. The task boundary determines both the transmitted data and the work that remains local." src="../_images/asset-8f946064d10169fe.png" /><br>
+Figure 7.4. Three possible cuts of the same application: all local, local preparation with nearby analysis, and local processing with cloud aggregation. The task boundary determines both the transmitted data and the work that remains local.</p>
+<p>A good interface says what crosses each boundary. Does the next component receive raw samples, extracted features, an object reference, or a completed result? Who interprets missing data? Which analysis version produced the output? A reference to an object does not remove the transfer cost if the receiving node must fetch the object from another location.</p>
+<p>The application split is also different from the internal split of a neural network. Sending a whole image task to another service is an application-level decision. Dividing one model’s layers across devices introduces additional model-specific mechanisms, which belong in Chapter 11. We can build a useful continuum application without introducing those mechanisms here.</p>
+</section>
+<section id="sequential-requests-and-background-work-need-different-timing">
+<span id="section-7-3-2"></span><h3>7.3.2 Sequential requests and background work need different timing<a class="headerlink" href="#sequential-requests-and-background-work-need-different-timing" title="Link to this heading"></a></h3>
+<p>If the user must wait for acquisition, analysis, and report generation in sequence, the user-visible time includes those dependencies. If uploading a history is a background task, it need not delay a local answer that uses already available evidence. Drawing the dependency graph prevents the system from waiting for remote work that is not actually needed for the requested result.</p>
+<p>For an illustrative three-stage pipeline taking 20, 60, and 10 ms, a single item needs at least 90 ms of stage execution before communication and waiting. If the stages run on different resources and overlap across independent items, the 60 ms stage limits the ideal steady-state pipeline rate to about 16.7 items per second. Summing the stage times and inverting the sum answers a different question: sequential processing without overlap.</p>
+<p>A pipeline does not eliminate queues. If the source offers 25 items per second to that 16.7-item/s stage, buffers eventually fill unless the application slows acquisition, changes the processing plan, or rejects work. Device–edge–cloud collaboration therefore needs an explicit pressure signal or overload policy, not just arrows pointing downstream.</p>
+<p id="fig-7-5"><img alt="Foreground response versus background work; Acquire; 15 ms; Local analysis; 30 ms; Present answer; 5 ms; Background export; 80 ms; The local answer does not wait; for export if the contract; permits.; Foreground: 15 + 30 + 5 = 50; ms" src="../_images/asset-585df8181c353bf8.png" /><br>
+Figure 7.5. Only required dependencies delay this response; asynchronous work still consumes resources and needs its own completion policy.</p>
+</section>
+<section id="horizontal-collaboration-is-not-another-mandatory-tier">
+<span id="section-7-3-3"></span><h3>7.3.3 Horizontal collaboration is not another mandatory tier<a class="headerlink" href="#horizontal-collaboration-is-not-another-mandatory-tier" title="Link to this heading"></a></h3>
+<p>Two nearby gateways can share an approved summary without involving a central cloud in every exchange. A mobile device can use a peer while it is present. Such horizontal collaboration complements the vertical arrangement of device, site edge, and cloud.</p>
+<p>Consider two agricultural plots. Each gateway knows its own local sensor history. A comparison service can request a bounded summary from both, then combine them. Raw records can remain at their sites when the question can be answered from summaries. But the summaries must describe compatible intervals and units. Averaging two means without their sample counts can give a misleading result when the groups have different sizes.</p>
+<p>Cooperation also needs a rule for missing participants. A two-site report can say “one site unavailable” rather than present one site’s observations as a regional conclusion. A vehicle or phone that leaves should not be treated as a failed permanent server that a controller is entitled to reclaim. Participation, permission, and availability are part of the application’s interface to the continuum.</p>
+</section>
+</section>
+<section id="where-data-lives-and-what-consistency-means-to-the-application">
+<span id="section-7-4"></span><h2>7.4 Where data lives, and what consistency means to the application<a class="headerlink" href="#where-data-lives-and-what-consistency-means-to-the-application" title="Link to this heading"></a></h2>
+<section id="more-execution-locations-create-more-versions-of-knowledge">
+<span id="section-7-4-1"></span><h3>7.4.1 More execution locations create more versions of knowledge<a class="headerlink" href="#more-execution-locations-create-more-versions-of-knowledge" title="Link to this heading"></a></h3>
+<p>The technician’s device has recent observations. The site gateway has a longer history. The cloud may have only the records uploaded before a link failure. All three can answer a historical query, but not necessarily from the same evidence. Before introducing a consistency mechanism, ask what the user expects the answer to mean.</p>
+<p>A current-status display may require a sufficiently recent local observation. A monthly report can tolerate delayed uploads if it states its completeness. A configuration command may require an acknowledgment that the device has actually applied the change. These requirements should not all be implemented as “read whichever copy responds first.”</p>
+<table class="book-table docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Information</strong></p></th>
+<th class="head"><p><strong>Useful ownership rule for an initial design</strong></p></th>
+<th class="head"><p><strong>What another node needs to know</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Sensor observation</p></td>
+<td><p>Originating source creates an identified event</p></td>
+<td><p>Source, event time, unit, and quality</p></td>
+</tr>
+<tr class="row-odd"><td><p>Derived result</p></td>
+<td><p>Analysis worker records method and input identity</p></td>
+<td><p>Which evidence and version produced it</p></td>
+</tr>
+<tr class="row-even"><td><p>Configuration</p></td>
+<td><p>One designated authority proposes a revision</p></td>
+<td><p>Which revision the device actually applied</p></td>
+</tr>
+<tr class="row-odd"><td><p>Model artifact</p></td>
+<td><p>A release process publishes an identified version</p></td>
+<td><p>Compatibility and artifact identity</p></td>
+</tr>
+<tr class="row-even"><td><p>Cached copy</p></td>
+<td><p>Cache retains an explicitly described snapshot</p></td>
+<td><p>Age, scope, and invalidation or expiry policy</p></td>
+</tr>
+</tbody>
+</table>
+<p>A cache speeds access by retaining a copy; it does not define how current that copy must be. A replicated record can survive another node’s failure, but replicas do not automatically agree about concurrent edits. The application needs rules for ownership, update propagation, and acceptable age before it can choose a suitable mechanism.</p>
+</section>
+<section id="keep-observation-time-separate-from-arrival-time">
+<span id="section-7-4-2"></span><h3>7.4.2 Keep observation time separate from arrival time<a class="headerlink" href="#keep-observation-time-separate-from-arrival-time" title="Link to this heading"></a></h3>
+<p>An observation collected at 10:00 may reach the cloud at 10:12 after a disconnection. Its event time remains 10:00. Replacing that time with the arrival time would change the meaning of the history. Record both when needed: one describes the physical observation, the other its delivery.</p>
+<p>Suppose a cloud query asks for readings from 10:00 to 10:05 and receives only records that arrived before 10:06. It can return the data available so far, but should not claim that the interval is complete unless the system has a way to establish completeness. A later query may legitimately include delayed observations. Recording the evidence snapshot or collection revision allows users to understand the difference.</p>
+<p>A strict instantaneously synchronized view across disconnected sites cannot be obtained by ignoring the disconnection. For a first application, a practical policy is to keep local work available and label remote views with their freshness and coverage. Applications that require coordinated changes must wait for the relevant agreement or refuse the operation during a partition. The right behavior follows from the requested function, not from a universal preference for either availability or freshness.</p>
+</section>
+<section id="desired-configuration-and-applied-configuration-are-different-facts">
+<span id="section-7-4-3"></span><h3>7.4.3 Desired configuration and applied configuration are different facts<a class="headerlink" href="#desired-configuration-and-applied-configuration-are-different-facts" title="Link to this heading"></a></h3>
+<p>The cloud changes a sampling interval from ten seconds to five seconds. While the device is offline, the cloud knows what it wants but the device still runs the old setting. A useful interface shows both: proposed revision 8 and applied revision 7. Once the device receives, validates, and applies revision 8, it reports that fact.</p>
+<p id="fig-7-6"><img alt="Desired and applied configuration, side by side; Before the change; rev 7 / 10 s; rev 7 / 10 s; Agreement; Device offline; rev 8 / 5 s; rev 7 / 10 s; New intent ≠ applied change; Applied and reported; rev 8 / 5 s; rev 8 / 5 s; Device report confirms; application" src="../_images/asset-004ca1384497f0fe.png" /><br>
+Figure 7.6. A proposed revision, its application and the report of application are different events.</p>
+<p>This is the application-level idea behind a desired/reported-state pattern. AWS IoT Device Shadows provide separate desired and reported objects, but the devices and applications must still implement the behavior that keeps their state meaningful. [<a class="reference internal" href="../references.html#ref-20"><span class="std std-ref">20</span></a>] <a class="reference internal" href="ch09.html#chapter-9"><span class="std std-ref">Chapter 9</span></a> will examine the platform representation after the need has been established here.</p>
+<p>For the introductory design, assign configuration writes to one authority and use increasing application revision numbers. Do not use arrival order alone when messages can be delayed. If several independent writers must edit the same field, the system needs a conflict rule or coordination mechanism; “keep the last received message” may silently overwrite a newer decision. This chapter introduces the problem and a simple single-writer solution rather than a full distributed-database protocol.</p>
+</section>
+</section>
+<section id="disconnection-and-recovery-are-part-of-collaboration">
+<span id="section-7-5"></span><h2>7.5 Disconnection and recovery are part of collaboration<a class="headerlink" href="#disconnection-and-recovery-are-part-of-collaboration" title="Link to this heading"></a></h2>
+<section id="preserve-useful-local-work">
+<span id="section-7-5-1"></span><h3>7.5.1 Preserve useful local work<a class="headerlink" href="#preserve-useful-local-work" title="Link to this heading"></a></h3>
+<p>Imagine the field site loses its cloud connection for ten minutes. The device can still reach its local gateway. We choose the following behavior for the teaching application: acquire observations, perform approved local analysis, and retain results; defer the cross-site report; label the cloud view as stale. A local query must not silently switch to a model or database endpoint that is also unreachable.</p>
+<p>Offline operation is a property of a particular function and its dependencies. Local code, model artifacts where needed, stored data, and an accessible interface must be available for that function. A local analysis can continue while remote deployment updates are unavailable. A failed local radio link, a failed host, and a failed cloud uplink are different fault cases and should be tested separately.</p>
+<p>A phone application gives a useful contrast. It may continue an on-device computation without cloud connectivity but still be suspended by its operating environment. A local network connection does not grant another device unlimited background execution. The collaboration design should name which participant controls continued execution.</p>
+</section>
+<section id="retain-an-event-until-its-delivery-outcome-is-known">
+<span id="section-7-5-2"></span><h3>7.5.2 Retain an event until its delivery outcome is known<a class="headerlink" href="#retain-an-event-until-its-delivery-outcome-is-known" title="Link to this heading"></a></h3>
+<p>For a simple upload path, store each event in a local persistent pending set. Attempt to deliver it with a stable event key. At the receiver, store that key with the content and return an acknowledgment after the defined acceptance step. Remove or mark the sender’s pending entry only after receiving that acknowledgment.</p>
+<p id="fig-7-7"><img alt="Figure 7.7. If the receiver stores an event but its acknowledgment is lost, the sender retries the same event key. The receiver recognizes the duplicate and returns the existing acceptance result. This achieves duplicate-safe ingestion only at the defined receiving boundary." src="../_images/asset-bcbe544dbef5531d.png" /><br>
+Figure 7.7. If the receiver stores an event but its acknowledgment is lost, the sender retries the same event key. The receiver recognizes the duplicate and returns the existing acceptance result. This achieves duplicate-safe ingestion only at the defined receiving boundary.</p>
+<p>Suppose event device-7 / boot-b / 42 is accepted but the reply is lost. The sender cannot know whether acceptance occurred, so it retries the same key. A receiver that enforces uniqueness can recognize the repeated content. If the key is reused with different content, it should report a conflict rather than silently overwrite a different event.</p>
+<p>Local transactional storage can keep related changes together; SQLite, for example, supports explicit transactions for a local database. [<a class="reference internal" href="../references.html#ref-101"><span class="std std-ref">101</span></a>] That does not create a transaction spanning the device, gateway, and cloud. The companion exercise implements a small persistent journal to make the pending and accepted states inspectable; it is not a general exactly-once messaging platform.</p>
+<p>An MQTT acknowledgment also should not be confused with a database commit in a downstream application. The broker-level exchange and the application’s acceptance boundary are different. AWS IoT Core’s supported MQTT delivery levels describe messaging behavior, not the completion of arbitrary consumer-side work. [<a class="reference internal" href="../references.html#ref-37"><span class="std std-ref">37</span></a>] The application must decide which acknowledgment establishes the property it needs.</p>
+</section>
+<section id="recovery-must-not-overwhelm-current-work">
+<span id="section-7-5-3"></span><h3>7.5.3 Recovery must not overwhelm current work<a class="headerlink" href="#recovery-must-not-overwhelm-current-work" title="Link to this heading"></a></h3>
+<p>When the link returns, ten minutes of buffered data can compete with current observations and interactive requests. Sending the backlog as fast as possible may make the apparently recovered system unusable. A first policy can rate-limit backlog upload, preserve current local service, and expose the remaining pending count.</p>
+<p>Storage is finite as well. If the disconnection outlasts the buffer budget, the application must apply a declared retention policy: stop accepting a class of work, discard designated old data, or reduce collection where that is allowed. It should not silently lose arbitrary records and later claim a complete history. This is a requirement decision before it is a clever recovery algorithm.</p>
+<p>Do not infer global ordering from a sorted list of unsynchronized device clocks. A source sequence can order one source’s observations; combining multiple sources may require synchronization assumptions and an uncertainty allowance. For our first report, use explicit source intervals and report missing coverage rather than invent a precise causal ordering across devices.</p>
+<p id="fig-7-8"><img alt="Reconnect without starving new observations; Stored backlog; old-1 old-2; old-3 old-4; New observations; new-1 new-2; Bounded sharing; Reserve opportunities; for both queues.; One permitted order; new-1 → old-1; old-2 → new-2; old-3 → old-4" src="../_images/asset-2d7c9320c3b29522.png" /><br>
+Figure 7.8. Recovery competes with current work; a bounded policy makes catch-up explicit instead of releasing an uncontrolled burst.</p>
+</section>
+</section>
+<section id="build-and-compare-a-small-continuum-application">
+<span id="section-7-6"></span><h2>7.6 Build and compare a small continuum application<a class="headerlink" href="#build-and-compare-a-small-continuum-application" title="Link to this heading"></a></h2>
+<p>A practical exercise can use two approved endpoints. The originating node prepares a window and calls its local analyzer or the second node’s service using the same request format. An integration test compares deterministic results, records elapsed time, and exposes an unavailable destination. The remote location can initially be another process on the same computer to debug interfaces, but that is not evidence of a real wide-area latency advantage.</p>
+<p>Next separate local analysis from asynchronous report export. Use the supplied persistent journal to queue synthetic results while delivery is disabled. Re-enable delivery and intentionally lose one acknowledgment in the test harness. Inspect the pending set, the receiver’s unique records, and the final counts. Restart the journal process between attempts to check that pending work survives. This demonstrates a bounded recovery mechanism without needing to interfere with a real network.</p>
+<p>Finally compare two fixed application splits on the same workload. In one, transmit the complete input for remote analysis. In the other, compute an approved representation locally and transmit that. Measure bytes, time, and task quality separately. For numerical windows, a mean may be sufficient for a mean query but insufficient for a question about the sequence of changes. The correct placement and representation depend on the task.</p>
+<p>The exercise should end with an architecture description, not a claim that one location is always preferable. Identify where each computation runs, where each important state resides, and which functions remain available under the selected failure. A diagram that marks both the data path and the management path makes those statements easier to inspect.</p>
+<p>The synchronization mechanisms here maintain application state. <a class="reference internal" href="ch14.html#chapter-14"><span class="std std-ref">Chapter 14</span></a> asks the additional question of who may authorize shared records when several organizations do not accept one unilateral writer; replication alone is not a blockchain.</p>
+</section>
+<section id="chapter-summary">
+<span id="chapter-7-chapter-summary"></span><h2>Chapter summary<a class="headerlink" href="#chapter-summary" title="Link to this heading"></a></h2>
+<p>The continuum combines different resources through explicit task and data interfaces. Offloading must account for the complete request path, not only remote computation. Splitting an application introduces data-placement and consistency questions, while disconnection turns recovery into part of the normal design.</p>
+<p>A small set of fixed, measured arrangements provides the foundation for optimization. <a class="reference internal" href="ch08.html#chapter-8"><span class="std std-ref">Chapter 8</span></a> asks how to choose and adapt among such arrangements when requests, resources, and conditions change.</p>
+</section>
+<section id="exercises">
+<span id="chapter-7-exercises"></span><h2>Exercises<a class="headerlink" href="#exercises" title="Link to this heading"></a></h2>
+<p><strong>7.1 Budget.</strong> Recalculate the raw-input offload example at 100 Mb/s upload bandwidth while keeping the stated return link and other terms unchanged. Which path is faster than the 350 ms local baseline? Identify assumptions that could reverse the result.</p>
+<p><strong>7.2 Representation.</strong> A local gateway uploads one mean per minute instead of the time series. Give one query this supports and one query it may no longer support. How should the system react to the second query?</p>
+<p><strong>7.3 Consistency.</strong> The cloud desires configuration revision 8, but an offline device last reported revision 7. What can a user interface truthfully display? What event justifies showing revision 8 as applied?</p>
+<p><strong>7.4 Recovery.</strong> Draw the case where a receiver commits an event and its acknowledgment is lost. Explain the roles of persistent pending state and stable event identity. Why is a transport acknowledgment alone insufficient to prove arbitrary downstream completion?</p>
+<p><strong>7.5 Transfer.</strong> Design a two-site agricultural comparison or a mobile inspection application. Specify the computation split, evidence locations, one allowed stale view, and one operation that must wait or be refused during disconnection.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="ch06.html" class="btn btn-neutral float-left" title="Chapter 6. Scaling Edge Applications and Elastic Execution" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ch08.html" class="btn btn-neutral float-right" title="Chapter 8. Scheduling and Optimizing Edge Systems" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Zheng Song.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

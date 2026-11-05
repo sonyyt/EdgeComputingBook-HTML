@@ -1,0 +1,195 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Appendix B. Optional Extension: Learning and Adaptation Across Devices &mdash; Edge Computing Systems</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/book.css?v=e49485e1" />
+
+  
+    <link rel="canonical" href="https://sonyyt.github.io/EdgeComputingBook-HTML/appendices/appendix-b.html" />
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=bcebf14d"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script>window.MathJax = {"tex": {"tags": "none"}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      <script src="../_static/book.js?v=917b1e6b"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Appendix C. Selected Exercise Solutions" href="appendix-c.html" />
+    <link rel="prev" title="Appendix A. Laboratory and Project Guide" href="appendix-a.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Edge Computing Systems
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">About this book</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../preface.html">Preface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../publication.html">About this web edition</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Part I. Applications, Devices, Communication, and Digital Twins</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/ch01.html">Chapter 1. Introduction to Edge Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/ch02.html">Chapter 2. An Agentic IoT Application at the Edge</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/ch03.html">Chapter 3. IoT Devices and Sensing Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/ch04.html">Chapter 4. Communication and Networking for IoT and Edge Systems</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Part II. Building and Operating Edge Systems</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/ch05.html">Chapter 5. Running and Deploying Applications on Edge Nodes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/ch06.html">Chapter 6. Scaling Edge Applications and Elastic Execution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/ch07.html">Chapter 7. Computation Offloading and Device–Edge–Cloud Collaboration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/ch08.html">Chapter 8. Scheduling and Optimizing Edge Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/ch09.html">Chapter 9. Commercial Edge Platforms: From Mechanisms to Deployment</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Part III. Edge AI</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/ch10.html">Chapter 10. Running and Optimizing AI on Edge Devices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/ch11.html">Chapter 11. Collaborative Edge Intelligence: From Perception Models to Language Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/ch12.html">Chapter 12. Agentic AI and Tool-Driven Applications at the Edge</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Part IV. Security and Multi-Party Trust</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/ch13.html">Chapter 13. Security, Privacy, and Safety in Edge Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/ch14.html">Chapter 14. Multi-Party Trust, Blockchains, and Distributed Ledgers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendices and references</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="appendix-a.html">Appendix A. Laboratory and Project Guide</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Appendix B. Optional Extension: Learning and Adaptation Across Devices</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#b-1-adaptation-without-training">B.1 Adaptation without training</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#b-2-federated-learning-as-a-coordination-pattern">B.2 Federated learning as a coordination pattern</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#b-3-non-identical-data-and-partial-participation">B.3 Non-identical data and partial participation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#b-4-privacy-and-security-do-not-follow-automatically">B.4 Privacy and security do not follow automatically</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#b-5-suggested-extension-exercise">B.5 Suggested extension exercise</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="appendix-c.html">Appendix C. Selected Exercise Solutions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix-d.html">Appendix D. Glossary and Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix-e.html">Appendix E. Evidence and Reproducibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Edge Computing Systems</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Appendix B. Optional Extension: Learning and Adaptation Across Devices</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/sonyyt/EdgeComputingBook/blob/main/docs/appendices/appendix-b.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul><div class="rst-breadcrumbs-buttons" role="navigation" aria-label="Sequential page navigation">
+        <a href="appendix-a.html" class="btn btn-neutral float-left" title="Appendix A. Laboratory and Project Guide" accesskey="p"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="appendix-c.html" class="btn btn-neutral float-right" title="Appendix C. Selected Exercise Solutions" accesskey="n">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+  </div>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="appendix-b-optional-extension-learning-and-adaptation-across-devices">
+<span id="appendix-b"></span><h1>Appendix B. Optional Extension: Learning and Adaptation Across Devices<a class="headerlink" href="#appendix-b-optional-extension-learning-and-adaptation-across-devices" title="Link to this heading"></a></h1>
+<p>Chapters 10–12 begin with available models and include optional, small-scale training and adaptation experiments. This appendix extends <a class="reference internal" href="../chapters/ch11.html#section-11-10"><span class="std std-ref">Section 11.10</span></a> into a design exercise for learning across devices. Nevertheless, an edge application may eventually encounter a new room layout, a different device, or a changing data distribution. The systems question is how to detect and manage that change without confusing model adaptation with every other kind of software update.</p>
+<p>Begin with the simplest explanation. A shifted temperature distribution may reflect a moved sensor, a changed sampling schedule, a calibration fault, or a genuinely different environment. Retraining a model cannot establish which explanation is true. Verify data provenance and measurement conditions before treating every disagreement as a learning problem.</p>
+<section id="b-1-adaptation-without-training">
+<span id="appendix-b-b-1-adaptation-without-training"></span><h2>B.1 Adaptation without training<a class="headerlink" href="#b-1-adaptation-without-training" title="Link to this heading"></a></h2>
+<p>Many useful changes do not require updating model weights. The application may adjust a retrieval window, select a different existing model, revise a prompt, update a deterministic rule, or calibrate a sensor. Each change has a version and an evaluation obligation. A prompt modification that changes the meaning of a generated report should not be hidden behind an unchanged application version.</p>
+<p>Use a held-out task set and record the old and new configurations. Roll out a change to a limited deployment, monitor relevant errors and resource use, and preserve a rollback route. This is the same lifecycle discipline discussed for executable components. The model is one stateful dependency among several, not an isolated artifact whose replacement cannot affect the surrounding system.</p>
+</section>
+<section id="b-2-federated-learning-as-a-coordination-pattern">
+<span id="appendix-b-b-2-federated-learning-as-a-coordination-pattern"></span><h2>B.2 Federated learning as a coordination pattern<a class="headerlink" href="#b-2-federated-learning-as-a-coordination-pattern" title="Link to this heading"></a></h2>
+<p>Federated learning coordinates training across participants while leaving their raw training data at those participants. A central coordinator can distribute a model, select clients, collect updates after local training, and combine them into a new model. Federated averaging is a foundational example of this pattern. [<a class="reference internal" href="../references.html#ref-34"><span class="std std-ref">34</span></a>]</p>
+<p>For a simplified round, client <span class="math notranslate nohighlight">\(i\)</span> returns parameter vector <span class="math notranslate nohighlight">\(w_{i}\)</span> after training on <span class="math notranslate nohighlight">\(n_{i}\)</span> examples. A sample-weighted combination is</p>
+<div class="math notranslate nohighlight">
+\[
+w_{new} = \frac{\sum_{i}^{}n_{i}w_{i}}{\sum_{i}^{}n_{i}}.
+\]</div>
+<p>With two scalar toy updates, <span class="math notranslate nohighlight">\(w_{1} = 2\)</span> from 10 examples and <span class="math notranslate nohighlight">\(w_{2} = 6\)</span> from 30 examples, the result is <span class="math notranslate nohighlight">\((10 \cdot 2 + 30 \cdot 6)/40 = 5\)</span>. This arithmetic illustrates aggregation, not a general convergence guarantee. Real training has initialization, optimizer state, multiple local steps, and heterogeneous data distributions.</p>
+<p>The edge-systems issues are immediate. Clients have different availability, bandwidth, compute, and power. Waiting for every selected client may delay a round. Ignoring slower clients changes whose data influences the result. Scheduling more local work can reduce communication frequency while changing optimization behavior. These trade-offs require a model-quality measure as well as a resource measure.</p>
+</section>
+<section id="b-3-non-identical-data-and-partial-participation">
+<span id="appendix-b-b-3-non-identical-data-and-partial-participation"></span><h2>B.3 Non-identical data and partial participation<a class="headerlink" href="#b-3-non-identical-data-and-partial-participation" title="Link to this heading"></a></h2>
+<p>Room data need not be independent and identically distributed across devices. One room may be occupied regularly, another rarely; one sensor may have a systematic offset. Averaging updates does not erase these differences. A model that performs well on the pooled dataset may serve a minority of rooms poorly.</p>
+<p>Report performance by relevant deployment group where the data and privacy policy permit it. Distinguish a global improvement from an improvement concentrated in frequently participating clients. Personalization may be appropriate, but it creates more artifacts to manage, evaluate, and recover. The application must know which model version belongs to which device or group.</p>
+<p>Participation also creates a sampling process. A battery-limited device that trains only while charging may contribute observations from particular times or conditions. Treat availability as a source of possible bias rather than a purely random systems inconvenience. A resource scheduler can therefore influence the learning result even without changing the aggregation equation.</p>
+</section>
+<section id="b-4-privacy-and-security-do-not-follow-automatically">
+<span id="appendix-b-b-4-privacy-and-security-do-not-follow-automatically"></span><h2>B.4 Privacy and security do not follow automatically<a class="headerlink" href="#b-4-privacy-and-security-do-not-follow-automatically" title="Link to this heading"></a></h2>
+<p>Keeping raw data local reduces one form of direct transfer, but updates can still contain information about local examples. Secure aggregation can protect individual client updates from direct inspection by the aggregator under a specified protocol and threat model. It does not by itself establish differential privacy, prevent malicious training behavior, or prove that the final model reveals nothing sensitive. [<a class="reference internal" href="../references.html#ref-35"><span class="std std-ref">35</span></a>]</p>
+<p>Differential privacy adds a formal, parameterized way to bound information disclosure under its assumptions. Evaluating a claim requires knowing the protected unit, neighboring-dataset definition, parameters, composition, and implementation. A statement that a training process is merely “federated” supplies none of those details. [<a class="reference internal" href="../references.html#ref-36"><span class="std std-ref">36</span></a>]</p>
+<p>A compromised participant can also submit a harmful update or misrepresent its data. Authentication identifies who submitted an update; it does not establish that the update is beneficial. Robust training and malicious-client defenses are advanced topics. The core lesson is to specify the threat model before claiming that decentralization solves trust.</p>
+</section>
+<section id="b-5-suggested-extension-exercise">
+<span id="appendix-b-b-5-suggested-extension-exercise"></span><h2>B.5 Suggested extension exercise<a class="headerlink" href="#b-5-suggested-extension-exercise" title="Link to this heading"></a></h2>
+<p>Simulate several clients with different data distributions and participation rates. Compare centralized training on permitted pooled synthetic data, a simple federated scheme, and a no-training baseline. Record communication, completion time, global quality, and per-client quality. When using a lightweight non-language-model task, explain why it is a convenient experimental vehicle rather than implying that its result automatically transfers to LLM adaptation.</p>
+<p>Identify an effect of heterogeneity or scheduling that a uniform simulation hides. Document the network payload and distinguish implemented privacy guarantees from intended ones.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="appendix-a.html" class="btn btn-neutral float-left" title="Appendix A. Laboratory and Project Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="appendix-c.html" class="btn btn-neutral float-right" title="Appendix C. Selected Exercise Solutions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Zheng Song.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

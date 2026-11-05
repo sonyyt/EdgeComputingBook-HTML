@@ -1,0 +1,585 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chapter 10. Running and Optimizing AI on Edge Devices &mdash; Edge Computing Systems</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/book.css?v=e49485e1" />
+
+  
+    <link rel="canonical" href="https://sonyyt.github.io/EdgeComputingBook-HTML/chapters/ch10.html" />
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=bcebf14d"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/book.js?v=917b1e6b"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Chapter 11. Collaborative Edge Intelligence: From Perception Models to Language Models" href="ch11.html" />
+    <link rel="prev" title="Chapter 9. Commercial Edge Platforms: From Mechanisms to Deployment" href="ch09.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Edge Computing Systems
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">About this book</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../preface.html">Preface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../publication.html">About this web edition</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Part I. Applications, Devices, Communication, and Digital Twins</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ch01.html">Chapter 1. Introduction to Edge Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch02.html">Chapter 2. An Agentic IoT Application at the Edge</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch03.html">Chapter 3. IoT Devices and Sensing Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch04.html">Chapter 4. Communication and Networking for IoT and Edge Systems</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Part II. Building and Operating Edge Systems</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ch05.html">Chapter 5. Running and Deploying Applications on Edge Nodes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch06.html">Chapter 6. Scaling Edge Applications and Elastic Execution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch07.html">Chapter 7. Computation Offloading and Device–Edge–Cloud Collaboration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch08.html">Chapter 8. Scheduling and Optimizing Edge Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch09.html">Chapter 9. Commercial Edge Platforms: From Mechanisms to Deployment</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Part III. Edge AI</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Chapter 10. Running and Optimizing AI on Edge Devices</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#start-with-a-prediction-task-not-a-model-name">10.1 Start with a prediction task, not a model name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#understand-just-enough-of-the-model-to-deploy-it">10.2 Understand just enough of the model to deploy it</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#training-chooses-parameters-inference-uses-them">10.2.1 Training chooses parameters; inference uses them</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#weights-activations-and-operators">10.2.2 Weights, activations, and operators</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#build-the-first-complete-inference-path">10.3 Build the first complete inference path</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#the-input-contract-is-part-of-the-model">10.3.1 The input contract is part of the model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#from-a-training-model-to-a-deployable-artifact">10.3.2 From a training model to a deployable artifact</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-target-is-a-device-not-just-an-available-backend-name">10.3.3 The target is a device, not just an available backend name</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#find-the-resource-constraint-before-changing-the-model">10.4 Find the resource constraint before changing the model</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#storage-working-memory-and-computation-are-different-budgets">10.4.1 Storage, working memory, and computation are different budgets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#latency-energy-and-sustained-operation">10.4.2 Latency, energy, and sustained operation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#choose-a-suitable-model-before-compressing-it">10.5 Choose a suitable model before compressing it</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#quantization-represent-numbers-with-fewer-bits">10.6 Quantization: represent numbers with fewer bits</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#floating-point-reduction-is-not-integer-casting">10.6.1 Floating-point reduction is not integer casting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#which-tensors-and-which-ranges">10.6.2 Which tensors and which ranges?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ptq-first-qat-when-preparation-effort-is-justified">10.6.3 PTQ first; QAT when preparation effort is justified</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pruning-remove-work-the-model-may-not-need">10.7 Pruning: remove work the model may not need</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#zeros-are-not-the-same-as-a-smaller-executable-graph">10.7.1 Zeros are not the same as a smaller executable graph</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#recover-quality-and-compare-the-right-baselines">10.7.2 Recover quality and compare the right baselines</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#knowledge-distillation-teach-a-deployable-student">10.8 Knowledge distillation: teach a deployable student</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#transfer-behavior-rather-than-copy-a-compressed-file">10.8.1 Transfer behavior rather than copy a compressed file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#what-a-useful-distillation-comparison-must-hold-fixed">10.8.2 What a useful distillation comparison must hold fixed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#combine-methods-only-when-their-purposes-remain-clear">10.8.3 Combine methods only when their purposes remain clear</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#optimize-execution-without-changing-the-task">10.9 Optimize execution without changing the task</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#use-the-graph-and-memory-more-efficiently">10.9.1 Use the graph and memory more efficiently</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-input-and-service-policy-also-consume-resources">10.9.2 The input and service policy also consume resources</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#evaluate-a-deployment-and-keep-it-useful-over-time">10.10 Evaluate a deployment and keep it useful over time</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#compare-complete-compatible-conditions">10.10.1 Compare complete, compatible conditions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#updating-a-model-updates-an-application-contract">10.10.2 Updating a model updates an application contract</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#a-reproducible-small-model-study">10.11 A reproducible small-model study</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#start-with-supplied-weights-retraining-is-optional">10.11.1 Start with supplied weights; retraining is optional</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#read-the-results-without-forcing-a-preferred-winner">10.11.2 Read the results without forcing a preferred winner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#a-practical-sequence-for-a-different-edge-device">10.11.3 A practical sequence for a different edge device</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#chapter-summary">Chapter summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#exercises">Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ch11.html">Chapter 11. Collaborative Edge Intelligence: From Perception Models to Language Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch12.html">Chapter 12. Agentic AI and Tool-Driven Applications at the Edge</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Part IV. Security and Multi-Party Trust</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ch13.html">Chapter 13. Security, Privacy, and Safety in Edge Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch14.html">Chapter 14. Multi-Party Trust, Blockchains, and Distributed Ledgers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendices and references</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../appendices/appendix-a.html">Appendix A. Laboratory and Project Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendices/appendix-b.html">Appendix B. Optional Extension: Learning and Adaptation Across Devices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendices/appendix-c.html">Appendix C. Selected Exercise Solutions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendices/appendix-d.html">Appendix D. Glossary and Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendices/appendix-e.html">Appendix E. Evidence and Reproducibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Edge Computing Systems</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Chapter 10. Running and Optimizing AI on Edge Devices</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/sonyyt/EdgeComputingBook/blob/main/docs/chapters/ch10.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul><div class="rst-breadcrumbs-buttons" role="navigation" aria-label="Sequential page navigation">
+        <a href="ch09.html" class="btn btn-neutral float-left" title="Chapter 9. Commercial Edge Platforms: From Mechanisms to Deployment" accesskey="p"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ch11.html" class="btn btn-neutral float-right" title="Chapter 11. Collaborative Edge Intelligence: From Perception Models to Language Models" accesskey="n">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+  </div>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="chapter-10-running-and-optimizing-ai-on-edge-devices">
+<span id="chapter-10"></span><h1>Chapter 10. Running and Optimizing AI on Edge Devices<a class="headerlink" href="#chapter-10-running-and-optimizing-ai-on-edge-devices" title="Link to this heading"></a></h1>
+<p>A portable reader is supposed to recognize a label and show the result even when its network connection is unavailable. The recognition model works on a development computer. On the intended device, however, loading takes longer, other programs compete for memory, and the camera supplies images that differ from the clean training examples. The problem is no longer simply whether a classifier can learn. It is whether a complete sensing application can deliver useful predictions with the resources actually available.</p>
+<p>This chapter starts with that deployment problem. We first run a small non-language model, identify the input and output contract, and measure its resource needs. We then examine ways to change the architecture, numerical representation, retained computation, training procedure, and execution runtime. These are alternative design choices, not a sequence of mandatory transformations. A camera reader supplies continuity; wearable activity recognition, keyword spotting, and machine monitoring expose constraints that a single image example cannot represent.</p>
+<p>Chapters 5–9 supplied mechanisms for packaging software, sharing resources, distributing tasks, and operating deployments. Here the software workload itself becomes a design variable. A different model, a different tensor precision, or a different input window can alter both the answer and the resources needed to produce it. The objective is not the smallest file at any price. It is an application whose task quality, responsiveness, and resource use satisfy explicitly stated requirements.</p>
+<section id="start-with-a-prediction-task-not-a-model-name">
+<span id="section-10-1"></span><h2>10.1 Start with a prediction task, not a model name<a class="headerlink" href="#start-with-a-prediction-task-not-a-model-name" title="Link to this heading"></a></h2>
+<p>For the reader, specify what the camera sees and what the application must return. Recognizing one already-cropped digit is a different task from finding a label in a cluttered image, reading a sequence of characters, and checking the sequence against an inventory database. A model that solves the first task is one component of the second application. Treating these tasks as equivalent hides the work needed before and after inference, and makes an impressive classifier score look like evidence of a complete system.</p>
+<p>A small laboratory can isolate the classification component without pretending to implement the full camera application. The companion experiment uses the digits dataset distributed with scikit-learn: 1,797 labeled, 8 × 8 grayscale images in ten classes. These are real dataset examples, not newly captured field images and not generated sensor measurements. Ready-trained artifacts are supplied so the first activity is loading and prediction, not waiting for a training job. Optional training scripts make the later transformations inspectable. [<a class="reference internal" href="../references.html#ref-130"><span class="std std-ref">130</span></a>]</p>
+<p id="fig-10-1"><img alt="Figure 10.1. The visible result depends on a complete pipeline. The model is only the middle component; a cropped-digit test does not evaluate camera acquisition or label localization." src="../_images/asset-37b2256d6d0d4abd.png" /><br>
+Figure 10.1. The visible result depends on a complete pipeline. The model is only the middle component; a cropped-digit test does not evaluate camera acquisition or label localization.</p>
+<p>A wearable supplies another starting point. Its input may be a window of acceleration measurements, and its output an activity label. An engineer can calculate features such as mean, variation, and signal energy, then use a linear classifier or a small decision tree. A neural model can instead learn useful transformations from the window. The first approach makes the feature choices explicit; the second can learn richer representations but introduces a model graph and intermediate tensors that must fit the target runtime. Neither should be chosen solely because it appears more advanced.</p>
+<table class="book-table docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Task</strong></p></th>
+<th class="head"><p><strong>Input → output</strong></p></th>
+<th class="head"><p><strong>A deployment question</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Classification</p></td>
+<td><p>Cropped image or feature vector → class scores</p></td>
+<td><p>Are input scaling and class order identical to training?</p></td>
+</tr>
+<tr class="row-odd"><td><p>Detection / segmentation</p></td>
+<td><p>Image → boxes or pixel labels</p></td>
+<td><p>How much preprocessing and output processing is required?</p></td>
+</tr>
+<tr class="row-even"><td><p>Keyword / activity recognition</p></td>
+<td><p>Audio or motion window → event / activity</p></td>
+<td><p>How long must we observe before deciding?</p></td>
+</tr>
+<tr class="row-odd"><td><p>Regression / anomaly scoring</p></td>
+<td><p>Measurements → estimate or anomaly score</p></td>
+<td><p>Which error or threshold is meaningful for the application?</p></td>
+</tr>
+</tbody>
+</table>
+<p>Task definition determines what counts as success. For a ten-class digit test, classification accuracy is a reasonable first metric. For a rare machine fault, an always-normal predictor may obtain high accuracy while missing every fault. Report missed faults and false alarms as well. In a hypothetical set of 2,000 windows containing 100 faults, detecting 95 faults while raising 20 false alarms yields 95% recall and 95/115 ≈ 82.6% precision, despite an overall accuracy of 98.75%. These invented counts illustrate why the application, not a familiar score, must define acceptance. [<a class="reference internal" href="../references.html#ref-131"><span class="std std-ref">131</span></a>]</p>
+<p>State operational requirements before choosing transformations. An illustrative reader might need an accepted answer within 150 ms, enough free memory for acquisition, and a way to ask for another image when evidence is poor. Those values must be justified for a real deployment. Also state whether privacy requires images to remain local, whether the device is battery powered, and whether it operates continuously. A laboratory model and a field application can share a deployment method without sharing the same valid accuracy or timing claims.</p>
+<p id="fig-10-2"><img alt="A dataset crop and a field input are different tasks; Known 8×8 crop; Constructed shifted input; Field task also needs; Locate the label; Handle lighting; Crop and normalize; Check the whole pipeline" src="../_images/asset-96ef0e9a3f390617.png" /><br>
+Figure 10.2. The left panel is a supplied digits-dataset crop. The center is a deliberately constructed rotation/background example, not a field image or a model evaluation. Locating and normalizing a label remain separate application tasks.</p>
+</section>
+<section id="understand-just-enough-of-the-model-to-deploy-it">
+<span id="section-10-2"></span><h2>10.2 Understand just enough of the model to deploy it<a class="headerlink" href="#understand-just-enough-of-the-model-to-deploy-it" title="Link to this heading"></a></h2>
+<section id="training-chooses-parameters-inference-uses-them">
+<span id="section-10-2-1"></span><h3>10.2.1 Training chooses parameters; inference uses them<a class="headerlink" href="#training-chooses-parameters-inference-uses-them" title="Link to this heading"></a></h3>
+<p>A learned model is a parameterized computation. During training, examples and a learning procedure adjust its parameters so that outputs better match the training objective. During inference, the application supplies a new input and evaluates the computation using the selected parameters. Training is commonly performed on a development machine or a remote resource; deploying inference locally does not require training locally. Conversely, moving a training script to a device is not an efficient way to package a prediction service.</p>
+<p>Keep three roles of data separate. Training examples update parameters. Validation examples guide choices such as a stopping point or a quantization configuration. Held-out test examples evaluate the chosen procedure. If a device records many nearly identical frames of the same item, randomly splitting those frames can leak information about that item into every subset. A deployment study should often split by subject, device, session, or time. The small digits experiment uses a fixed sample split for a classroom comparison; it does not establish generalization to new writers or a new camera installation.</p>
+<p id="fig-10-3"><img alt="Figure 10.3. Model preparation and field inference are different activities. Evaluation and conversion checks connect them; ordinary predictions do not update weights unless the application explicitly enables learning." src="../_images/asset-d22050e6a120ecb7.png" /><br>
+Figure 10.3. Model preparation and field inference are different activities. Evaluation and conversion checks connect them; ordinary predictions do not update weights unless the application explicitly enables learning.</p>
+<p>A model score is an output of the computation, not a certificate of truth. A classifier may assign its highest score to an incorrect class, especially on inputs unlike its development data. Thresholds and abstention rules need evaluation on representative examples. If the application requests a new image after an uncertain result, report how often that happens as well as the correctness of accepted results. Rejecting every input is not a useful solution simply because no incorrect label is shown.</p>
+</section>
+<section id="weights-activations-and-operators">
+<span id="section-10-2-2"></span><h3>10.2.2 Weights, activations, and operators<a class="headerlink" href="#weights-activations-and-operators" title="Link to this heading"></a></h3>
+<p>Consider a fully connected layer. It multiplies an input vector by a weight matrix and adds a bias. A nonlinear operation such as ReLU then replaces negative intermediate values with zero. Another layer combines those values into a new representation. The weights and biases persist across inputs; the intermediate values, called activations here, change for each input. An operator is a supported computational step such as matrix multiplication, convolution, or an activation function. A runtime must know how to execute every required operator in the chosen numerical format.</p>
+<p>h = ReLU(W₁x + b₁), logits = W₂h + b₂</p>
+<p>For an input with 64 values, a hidden layer with 16 units, and ten output classes, the first matrix has 16 × 64 entries and the second 10 × 16. Adding 16 and 10 biases gives 1,210 parameters. A softmax can turn logits into normalized scores; it does not change which class has the largest logit. This small amount of arithmetic is sufficient to understand the companion network. The chapter does not require deriving gradients or building a training framework.</p>
+<p id="fig-10-4"><img alt="Figure 10.4. The same stored weights are reused for new inputs, while activation buffers hold input-dependent values. Smaller parameter storage does not necessarily imply proportionally smaller activation memory." src="../_images/asset-672fcc21d8aca4e2.png" /><br>
+Figure 10.4. The same stored weights are reused for new inputs, while activation buffers hold input-dependent values. Smaller parameter storage does not necessarily imply proportionally smaller activation memory.</p>
+<p>Convolutional neural networks (CNNs) provide a useful contrast. A small filter is reused at many image positions instead of learning an unrelated weight for every position. Channels represent collections of features; each layer produces feature maps whose spatial dimensions and channel count affect working memory. For temporal data, one-dimensional convolutions or recurrent models process windows or sequences. A streaming implementation may also retain state between windows. Changing the order or resetting that state can change the answer, even with identical model weights.</p>
+<p>Ordinary algorithms remain legitimate alternatives. A calibrated threshold can solve a well-defined limit check; a compact classifier can recognize a fixed set of states; a language model can interpret a flexible instruction. These are different jobs. Before deploying a large general model, ask whether the application needs that flexibility. A later agent may call the reader as a tool, but the reader need not become a language model merely to participate in an intelligent application.</p>
+</section>
+</section>
+<section id="build-the-first-complete-inference-path">
+<span id="section-10-3"></span><h2>10.3 Build the first complete inference path<a class="headerlink" href="#build-the-first-complete-inference-path" title="Link to this heading"></a></h2>
+<section id="the-input-contract-is-part-of-the-model">
+<span id="section-10-3-1"></span><h3>10.3.1 The input contract is part of the model<a class="headerlink" href="#the-input-contract-is-part-of-the-model" title="Link to this heading"></a></h3>
+<p>Loading a model successfully does not establish that its inputs mean the right thing. A deployment contract records tensor shape, element type, scaling, channel order, expected sampling or image geometry, and output interpretation. For the digits example, the input is an 8 × 8 grayscale array with values in [0,16], flattened in row-major order and divided by 16. Output index 0 denotes digit zero, and so on. Dividing the values by 255 because that is familiar from another image pipeline would silently change the input distribution.</p>
+<p>A real label reader must also decide how to crop, resize, orient, and normalize camera frames. When that procedure differs between training and deployment, changing the neural weights may be the wrong repair. Save a few reference inputs, their preprocessed tensors, and expected output properties. Compare these at each stage after deployment. A diagnostic image and a tensor checksum can expose a channel-order or scaling error that remains invisible in a single overall accuracy number.</p>
+<p>The application also records when a prediction was made, which input it describes, and which model and preprocessing versions produced it. This is the AI counterpart of the data contract in <a class="reference internal" href="ch02.html#chapter-2"><span class="std std-ref">Chapter 2</span></a> and the observation history in Chapter 7. A late result from an earlier frame should not be displayed as though it describes the current frame. A model update should not silently change the meaning of a stored score or the ordering of output classes.</p>
+</section>
+<section id="from-a-training-model-to-a-deployable-artifact">
+<span id="section-10-3-2"></span><h3>10.3.2 From a training model to a deployable artifact<a class="headerlink" href="#from-a-training-model-to-a-deployable-artifact" title="Link to this heading"></a></h3>
+<p>A deployment normally separates model preparation from the application loop. Preparation selects the trained parameters, exports a computation graph, performs compatible transformations, and produces an artifact the target runtime can load. Execution creates a runtime instance, loads that artifact, prepares input tensors, invokes the model, and interprets outputs. Conversion may reject an unsupported operator or produce a valid artifact with different numerical behavior. Check a floating-point conversion first, before introducing quantization, so that conversion errors and approximation errors are not mixed together. [<a class="reference internal" href="../references.html#ref-132"><span class="std std-ref">132</span></a>, <a class="reference internal" href="../references.html#ref-139"><span class="std std-ref">139</span></a>]</p>
+<p id="fig-10-5"><img alt="Figure 10.5. Export and runtime selection connect model preparation to the target device. The routes are representative alternatives, not a requirement to install every runtime or evidence that every operator is portable." src="../_images/asset-0dacc036e3d0d312.png" /><br>
+Figure 10.5. Export and runtime selection connect model preparation to the target device. The routes are representative alternatives, not a requirement to install every runtime or evidence that every operator is portable.</p>
+<p>Three representative routes illustrate the responsibilities. ExecuTorch prepares a PyTorch program through export and transformation for device execution. LiteRT provides model-conversion and device-runtime paths, including a distinct microcontroller route. ONNX Runtime loads compatible ONNX graphs and assigns supported subgraphs to execution providers. These names are examples of the same architectural separation: a training framework, a deployed artifact, a runtime, and a hardware backend are not interchangeable terms. [<a class="reference internal" href="../references.html#ref-132"><span class="std std-ref">132</span></a>, <a class="reference internal" href="../references.html#ref-133"><span class="std std-ref">133</span></a>, <a class="reference internal" href="../references.html#ref-134"><span class="std std-ref">134</span></a>, <a class="reference internal" href="../references.html#ref-152"><span class="std std-ref">152</span></a>]</p>
+<p>The companion starts with an even smaller route: a NumPy evaluator loads fixed matrix and bias arrays from an NPZ file. It deliberately supports only the dense layers and ReLU used by this experiment. This makes the executed computation easy to inspect and lets students run the pretrained floating-point models without PyTorch. It is not a general model-conversion tool. A second, version-pinned PyTorch route exercises real dynamically quantized linear operators on the available CPU. Neither route implies an Android, NPU, or microcontroller deployment has been completed.</p>
+<p>For the first successful run, use one saved input and a known model before connecting a live sensor. The evaluator checks input shape, allowed values, finite numbers, and compatible matrix dimensions; then it performs the forward computation. Compare its logits with the training implementation within a stated numerical tolerance and check the predicted class. Next process multiple saved inputs. Only then add camera or sensor acquisition. This order isolates model access from the separate difficulties of sampling, image capture, networking, and driver configuration.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>predict_numpy.py<span class="w"> </span>--model<span class="w"> </span>results/student_direct_11.npz<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--inputs<span class="w"> </span>results/sample_inputs.npz<span class="w"> </span>--index<span class="w"> </span><span class="m">0</span>
+</pre></div>
+</div>
+<p>The command above runs supplied, already-trained weights. It does not retrain the model. The laboratory guide provides complete commands and dependency versions; the useful idea for deployment is to keep preprocessing, model invocation, and postprocessing as inspectable stages. A saved model file should travel with its input contract, output labels, version information, and test examples. Moving only the file is not enough to reproduce the application.</p>
+<p id="fig-10-6"><img alt="Inspect model tensors, not only the filename; student_direct_11.npz; Stored tensors; w0: 16, 64 float32; b0: 16 float32; w1: 10, 16 float32; b1: 10 float32; Inspect before deployment; Names, shapes, numerical types, artifact digest.; Still not established; Kernel selection, accelerator use, or measured; latency." src="../_images/asset-079acf649ba4b02c.png" /><br>
+Figure 10.6. A view generated from the supplied trained student artifact shows the stored array names, shapes and dtypes. This is parameter-artifact inspection, not a Netron screenshot or evidence of compiled hardware execution.</p>
+</section>
+<section id="the-target-is-a-device-not-just-an-available-backend-name">
+<span id="section-10-3-3"></span><h3>10.3.3 The target is a device, not just an available backend name<a class="headerlink" href="#the-target-is-a-device-not-just-an-available-backend-name" title="Link to this heading"></a></h3>
+<p>A CPU-only baseline is valuable even when the target has an accelerator. The accelerator may support only part of the graph, a limited set of precisions, or particular tensor shapes. A runtime can send unsupported work to the CPU, but crossings may introduce copying, synchronization, and layout conversion. Inspect actual operator placement rather than assuming the whole model ran on the NPU because the application selected an NPU option. ONNX Runtime explicitly uses provider capabilities to allocate supported nodes or subgraphs. [<a class="reference internal" href="../references.html#ref-133"><span class="std std-ref">133</span></a>]</p>
+<p>On a microcontroller, the inference engine may be compiled into firmware with a preallocated tensor arena. On a phone, an application works within the platform lifecycle and often shares accelerators with other functions. A Linux edge computer may host a model service and several simultaneous clients. LiteRT for Microcontrollers is designed for constrained devices and supports only a subset of operations; its core-runtime footprint must not be mistaken for the memory of an entire model application. The same source model may need different deployment artifacts and validation on these targets. [<a class="reference internal" href="../references.html#ref-134"><span class="std std-ref">134</span></a>]</p>
+</section>
+</section>
+<section id="find-the-resource-constraint-before-changing-the-model">
+<span id="section-10-4"></span><h2>10.4 Find the resource constraint before changing the model<a class="headerlink" href="#find-the-resource-constraint-before-changing-the-model" title="Link to this heading"></a></h2>
+<section id="storage-working-memory-and-computation-are-different-budgets">
+<span id="section-10-4-1"></span><h3>10.4.1 Storage, working memory, and computation are different budgets<a class="headerlink" href="#storage-working-memory-and-computation-are-different-budgets" title="Link to this heading"></a></h3>
+<p>The easiest quantity to estimate is parameter storage. If a model has P stored parameters using b bits each, the raw numeric payload is P × b / 8 bytes. One million parameters occupy 4 MB at FP32 or 1 MB at INT8, using decimal megabytes. Metadata, bias precision, scales, alignment, and container formats add overhead. A compressed archive can be smaller than both, yet expand when loaded. Compare the raw payload, actual deployable file, and runtime allocations separately.</p>
+<p>M_values = P × b / 8</p>
+<p>Peak working memory includes more than these parameters. Input buffers, simultaneously live activations, operator scratch space, the runtime, and the surrounding application all matter. Some devices can read weights from read-only storage; some runtimes copy or unpack them. Do not blindly add two numbers that already include the same allocation, and do not assume weights on disk occupy no RAM. Establish the accounting boundary using the target runtime, then measure the high-water mark under the intended input shape and concurrency.</p>
+<p id="fig-10-7"><img alt="Figure 10.7. Storage and RAM answer different feasibility questions. Only activations that remain live together need coexist, but workspace and application buffers can make the peak much larger than one layer output." src="../_images/asset-d44e7980e60b75bc.png" /><br>
+Figure 10.7. Storage and RAM answer different feasibility questions. Only activations that remain live together need coexist, but workspace and application buffers can make the peak much larger than one layer output.</p>
+<p>As a worked calculation, one 224 × 224 RGB tensor with three FP32 channels occupies 602,112 bytes. A 112 × 112 × 32 FP32 feature map occupies 1,605,632 bytes, about 1.53 MiB. Two such maps that must coexist already need about 3.06 MiB, before weights or other allocations. Representing these maps in eight bits would quarter their numeric payload, but only if the deployed execution actually keeps them in that form. Quantizing weights alone does not produce this activation-memory reduction.</p>
+<p>Computation counts are another estimate, not a latency result. A multiply–accumulate combines a multiplication and an addition; reporting conventions may count it as one MAC or two floating-point operations. State the convention. Models with the same count can have different execution times because memory access, parallelism, unsupported operators, and invocation overhead differ. A nominal accelerator throughput is not a promise for the particular small batch and graph used by the application.</p>
+<p id="fig-10-8"><img alt="Stacked allocations at five execution phases: 12,32,38,56,32 MB total, including constant 20 MB weights after loading." src="../_images/asset-dbfda100b07b5371.png" /><br>
+Figure 10.8. A hypothetical allocation budget separates resident weights from runtime state, live tensors and workspace. The 56 MB peak is larger than the 20 MB weight storage, and completion does not necessarily unload the model. These are illustrative values, not memory measurements.</p>
+</section>
+<section id="latency-energy-and-sustained-operation">
+<span id="section-10-4-2"></span><h3>10.4.2 Latency, energy, and sustained operation<a class="headerlink" href="#latency-energy-and-sustained-operation" title="Link to this heading"></a></h3>
+<p>Measure the path the user actually waits for: acquisition or window formation, preprocessing, waiting for execution, inference, and result handling. In a hypothetical reader these stages take 10, 25, 15, 70, and 10 ms, totaling 130 ms. Halving only inference reduces the total to 95 ms, not 65 ms. If an activity detector requires a fresh two-second window, a five-millisecond model call cannot create a decision five milliseconds after observation begins. Streaming overlap changes when windows are ready, not the amount of past evidence the rule requires.</p>
+<p>Power and energy should not be interchanged. Energy is the integral of power over the measured interval. Under a deliberately simplified constant-power assumption, 2 W for 80 ms is 0.16 J, whereas 4 W for 30 ms is 0.12 J. Higher active power can coexist with lower energy per inference. A battery application must additionally include acquisition, idle time, communication, and duty cycle. Label whether a measurement covers the whole device or incremental inference above an idle baseline; those are different accounting choices.</p>
+<p>A short warm-device timing test also does not establish sustained behavior. Device temperature and system activity can change the resources available during a long run. Android exposes thermal status and headroom interfaces precisely because applications may need to respond to changing thermal conditions. For a deployment experiment, record the run duration, temperature or available thermal indicators, frequency behavior if accessible, and the workload from other processes. This chapter provides a measurement plan, not a measured thermal claim about the companion CPU environment. [<a class="reference internal" href="../references.html#ref-151"><span class="std std-ref">151</span></a>]</p>
+<p>These budgets guide the next choice. If the model file cannot fit in storage, examine representation or architecture. If activations exhaust RAM, examine input shape, tensor precision, liveness, and workspace. If preprocessing dominates latency, a smaller neural network may barely help. If the model is already fast enough but unreliable on new camera images, investigate data and task quality before optimizing arithmetic. A resource report should identify the limiting term, not simply label the whole system “too heavy.”</p>
+</section>
+</section>
+<section id="choose-a-suitable-model-before-compressing-it">
+<span id="section-10-5"></span><h2>10.5 Choose a suitable model before compressing it<a class="headerlink" href="#choose-a-suitable-model-before-compressing-it" title="Link to this heading"></a></h2>
+<p>The label reader does not necessarily need the largest available visual model. First compare a few candidate architectures on the same defined task and target. A smaller model designed for the input may already meet the quality requirement. This provides a strong baseline for later compression: otherwise, an elaborate pruning or distillation procedure may merely rediscover that a compact model could have been trained directly. A feature-based classifier is also a legitimate candidate when the task has stable, informative features.</p>
+<p>Lightweight architecture design changes how computation is expressed. MobileNet offers a particularly understandable example: a depthwise convolution filters each input channel separately, followed by a pointwise 1 × 1 convolution that mixes channels. This replaces a standard convolution with two different operations. It is not the same as deleting learned weights, and it is not a promise of equal accuracy. The model must be trained or obtained as a compatible pretrained artifact. [<a class="reference internal" href="../references.html#ref-136"><span class="std std-ref">136</span></a>]</p>
+<p id="fig-10-9"><img alt="Figure 10.9. A depthwise stage processes channels separately; a pointwise stage mixes them. This changes the architecture. The operation-count reduction below is an analytical comparison, not a measured device speedup." src="../_images/asset-f3d485d6cc6cdc44.png" /><br>
+Figure 10.9. A depthwise stage processes channels separately; a pointwise stage mixes them. This changes the architecture. The operation-count reduction below is an analytical comparison, not a measured device speedup.</p>
+<p>For a k × k convolution with M input channels and N output channels, a standard layer uses k²MN multiplications at each output location, ignoring bias and boundary details. A depthwise-plus-pointwise arrangement uses k²M + MN. With k = 3, M = 32, and N = 64, the counts are 18,432 and 2,336, an ideal count ratio of about 7.89. These assumptions hold output geometry fixed. Real latency depends on kernel efficiency, data movement, and parallel execution, so it need not improve by that ratio. [<a class="reference internal" href="../references.html#ref-136"><span class="std std-ref">136</span></a>]</p>
+<p>Width and input resolution are practical design knobs. Reducing channels decreases some weight matrices and feature maps; reducing spatial resolution decreases the positions at which image operations execute. But a tiny defect can disappear during downsampling. In a wearable, shortening a time window reduces data and may also remove the motion pattern needed to distinguish activities. Every such change must preserve enough information for the task. Keep the input-selection policy in the experiment record rather than attributing the entire effect to the network architecture.</p>
+<p>Compact designs can still have large intermediate tensors. MobileNetV2, for example, uses blocks that expand an internal representation and then project it back to a narrow bottleneck. A small stored parameter count is therefore not a sufficient memory budget. For very constrained devices, MCUNet illustrates joint design of a network and its inference engine rather than treating runtime support as an afterthought. We use these systems to identify design responsibilities, not to import their reported benchmark gains into our own device. [<a class="reference internal" href="../references.html#ref-135"><span class="std std-ref">135</span></a>, <a class="reference internal" href="../references.html#ref-137"><span class="std std-ref">137</span></a>]</p>
+<p>After choosing a feasible baseline, compare three transformation families. Quantization changes how numbers are represented. Pruning removes selected connections or structures. Distillation changes how a student learns from a teacher. They act on different objects and require different preparation. If a developer receives only a deployable model with no training data, some post-training transformations may be possible while retraining-based recovery is not. Access to data, code, and a model license is part of feasibility, just as memory and hardware support are.</p>
+</section>
+<section id="quantization-represent-numbers-with-fewer-bits">
+<span id="section-10-6"></span><h2>10.6 Quantization: represent numbers with fewer bits<a class="headerlink" href="#quantization-represent-numbers-with-fewer-bits" title="Link to this heading"></a></h2>
+<section id="floating-point-reduction-is-not-integer-casting">
+<span id="section-10-6-1"></span><h3>10.6.1 Floating-point reduction is not integer casting<a class="headerlink" href="#floating-point-reduction-is-not-integer-casting" title="Link to this heading"></a></h3>
+<p>Suppose the baseline is stored in 32-bit floating point. Using 16-bit floating point changes precision and range but still uses a floating-point representation. Integer quantization instead maps a range of real values onto a finite grid of integer codes. INT8 has 256 possible codes; INT4 has 16. A four-bit representation can be packed more tightly, but only a compatible kernel and packing scheme can exploit it. The useful questions are which tensors change format, how their ranges are chosen, and which arithmetic the runtime actually executes. [<a class="reference internal" href="../references.html#ref-138"><span class="std std-ref">138</span></a>, <a class="reference internal" href="../references.html#ref-139"><span class="std std-ref">139</span></a>, <a class="reference internal" href="../references.html#ref-140"><span class="std std-ref">140</span></a>, <a class="reference internal" href="../references.html#ref-141"><span class="std std-ref">141</span></a>]</p>
+<p>Simply casting 0.34 to an integer would lose its fractional information. Affine quantization instead associates a positive scale s and an integer zero point z with a tensor or a slice. The code q represents the approximate real value s(q − z). Rounding chooses a nearby grid point, and clipping keeps the code in the supported range. The zero point allows real zero to have an exact code, which matters for operations involving padding or zeros. [<a class="reference internal" href="../references.html#ref-138"><span class="std std-ref">138</span></a>, <a class="reference internal" href="../references.html#ref-140"><span class="std std-ref">140</span></a>]</p>
+<p>q = clip(round(x / s) + z, q_min, q_max)</p>
+<p>x̂ = s × (q − z)</p>
+<p>Use a deliberately coarse example: s = 0.1, z = 0, and signed INT8 codes from −128 to 127. The values −0.26, 0.34, and 0.56 become codes −3, 3, and 6, reconstructed as −0.3, 0.3, and 0.6. A value of 15 becomes 12.7 after clipping. Inside the representable range, nearest rounding contributes at most half a grid step; that bound does not apply to a clipped outlier. The procedure changes values in a controlled representation, not by deleting their decimal point.</p>
+<p id="fig-10-10"><img alt="Quantize one value step by step; Real value; x = 0.34; Scale and round; 0.34 / 0.1 = 3.4; round(3.4) = 3; Integer code; q = 3; z = 0; Reconstruct; 0.1 × (3 − 0); = 0.30; 0.0; 0.1; 0.2; 0.3; 0.4; 0.5; 0.34; Clipping is different; 15 / 0.1 = 150 → clip to 127 → 12.7; rounding bound no longer applies." src="../_images/asset-6a3a8202bd7a5944.png" /><br>
+Figure 10.10. Rounding selects a representable grid point; clipping handles values outside the representable range.</p>
+<p>Integer codes still need arithmetic with sufficient intermediate range. For x = [0.2, 0.7] and w = [−0.4, 0.3], both using scale 0.1 and zero point zero, the integer dot product is 2(−4) + 7(3) = 13. Multiplying by the two scales gives 0.13, matching this example’s floating-point dot product. Larger layers typically need wider accumulators, and conversion to the next layer’s scale introduces another rounding step. Biases and accumulators need not have the same precision as stored weights. [<a class="reference internal" href="../references.html#ref-140"><span class="std std-ref">140</span></a>]</p>
+</section>
+<section id="which-tensors-and-which-ranges">
+<span id="section-10-6-2"></span><h3>10.6.2 Which tensors and which ranges?<a class="headerlink" href="#which-tensors-and-which-ranges" title="Link to this heading"></a></h3>
+<p>Weight-only quantization reduces how weights are stored but may dequantize them for computation or combine them with floating-point activations. Dynamic activation quantization estimates ranges during invocation for selected operators. Static quantization establishes activation ranges beforehand using calibration inputs. A fully integer path additionally requires compatible integer operators and a deliberate input/output policy. These choices produce different memory, computation, and conversion costs; the label “INT8 model” alone is incomplete. [<a class="reference internal" href="../references.html#ref-139"><span class="std std-ref">139</span></a>, <a class="reference internal" href="../references.html#ref-141"><span class="std std-ref">141</span></a>]</p>
+<table class="book-table docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Choice</strong></p></th>
+<th class="head"><p><strong>Preparation</strong></p></th>
+<th class="head"><p><strong>What to verify</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Weight-only</p></td>
+<td><p>Estimate weight scales</p></td>
+<td><p>Whether weights are unpacked; activation type</p></td>
+</tr>
+<tr class="row-odd"><td><p>Dynamic quantization</p></td>
+<td><p>Store quantized weights; estimate selected activation ranges at runtime</p></td>
+<td><p>Invocation overhead; input-batch behavior; kernel support</p></td>
+</tr>
+<tr class="row-even"><td><p>Static PTQ</p></td>
+<td><p>Calibrate a trained model using representative inputs</p></td>
+<td><p>Range coverage; operators; actual input/output types</p></td>
+</tr>
+<tr class="row-odd"><td><p>QAT</p></td>
+<td><p>Train or fine-tune while simulating quantization</p></td>
+<td><p>Exported integer behavior and held-out task quality</p></td>
+</tr>
+</tbody>
+</table>
+<p>Calibration is not ordinary training: it estimates tensor ranges rather than learning a new task from labels. Choose representative training or validation inputs, not the held-out test set used for the final report. For a camera reader, include relevant lighting and contrast conditions; for motion sensing, include the operational range of activities and sensor values. Random numbers with the correct tensor shape are useful for interface testing, but are not automatically representative calibration data. Outliers create a trade-off between range coverage and resolution.</p>
+<p>A scale can be shared across an entire tensor or assigned separately to channels or groups. If one output channel has weights near 0.2 and another near 20, one scale covering both can represent the smaller channel poorly. Per-channel scales can preserve more detail, at the cost of metadata and supported-kernel requirements. In a symmetric example spanning approximately ±20, the step 20/127 is about 0.157; a weight of 0.05 can round to zero. A channel-specific range of ±0.2 gives a much finer step. [<a class="reference internal" href="../references.html#ref-138"><span class="std std-ref">138</span></a>]</p>
+</section>
+<section id="ptq-first-qat-when-preparation-effort-is-justified">
+<span id="section-10-6-3"></span><h3>10.6.3 PTQ first; QAT when preparation effort is justified<a class="headerlink" href="#ptq-first-qat-when-preparation-effort-is-justified" title="Link to this heading"></a></h3>
+<p>Post-training quantization (PTQ) starts from a trained floating-point model. It is attractive when the model and suitable calibration data are available but a new training cycle is undesirable. First validate the unquantized exported model, then transform it, check tensor formats and supported operators, and evaluate on the same task. If quality falls, investigate problematic layers and calibration coverage before concluding that all low precision is unsuitable. Keeping a sensitive operation at higher precision is another design option, provided the backend can execute the mixed graph.</p>
+<p id="fig-10-11"><img alt="Figure 10.11. PTQ estimates a representation after training; QAT exposes training to simulated rounding and clipping. Both still need conversion, actual supported execution, and independent evaluation." src="../_images/asset-288f08bb7933657a.png" /><br>
+Figure 10.11. PTQ estimates a representation after training; QAT exposes training to simulated rounding and clipping. Both still need conversion, actual supported execution, and independent evaluation.</p>
+<p>Quantization-aware training (QAT) exposes training to the effect of quantization, often through fake-quantization operations that simulate rounding and clipping while training machinery still uses floating point. Parameters can adapt to that approximation. A final conversion must produce the intended deployable operations; fake quantization in a training graph is not evidence that the device performs integer arithmetic. QAT needs a suitable training path and data, so its preparation cost should be included in the decision rather than treated as a free final step. [<a class="reference internal" href="../references.html#ref-139"><span class="std std-ref">139</span></a>, <a class="reference internal" href="../references.html#ref-140"><span class="std std-ref">140</span></a>, <a class="reference internal" href="../references.html#ref-142"><span class="std std-ref">142</span></a>]</p>
+<p>Quantization is complete only when the resulting application is checked. Re-run the input contract, compare output classes and important error categories, inspect actual arithmetic or backend traces, and measure file size, peak memory, and latency. A dynamic quantized linear layer can execute integer products while adjacent ReLU and interface tensors remain floating point. That is useful, but it is not an all-integer application. The companion experiment makes exactly this narrower claim: its three dense linear layers are converted to real dynamic INT8 operators on an x86 CPU.</p>
+</section>
+</section>
+<section id="pruning-remove-work-the-model-may-not-need">
+<span id="section-10-7"></span><h2>10.7 Pruning: remove work the model may not need<a class="headerlink" href="#pruning-remove-work-the-model-may-not-need" title="Link to this heading"></a></h2>
+<section id="zeros-are-not-the-same-as-a-smaller-executable-graph">
+<span id="section-10-7-1"></span><h3>10.7.1 Zeros are not the same as a smaller executable graph<a class="headerlink" href="#zeros-are-not-the-same-as-a-smaller-executable-graph" title="Link to this heading"></a></h3>
+<p>Suppose the quantized reader still performs too much computation. Pruning asks whether some connections or larger structures can be removed while retaining acceptable task quality. A simple unstructured method ranks individual weights by magnitude and sets selected small weights to zero. Magnitude is a heuristic, not a proof of irrelevance: a weight’s effect also depends on its inputs and neighboring computation. The original learning-and-pruning work pairs removing connections with further training to recover quality. [<a class="reference internal" href="../references.html#ref-143"><span class="std std-ref">143</span></a>]</p>
+<p>If a dense matrix contains 50% zeros but retains its original shape, an ordinary dense kernel can still multiply and load every position. A dense checkpoint can still store every zero. A sparse representation may instead store values and indices, but indexing overhead and sparse-kernel support matter. Counting zeros, compressing a download file, reducing runtime storage, and accelerating inference are therefore four different claims. The runtime decides whether a sparsity pattern becomes skipped work. [<a class="reference internal" href="../references.html#ref-145"><span class="std std-ref">145</span></a>, <a class="reference internal" href="../references.html#ref-146"><span class="std std-ref">146</span></a>, <a class="reference internal" href="../references.html#ref-153"><span class="std std-ref">153</span></a>]</p>
+<p id="fig-10-12"><img alt="Figure 10.12. An unstructured mask leaves matrix dimensions unchanged; structural removal shrinks dimensions and corresponding inputs to the next layer. A sparse kernel is needed to exploit arbitrary zeros as skipped arithmetic." src="../_images/asset-008fd9063d32a152.png" /><br>
+Figure 10.12. An unstructured mask leaves matrix dimensions unchanged; structural removal shrinks dimensions and corresponding inputs to the next layer. A sparse kernel is needed to exploit arbitrary zeros as skipped arithmetic.</p>
+<p>Structured pruning removes whole units, channels, filters, or blocks. Removing a hidden unit means removing its output computation and the corresponding inputs to the next layer, not merely hiding that unit from a drawing. For a convolutional layer, filter pruning changes the associated feature maps and connected layer dimensions. This can produce smaller dense operations that ordinary optimized libraries can execute. It may also remove a larger useful structure and damage quality, so the retained network must be evaluated. [<a class="reference internal" href="../references.html#ref-144"><span class="std std-ref">144</span></a>]</p>
+<p>A numerical example exposes the distinction. A dense layer with 64 inputs and 64 outputs has 4,096 weights. Setting half to zero leaves a 64 × 64 matrix unless storage or execution changes. Removing half its output units produces a 32 × 64 matrix with 2,048 weights, and reduces the corresponding input dimension of the following layer. Biases, masks, residual connections, and branches must be handled consistently. Model editing is a graph transformation, not a sequence of unrelated tensor deletions.</p>
+</section>
+<section id="recover-quality-and-compare-the-right-baselines">
+<span id="section-10-7-2"></span><h3>10.7.2 Recover quality and compare the right baselines<a class="headerlink" href="#recover-quality-and-compare-the-right-baselines" title="Link to this heading"></a></h3>
+<p>A practical pruning experiment begins from an evaluated model, fixes what may be removed, applies the change, and measures the immediate damage. A limited fine-tuning phase may recover quality; the pruning mask or compact structure must remain enforced. Otherwise, weights intended to stay removed can regrow during optimization. Finally, export the actual compact graph or sparse representation supported by the device, and measure again. A training-time mask by itself is not a finished deployable acceleration.</p>
+<p>Compare both before and after recovery. Also record the extra training effort and, for a stronger study, train the same compact architecture from scratch with a comparable total budget. If the compact model performs well only after additional training, the comparison cannot attribute every improvement to pruning. The companion provides before/after recovery variants but does not include every equal-budget architecture-search control. Its results demonstrate a procedure and its limitations, not a general superiority claim for pruning.</p>
+<p>The local experiment gives a useful concrete contrast. The masked network retains 6,570 logical parameters and 26,280 bytes of floating-point parameter payload; 50% of its weight entries are zero, but tensor dimensions stay fixed. The structurally compact network has hidden widths 32 and 16 instead of 64 and 32, yielding 2,778 parameters and 11,112 payload bytes. Its initial quality drops sharply and recovers after the stated fine-tuning procedure. The original dense network, zeros-in-dense network, and physically compact network must remain distinct artifacts in the report.</p>
+<p>Pruning is also not restricted to CNNs, but the suitable structures depend on the model. Removing independent hidden units in a simple multilayer perceptron is easier to inspect than editing a network with residual branches or attention heads. We use the small network to teach the mechanism and a CNN diagram to explain channels. Translating either idea to another architecture requires a valid graph, compatible kernels, and fresh evaluation; a percentage of removed weights is not a transferable speedup prediction.</p>
+</section>
+</section>
+<section id="knowledge-distillation-teach-a-deployable-student">
+<span id="section-10-8"></span><h2>10.8 Knowledge distillation: teach a deployable student<a class="headerlink" href="#knowledge-distillation-teach-a-deployable-student" title="Link to this heading"></a></h2>
+<section id="transfer-behavior-rather-than-copy-a-compressed-file">
+<span id="section-10-8-1"></span><h3>10.8.1 Transfer behavior rather than copy a compressed file<a class="headerlink" href="#transfer-behavior-rather-than-copy-a-compressed-file" title="Link to this heading"></a></h3>
+<p>A small model may fit the device but make errors on difficult inputs. Distillation asks whether a teacher can provide additional training guidance to a student. The teacher can be a larger model or an ensemble, but the essential role is to produce guidance for learning. The student can have a different architecture and need not retain a subset of the teacher’s weights. At deployment, a conventional distilled classifier needs only its own learned parameters and runtime; the teacher is a preparation dependency, not a required call on every prediction. [<a class="reference internal" href="../references.html#ref-147"><span class="std std-ref">147</span></a>]</p>
+<p id="fig-10-13"><img alt="Figure 10.13. During preparation, both the true label and the frozen teacher can guide student learning. During ordinary deployment, only the student executes. Calling the teacher at inference time would be a different collaboration design." src="../_images/asset-57d805069c5903e5.png" /><br>
+Figure 10.13. During preparation, both the true label and the frozen teacher can guide student learning. During ordinary deployment, only the student executes. Calling the teacher at inference time would be a different collaboration design.</p>
+<p>For an ambiguous handwritten digit, a teacher might place most probability on “3” and some on “8,” rather than treating every wrong class as equally unrelated. These are hypothetical outputs used to explain the idea. Soft targets can communicate relations that a single hard label does not express. They can also communicate mistakes or biases. Distillation therefore still needs trustworthy evaluation labels and representative inputs; a fluent or high-scoring teacher is not an oracle.</p>
+<p>A temperature parameter can soften a teacher’s class distribution to expose relative scores. A typical training objective combines an ordinary label loss with a teacher–student disagreement loss. The balance determines how strongly the student follows labels versus teacher guidance. The companion fixes temperature 3 and teacher-loss weight 0.6 before examining the test set; it includes the usual temperature-squared scaling in the soft loss. These are experimental settings, not recommended universal hyperparameters. [<a class="reference internal" href="../references.html#ref-147"><span class="std std-ref">147</span></a>, <a class="reference internal" href="../references.html#ref-148"><span class="std std-ref">148</span></a>]</p>
+<p>student objective = (1 − α) × label loss + α × teacher-guidance loss</p>
+</section>
+<section id="what-a-useful-distillation-comparison-must-hold-fixed">
+<span id="section-10-8-2"></span><h3>10.8.2 What a useful distillation comparison must hold fixed<a class="headerlink" href="#what-a-useful-distillation-comparison-must-hold-fixed" title="Link to this heading"></a></h3>
+<p>First train or obtain a teacher and evaluate it. Freeze its parameters during student training. Use the same training examples, student architecture, initialization, optimizer, and epoch budget for a direct-label student and a distilled student. Evaluate both on the same held-out inputs. Otherwise, a change attributed to distillation may come from a different architecture, more training steps, or different data. Record the teacher’s preparation cost as well when deciding whether the deployment benefit justifies the process.</p>
+<p>The local results make this control important. With a fixed sample split and three initialization seeds, the direct 16-unit student averages 97.41% test accuracy, while the identically sized distilled student averages 96.48%. Both have 1,210 parameters. The teacher averages 96.67%. This experiment does not show a distillation advantage, and we retain that result rather than searching the test set for a more attractive setting. It also does not refute distillation: the teacher, task, student capacity, data, and training objective form only one small instructional configuration.</p>
+<p>A valuable follow-up would use a genuinely stronger teacher or a different training-data budget, choose settings using validation data, and evaluate once on a fresh test split. A student should explain why that new comparison addresses the observed limitation. Repeatedly adjusting temperature after seeing the test score turns the test set into development data. The appropriate lesson is that an optimization technique is a hypothesis about a deployment problem, not a promise that its named variant must win.</p>
+<p id="fig-10-14"><img alt="Inspect examples behind the distillation score; Both correct; ID 1471; Truth 1; Direct 1 | Distilled 1; Direct only correct; ID 1311; Truth 4; Direct 4 | Distilled 0; Distilled only correct; ID 498; Truth 7; Direct 9 | Distilled 7; Both wrong; ID 123; Truth 8; Direct 2 | Distilled 2" src="../_images/asset-99cfe23516140d12.png" /><br>
+Figure 10.14. For initialization seed 11, the first stored test example in each nonempty outcome category is shown. The direct and distilled students have matching architectures. These selected cases explain aggregate differences; they do not establish superiority on a new dataset.</p>
+</section>
+<section id="combine-methods-only-when-their-purposes-remain-clear">
+<span id="section-10-8-3"></span><h3>10.8.3 Combine methods only when their purposes remain clear<a class="headerlink" href="#combine-methods-only-when-their-purposes-remain-clear" title="Link to this heading"></a></h3>
+<p>A directly trained or distilled student can later be quantized; a structurally pruned model can be fine-tuned and then exported in a lower precision. Such combinations can be useful, but errors and preparation requirements interact. Calibration should describe the final model, not a stale tensor range from an earlier architecture. Keep a record of the starting artifact, transformation, validation choice, and resulting artifact at every step. Deep Compression illustrates that multiple compression mechanisms can be combined, but its particular sequence is not mandatory for a new task. [<a class="reference internal" href="../references.html#ref-153"><span class="std std-ref">153</span></a>]</p>
+<table class="book-table docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Method</strong></p></th>
+<th class="head"><p><strong>What changes?</strong></p></th>
+<th class="head"><p><strong>Typical extra preparation</strong></p></th>
+<th class="head"><p><strong>What must be checked?</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Lightweight architecture</p></td>
+<td><p>Graph and capacity</p></td>
+<td><p>Compatible pretrained model or training</p></td>
+<td><p>Quality and operator support</p></td>
+</tr>
+<tr class="row-odd"><td><p>Quantization</p></td>
+<td><p>Numeric representation</p></td>
+<td><p>Range estimation; sometimes training</p></td>
+<td><p>Real arithmetic, error, memory</p></td>
+</tr>
+<tr class="row-even"><td><p>Unstructured pruning</p></td>
+<td><p>Selected weight values</p></td>
+<td><p>Mask and optional recovery</p></td>
+<td><p>Sparse representation / kernels</p></td>
+</tr>
+<tr class="row-odd"><td><p>Structured pruning</p></td>
+<td><p>Units / channels and graph sizes</p></td>
+<td><p>Graph rebuilding and recovery</p></td>
+<td><p>Shape correctness; task quality</p></td>
+</tr>
+<tr class="row-even"><td><p>Distillation</p></td>
+<td><p>Student learning objective</p></td>
+<td><p>Teacher outputs and student training</p></td>
+<td><p>Same-size direct-training baseline</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="optimize-execution-without-changing-the-task">
+<span id="section-10-9"></span><h2>10.9 Optimize execution without changing the task<a class="headerlink" href="#optimize-execution-without-changing-the-task" title="Link to this heading"></a></h2>
+<section id="use-the-graph-and-memory-more-efficiently">
+<span id="section-10-9-1"></span><h3>10.9.1 Use the graph and memory more efficiently<a class="headerlink" href="#use-the-graph-and-memory-more-efficiently" title="Link to this heading"></a></h3>
+<p>A model can remain mathematically the same while its implementation improves. A runtime may fold constants, combine supported adjacent operators, reuse temporary storage, or choose a faster kernel. For example, inference-time normalization can sometimes be folded into a preceding linear operation when its statistics are fixed and the transformation is valid. Fusion can avoid writing and rereading a complete intermediate tensor. These are execution transformations, not pruning or new learning. ONNX Runtime documents graph optimizations at several levels, including combinations that depend on the selected execution provider. [<a class="reference internal" href="../references.html#ref-149"><span class="std std-ref">149</span></a>]</p>
+<p id="fig-10-15"><img alt="Figure 10.15. Separate operators can materialize intermediate tensors; a valid fused implementation may avoid some traffic. The diagram illustrates a runtime opportunity, not a guarantee that this exact fusion is available on every backend." src="../_images/asset-27f58c4f90f3aeb2.png" /><br>
+Figure 10.15. Separate operators can materialize intermediate tensors; a valid fused implementation may avoid some traffic. The diagram illustrates a runtime opportunity, not a guarantee that this exact fusion is available on every backend.</p>
+<p>Memory reuse depends on when a tensor stops being needed. In a simple chain, the output of an early operation may be released after its last consumer finishes. A skip connection or branch can extend that lifetime. Counting every layer’s output as permanently resident overestimates memory, but counting only the largest output can underestimate overlapping lifetimes and scratch requirements. A memory planner uses these relationships to organize reusable buffers. ExecuTorch provides memory-planning inspection tools that make tensor lifetimes and allocations observable. [<a class="reference internal" href="../references.html#ref-150"><span class="std std-ref">150</span></a>]</p>
+<p>The target backend may require data in a particular layout or precision. Repeatedly copying frames between CPU and accelerator, transposing tensors, or converting formats can dominate a small graph. Keep measurements for transfers and execution separate, then inspect the complete path. An integrated device can share physical memory while still paying synchronization and conversion costs. Fewer nominal arithmetic operations do not remove those costs. If a single unsupported operation repeatedly moves work back to the CPU, a compatible alternative model can be more useful than further parameter compression.</p>
+</section>
+<section id="the-input-and-service-policy-also-consume-resources">
+<span id="section-10-9-2"></span><h3>10.9.2 The input and service policy also consume resources<a class="headerlink" href="#the-input-and-service-policy-also-consume-resources" title="Link to this heading"></a></h3>
+<p>Batching combines independent inputs to amortize overhead and use parallel hardware more effectively, but waiting to fill a batch adds latency and more inputs may enlarge activation memory. A continuously operating inspection line and an occasional interactive camera query need not use the same policy. Reuse the capacity and queueing reasoning from Chapters 6 and 8, now with an AI-specific memory model. Measure accepted tasks per second together with individual response times and rejected or dropped inputs.</p>
+<p>Reducing redundant input processing is another option. A camera may analyze a selected region or a subset of frames; a vibration monitor may invoke a richer model only after a cheap feature check. Specify which events that policy can miss. Reusing a previous prediction requires a condition that the relevant input has not changed sufficiently, not simply that the previous call was recent. The policy is part of task quality. Conditional exits and remote escalation extend this idea and are developed in <a class="reference internal" href="ch11.html#chapter-11"><span class="std std-ref">Chapter 11</span></a> rather than added invisibly to the local-model baseline.</p>
+<p>A useful local service loads its model once when possible, checks readiness, and keeps acquisition separate from long computation. It bounds concurrency, stores the model identity with results, and provides an explicit failure or retry behavior. These are not replacements for the mechanisms of <a class="reference internal" href="ch05.html#chapter-5"><span class="std std-ref">Chapter 5</span></a>; they are their application to inference. A compact model that starves acquisition or returns old predictions without timestamps still fails as an edge application.</p>
+</section>
+</section>
+<section id="evaluate-a-deployment-and-keep-it-useful-over-time">
+<span id="section-10-10"></span><h2>10.10 Evaluate a deployment and keep it useful over time<a class="headerlink" href="#evaluate-a-deployment-and-keep-it-useful-over-time" title="Link to this heading"></a></h2>
+<section id="compare-complete-compatible-conditions">
+<span id="section-10-10-1"></span><h3>10.10.1 Compare complete, compatible conditions<a class="headerlink" href="#compare-complete-compatible-conditions" title="Link to this heading"></a></h3>
+<p>For each candidate, record the task definition, dataset split, preprocessing, model identity, precision, runtime, actual backend, input shape, and concurrency. Report quality, deployable file size, available memory measurements, latency, and energy only where it was measured. A dash with an explanation is better than a calculated number presented as a measurement. A model-count estimate is not resident memory, and CPU wall-clock duration multiplied by an assumed power value is not a power measurement.</p>
+<p>Use a staged decision. Exclude incompatible artifacts and configurations that cannot meet essential quality or memory requirements. Compare the feasible candidates on the measures the application values. A low-latency candidate with unacceptable missed detections is not a useful trade. Neither is an accurate configuration that repeatedly exhausts memory. Keep a floating-point, uncompressed, or direct-training baseline even when a transformed model appears attractive; it makes the origin of a change visible.</p>
+<p>Timing experiments require a clearly named boundary. A warmed model-call measurement excludes model loading and acquisition. A process-start measurement includes some initialization but may benefit from a warm file cache. A full application measurement includes the user-visible path. Record warmup, repetitions, input order, and surrounding load. Avoid interpreting tiny differences on a shared machine as a reliable speedup. For asynchronous accelerators, the measured interval must include completion rather than only command submission.</p>
+</section>
+<section id="updating-a-model-updates-an-application-contract">
+<span id="section-10-10-2"></span><h3>10.10.2 Updating a model updates an application contract<a class="headerlink" href="#updating-a-model-updates-an-application-contract" title="Link to this heading"></a></h3>
+<p>After deployment, changed lighting, a moved sensor, new products, or changed user behavior can make the original examples less representative. Monitor input quality and error evidence separately. A shift in the score distribution is a warning, not proof that accuracy has fallen or improved. Obtain labels or other trustworthy feedback when evaluating a revised model. Local observations should not automatically enter training without checking permission, provenance, and whether they are reliable examples.</p>
+<p id="fig-10-16"><img alt="Figure 10.16. A model update returns through data review, preparation, conversion, and evaluation. Rollback includes preprocessing and output interpretation, not just replacing a weight file." src="../_images/asset-3b973b04a73b52d4.png" /><br>
+Figure 10.16. A model update returns through data review, preparation, conversion, and evaluation. Rollback includes preprocessing and output interpretation, not just replacing a weight file.</p>
+<p>Package an update with model version, preprocessing version, label mapping, calibration information where relevant, and test inputs. Validate the complete package before expanding a deployment. Keep the last accepted package available for rollback. A replacement model may require a different runtime or more working memory, even if its download file is smaller. Reuse the staged deployment mechanisms of Chapters 5, 6, and 9; the difference is that output quality now also belongs to the acceptance test.</p>
+<p>Most applications can start with centralized preparation and local inference. Fine-tuning, personalization, or collaborative learning are possible extensions when data and authority permit. They are not prerequisites for using a pretrained model and should not be confused with distributing one inference call. For now, the important loop is observe, identify a justified change, prepare and validate a new artifact, deploy it, and continue measuring. <a class="reference internal" href="ch11.html#chapter-11"><span class="std std-ref">Chapter 11</span></a> develops how multiple resources and models can collaborate when one local model is not enough.</p>
+</section>
+</section>
+<section id="a-reproducible-small-model-study">
+<span id="section-10-11"></span><h2>10.11 A reproducible small-model study<a class="headerlink" href="#a-reproducible-small-model-study" title="Link to this heading"></a></h2>
+<section id="start-with-supplied-weights-retraining-is-optional">
+<span id="section-10-11-1"></span><h3>10.11.1 Start with supplied weights; retraining is optional<a class="headerlink" href="#start-with-supplied-weights-retraining-is-optional" title="Link to this heading"></a></h3>
+<p>The laboratory is intentionally small enough to inspect. Its teacher is a multilayer perceptron with widths 64 → 64 → 32 → 10, using ReLU after the two hidden layers. The direct and distilled students both use 64 → 16 → 10. The structurally pruned model uses 64 → 32 → 16 → 10. These are digit classifiers, not trained camera-label detectors. They let us isolate representation, structural removal, and teacher-guided learning without requiring a large model download or a GPU. [<a class="reference internal" href="../references.html#ref-130"><span class="std std-ref">130</span></a>]</p>
+<p>The fixed stratified split contains 1,077 training, 360 validation, and 360 test examples. Initializations and minibatch order use seeds 11, 22, and 33 while the split stays unchanged. The teacher and both students receive a 120-epoch budget; the checkpoint with the lowest validation cross entropy is retained. Masked and compact recovery each receive up to 30 additional epochs with the same validation-selection rule, including the pre-recovery state as a candidate. None of these choices is selected using the test score.</p>
+<p>Dynamic quantization transforms the teacher’s three linear layers using real quantized CPU operators. It does not use a static calibration set. Testing invokes one sample at a time because dynamic ranges can depend on invocation contents. All model variants are serialized, reloaded, and evaluated; the floating-point variants also have NPZ exports for the inspectable NumPy path. The graph audit checks that quantized linear operators actually occur. Simulating rounded floating-point weights alone would not satisfy that check.</p>
+</section>
+<section id="read-the-results-without-forcing-a-preferred-winner">
+<span id="section-10-11-2"></span><h3>10.11.2 Read the results without forcing a preferred winner<a class="headerlink" href="#read-the-results-without-forcing-a-preferred-winner" title="Link to this heading"></a></h3>
+<p><a class="reference internal" href="#table-10-1"><span class="std std-ref">Table 10.1</span></a> reports local measurements, not assumed benefits. Accuracy is the mean over three initializations on the same 360 test examples; the range describes these initializations, not a confidence interval over new deployments. Parameter payload counts stored numerical values before serialization metadata. For the dynamic INT8 variant it includes INT8 matrix values and FP32 biases, but excludes quantization metadata. Warm-call timing is descriptive CPU timing in a shared container and is not a benchmark for a phone, development board, NPU, or camera pipeline.</p>
+<p id="table-10-1">Table 10.1. Measured classroom comparison. Timing is the median of three per-seed warmed-call medians, each based on 1,000 single-sample calls; it excludes acquisition, preprocessing, loading, and network time.</p>
+<table class="book-table docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Variant</strong></p></th>
+<th class="head"><p><strong>Test accuracy: mean [range]</strong></p></th>
+<th class="head"><p><strong>Parameter-value bytes</strong></p></th>
+<th class="head"><p><strong>Warm call: median (μs)</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Teacher FP32</p></td>
+<td><p>96.67% [95.83, 97.22]</p></td>
+<td><p>26,280</p></td>
+<td><p>11.24</p></td>
+</tr>
+<tr class="row-odd"><td><p>Dynamic INT8 linear layers</p></td>
+<td><p>96.76% [96.11, 97.22]</p></td>
+<td><p>6,888</p></td>
+<td><p>11.11</p></td>
+</tr>
+<tr class="row-even"><td><p>50% mask + recovery</p></td>
+<td><p>96.48% [96.39, 96.67]</p></td>
+<td><p>26,280</p></td>
+<td><p>11.24</p></td>
+</tr>
+<tr class="row-odd"><td><p>Compact structure + recovery</p></td>
+<td><p>97.22% [96.67, 97.50]</p></td>
+<td><p>11,112</p></td>
+<td><p>10.89</p></td>
+</tr>
+<tr class="row-even"><td><p>Small student, direct training</p></td>
+<td><p>97.41% [97.22, 97.78]</p></td>
+<td><p>4,840</p></td>
+<td><p>8.33</p></td>
+</tr>
+<tr class="row-odd"><td><p>Same student, distillation</p></td>
+<td><p>96.48% [95.83, 97.22]</p></td>
+<td><p>4,840</p></td>
+<td><p>8.32</p></td>
+</tr>
+</tbody>
+</table>
+<p id="fig-10-17"><img alt="Figure 10.17. Measured test accuracy for three initializations on one fixed split. The error bars show the observed range, not a statistical confidence interval. The same-size direct student is an essential distillation control." src="../_images/asset-ac6011ab76ae7cab.png" /><br>
+Figure 10.17. Measured test accuracy for three initializations on one fixed split. The error bars show the observed range, not a statistical confidence interval. The same-size direct student is an essential distillation control.</p>
+<p>Three observations are especially useful. The masked model retains the original dense payload despite many zero weights. Physically removing hidden units reduces that payload, while recovery is important for this compact model’s quality. Finally, distillation does not outperform direct training here. Each observation answers a different question. We do not average them into an unexplained score or claim that one technique is universally superior. A new device and a different task need a new comparison.</p>
+<p id="fig-10-18"><img alt="Figure 10.18. Calculated numeric payload from the actually trained and transformed models. Biases remain FP32 in the dynamic quantized variant. Serialized file size, peak RAM, and energy are different quantities." src="../_images/asset-c21598be8f504a54.png" /><br>
+Figure 10.18. Calculated numeric payload from the actually trained and transformed models. Biases remain FP32 in the dynamic quantized variant. Serialized file size, peak RAM, and energy are different quantities.</p>
+<p>Do not interpret the nearly equal teacher and dynamic-INT8 call times as either a robust quantization speedup or proof that quantization cannot help. The model is tiny, the batch is one, and invocation and runtime overhead are material. The measurements use PyTorch 2.10.0+cpu, one CPU thread, and its x86 quantized engine in an AMD EPYC container. Timing conditions are recorded in the results. Energy, sustained thermal behavior, and peak memory were not measured. The large difference between payload reduction and call-time reduction is itself a useful systems lesson.</p>
+<p>The compatibility experiment uses TorchScript serialization and a torch.ao dynamic-quantization API that emits a deprecation warning in the installed version. Its exact environment and warnings are preserved in the laboratory record. This is a reproducible experiment path, not the permanent API contract of the book. For a new deployment, consult the maintained runtime and quantization path, such as torchao or the chosen target exporter, then repeat the same correctness and resource checks. A pinned old API can preserve an experiment without becoming advice to build every future deployment on that API. [<a class="reference internal" href="../references.html#ref-142"><span class="std std-ref">142</span></a>]</p>
+</section>
+<section id="a-practical-sequence-for-a-different-edge-device">
+<span id="section-10-11-3"></span><h3>10.11.3 A practical sequence for a different edge device<a class="headerlink" href="#a-practical-sequence-for-a-different-edge-device" title="Link to this heading"></a></h3>
+<p>First load the supplied student and classify saved examples. Inspect its input normalization, class mapping, and outputs. Next reproduce the small model comparison or use the saved artifacts and test records. Then choose a target-supported runtime and export the floating-point model first; validate the same examples before enabling compression. Add the actual sensor only after this comparison succeeds. Each step should leave an artifact and an observation that explain what has been established.</p>
+<p>On the target, compare a fixed workload under identical acquisition and output rules. Include cold start and steady operation, a reasonable load from other applications, and a condition outside the normal input range. Report why each rejected configuration was rejected: unsupported execution, insufficient quality, excessive latency, or resource exhaustion. If hardware execution is unavailable, complete the local comparison and explicitly leave device metrics unmeasured. A simulator can explore assumptions, but cannot establish a hardware speed or energy result.</p>
+<p>The resulting local model now has a clear contract, a deployable artifact, and an evidence-based resource profile. The next question is not automatically how to make it even smaller. Some requests may genuinely require more information, more computation, or a different model. <a class="reference internal" href="ch11.html#chapter-11"><span class="std std-ref">Chapter 11</span></a> examines how local, nearby, and cloud resources can cooperate; <a class="reference internal" href="ch12.html#chapter-12"><span class="std std-ref">Chapter 12</span></a> then uses such capabilities as tools in a more flexible edge agent. The distinction remains: a useful prediction service must exist before an agent can depend on it.</p>
+</section>
+</section>
+<section id="chapter-summary">
+<span id="chapter-10-chapter-summary"></span><h2>Chapter summary<a class="headerlink" href="#chapter-summary" title="Link to this heading"></a></h2>
+<p>Deploying AI means delivering an input-to-result application, not copying a weight file. Begin with an explicit task and a working local model. Account separately for parameter storage, activation memory, runtime workspace, full-path latency, and energy. Lightweight design, quantization, pruning, and distillation change different aspects of the model; runtime and input policies offer further choices. Select methods to address measured constraints and keep fair baselines. Real integer execution, real graph compaction, and measured task quality matter more than an optimization label.</p>
+</section>
+<section id="exercises">
+<span id="chapter-10-exercises"></span><h2>Exercises<a class="headerlink" href="#exercises" title="Link to this heading"></a></h2>
+<p><strong>10.1.</strong> A fault detector sees 2,000 windows, including 100 faults. It detects 95 faults and raises 20 false alarms. Calculate accuracy, fault recall, and precision. Which application question does each metric leave unanswered?</p>
+<p><strong>10.2.</strong> A pipeline spends 10, 25, 15, 70, and 10 ms in acquisition, preprocessing, waiting, inference, and result handling. What is the end-to-end improvement if inference is twice as fast? Name a case in which reducing the sampling window changes the task itself.</p>
+<p><strong>10.3.</strong> Calculate raw parameter bytes for 1.2 million parameters at FP32, FP16, and INT8. Then calculate the bytes in one 112 × 112 × 32 FP32 feature map. Explain why weight-only quantization does not establish the total RAM saving.</p>
+<p><strong>10.4.</strong> With s = 0.1, z = 0, and signed INT8, quantize −0.26, 0.34, 0.56, and 15. Reconstruct them and distinguish rounding error from clipping error.</p>
+<p><strong>10.5.</strong> A developer runs a floating-point model with artificially rounded weights and calls the measured time “INT8 latency.” What evidence is missing? Distinguish this experiment from dynamic INT8 execution, static PTQ, and QAT.</p>
+<p><strong>10.6.</strong> Half the weights in a 64 × 64 matrix become zero, but its dense shape is unchanged. Compare this with removing 32 output units. Explain changes to the next layer, file representation, and executable work.</p>
+<p><strong>10.7.</strong> The direct and distilled students have identical architectures, but the distilled one receives twice as many training steps. Why is this not a clean distillation comparison? Design a better control and explain how to handle an unfavorable result.</p>
+<p><strong>10.8.</strong> For k = 3, M = 32, and N = 64, compare multiplications per output location in a standard convolution and a depthwise-plus-pointwise block. Why should the result not be reported as measured speedup?</p>
+<p><strong>10.9.</strong> An exported graph runs on an accelerator except for one operator that repeatedly falls back to the CPU. List measurements that distinguish arithmetic time from transfer and synchronization overhead; propose two design alternatives.</p>
+<p><strong>10.10.</strong> A camera records nearly identical frames from each physical object. Explain why a random frame split may overstate deployment quality. Propose a split and an update-evaluation procedure for new objects and lighting conditions.</p>
+<p><strong>10.11.</strong> Use the supplied artifacts to compare two models. Record task quality and raw payload, then measure a clearly named timing boundary. State which hardware, energy, and memory claims your evidence cannot establish.</p>
+<p><strong>10.12.</strong> A hypothetical MCU has 256 KiB of SRAM and enough flash for a 320 KiB model. Runtime, input, live activations, scratch, and application buffers require 12, 16, 190, 48, and 40 KiB of SRAM. Does the application fit? Would compressing only the flash-resident weights prove that it now fits?</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="ch09.html" class="btn btn-neutral float-left" title="Chapter 9. Commercial Edge Platforms: From Mechanisms to Deployment" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ch11.html" class="btn btn-neutral float-right" title="Chapter 11. Collaborative Edge Intelligence: From Perception Models to Language Models" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Zheng Song.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

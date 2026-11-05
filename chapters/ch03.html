@@ -1,0 +1,400 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chapter 3. IoT Devices and Sensing Systems &mdash; Edge Computing Systems</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/book.css?v=e49485e1" />
+
+  
+    <link rel="canonical" href="https://sonyyt.github.io/EdgeComputingBook-HTML/chapters/ch03.html" />
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=bcebf14d"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script>window.MathJax = {"tex": {"tags": "none"}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      <script src="../_static/book.js?v=917b1e6b"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Chapter 4. Communication and Networking for IoT and Edge Systems" href="ch04.html" />
+    <link rel="prev" title="Chapter 2. An Agentic IoT Application at the Edge" href="ch02.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Edge Computing Systems
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">About this book</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../preface.html">Preface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../publication.html">About this web edition</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Part I. Applications, Devices, Communication, and Digital Twins</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="ch01.html">Chapter 1. Introduction to Edge Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch02.html">Chapter 2. An Agentic IoT Application at the Edge</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Chapter 3. IoT Devices and Sensing Systems</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#a-map-of-the-physical-edge">3.1 A map of the physical edge</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#representative-device-classes">3.2 Representative device classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#microcontroller-nodes-and-development-boards">3.2.1 Microcontroller nodes and development boards</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#single-board-computers-gateways-and-accelerated-edge-hosts">3.2.2 Single-board computers, gateways, and accelerated edge hosts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#phones-wearables-vehicles-and-robots">3.2.3 Phones, wearables, vehicles, and robots</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#from-physical-quantity-to-application-observation">3.3 From physical quantity to application observation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#common-sensing-modalities">3.4 Common sensing modalities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#environmental-and-electrical-measurements">3.4.1 Environmental and electrical measurements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#motion-orientation-and-position">3.4.2 Motion, orientation, and position</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cameras-microphones-and-ranging">3.4.3 Cameras, microphones, and ranging</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#sampling-resolution-calibration-and-uncertainty">3.5 Sampling, resolution, calibration, and uncertainty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#connecting-sensors-to-computing-devices">3.6 Connecting sensors to computing devices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#smartphone-sensing-as-an-edge-systems-problem">3.7 Smartphone sensing as an edge-systems problem</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#discover-capabilities-rather-than-assuming-them">3.7.1 Discover capabilities rather than assuming them</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#from-raw-events-to-an-activity-estimate">3.7.2 From raw events to an activity estimate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#energy-permissions-and-lifecycle">3.7.3 Energy, permissions, and lifecycle</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#wearables-and-participatory-sensing">3.8 Wearables and participatory sensing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#vehicle-and-robot-sensing">3.9 Vehicle and robot sensing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#internal-state-and-external-perception">3.9.1 Internal state and external perception</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#multi-sensor-perception-and-its-costs">3.9.2 Multi-sensor perception and its costs</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#fusion-coordinate-frames-and-time-alignment">3.10 Fusion, coordinate frames, and time alignment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#data-and-energy-budgets-across-modalities">3.11 Data and energy budgets across modalities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#laboratory-and-exercises">3.12 Laboratory and exercises</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#chapter-perspective">Chapter perspective</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ch04.html">Chapter 4. Communication and Networking for IoT and Edge Systems</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Part II. Building and Operating Edge Systems</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ch05.html">Chapter 5. Running and Deploying Applications on Edge Nodes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch06.html">Chapter 6. Scaling Edge Applications and Elastic Execution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch07.html">Chapter 7. Computation Offloading and Device–Edge–Cloud Collaboration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch08.html">Chapter 8. Scheduling and Optimizing Edge Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch09.html">Chapter 9. Commercial Edge Platforms: From Mechanisms to Deployment</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Part III. Edge AI</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ch10.html">Chapter 10. Running and Optimizing AI on Edge Devices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch11.html">Chapter 11. Collaborative Edge Intelligence: From Perception Models to Language Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch12.html">Chapter 12. Agentic AI and Tool-Driven Applications at the Edge</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Part IV. Security and Multi-Party Trust</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ch13.html">Chapter 13. Security, Privacy, and Safety in Edge Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch14.html">Chapter 14. Multi-Party Trust, Blockchains, and Distributed Ledgers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendices and references</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../appendices/appendix-a.html">Appendix A. Laboratory and Project Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendices/appendix-b.html">Appendix B. Optional Extension: Learning and Adaptation Across Devices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendices/appendix-c.html">Appendix C. Selected Exercise Solutions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendices/appendix-d.html">Appendix D. Glossary and Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendices/appendix-e.html">Appendix E. Evidence and Reproducibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Edge Computing Systems</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Chapter 3. IoT Devices and Sensing Systems</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/sonyyt/EdgeComputingBook/blob/main/docs/chapters/ch03.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul><div class="rst-breadcrumbs-buttons" role="navigation" aria-label="Sequential page navigation">
+        <a href="ch02.html" class="btn btn-neutral float-left" title="Chapter 2. An Agentic IoT Application at the Edge" accesskey="p"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ch04.html" class="btn btn-neutral float-right" title="Chapter 4. Communication and Networking for IoT and Edge Systems" accesskey="n">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+  </div>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="chapter-3-iot-devices-and-sensing-systems">
+<span id="chapter-3"></span><h1>Chapter 3. IoT Devices and Sensing Systems<a class="headerlink" href="#chapter-3-iot-devices-and-sensing-systems" title="Link to this heading"></a></h1>
+<section id="a-map-of-the-physical-edge">
+<span id="section-3-1"></span><h2>3.1 A map of the physical edge<a class="headerlink" href="#a-map-of-the-physical-edge" title="Link to this heading"></a></h2>
+<p>An agricultural moisture probe, a smartwatch, a traffic camera, and an industrial robot all produce data near the physical world. They are not interchangeable sources of JSON. Their observations differ in physical meaning, sampling behavior, volume, uncertainty, ownership, and consequences of failure. Before deciding where an application should compute, a designer needs to understand what its devices can actually observe and control.</p>
+<p>This chapter separates three classifications. A <strong>device class</strong> describes an execution and deployment platform, such as a microcontroller node or smartphone. A <strong>sensing modality</strong> describes a physical measurement, such as acceleration, sound pressure, or reflected light. An <strong>application domain</strong> supplies the interpretation and requirements, such as activity recognition, road perception, or equipment maintenance. A smartphone contains several modalities, and the same accelerometer can support very different applications. Keeping these classifications separate prevents a product catalog from becoming a substitute for understanding.</p>
+<p>The learning goal is not to memorize component specifications. It is to read a device description, identify the observation pipeline, estimate the resulting resource demand, and explain which information an application can and cannot infer. RoomEdge is one possible laboratory application; the chapter also develops mobile, wearable, vehicular, robotic, and industrial examples.</p>
+<p id="fig-3-1"><img alt="Figure 3.1. Device classes and sensing modalities are different axes. A platform can host several sensors, and the same modality can appear in several platforms. This is a conceptual inventory, not a performance ranking." src="../_images/asset-8165980fa80d2b63.png" /><br>
+Figure 3.1. Device classes and sensing modalities are different axes. A platform can host several sensors, and the same modality can appear in several platforms. This is a conceptual inventory, not a performance ranking.</p>
+</section>
+<section id="representative-device-classes">
+<span id="section-3-2"></span><h2>3.2 Representative device classes<a class="headerlink" href="#representative-device-classes" title="Link to this heading"></a></h2>
+<section id="microcontroller-nodes-and-development-boards">
+<span id="section-3-2-1"></span><h3>3.2.1 Microcontroller nodes and development boards<a class="headerlink" href="#microcontroller-nodes-and-development-boards" title="Link to this heading"></a></h3>
+<p>A microcontroller integrates a processor with memory and peripheral controllers. A typical sensing program configures timers and interfaces, sleeps or waits for an event, reads a sensor, performs a small amount of computation, and stores or sends a result. It may execute directly as firmware or use a real-time operating system. Its limited memory does not make it unimportant: it often owns the only timely connection to the physical signal.</p>
+<p>Representative development families include ESP32 boards, STM32 Nucleo boards, and Raspberry Pi Pico boards. These names identify families, not uniform capabilities. Wireless support, memory, peripheral availability, and supported software differ by chip and board. ESP-IDF is Espressif’s development framework; Nucleo boards provide access to STM32 devices and integrated debugging; Pico boards are microcontroller platforms rather than the Linux computers commonly associated with the Raspberry Pi name. [<a class="reference internal" href="../references.html#ref-39"><span class="std std-ref">39</span></a>, <a class="reference internal" href="../references.html#ref-40"><span class="std std-ref">40</span></a>, <a class="reference internal" href="../references.html#ref-41"><span class="std std-ref">41</span></a>]</p>
+<p>A development board adds practical infrastructure around a chip: power regulation, connectors, a programming interface, and sometimes a radio or sensor. An external sensor breakout may include its own regulator and level shifting, but this must be checked rather than assumed. A board suitable for a desk demonstration is not automatically suitable for an outdoor enclosure or a battery-powered product. The final design must account for startup behavior, watchdogs, power loss, and recovery from an interrupted firmware update.</p>
+</section>
+<section id="single-board-computers-gateways-and-accelerated-edge-hosts">
+<span id="section-3-2-2"></span><h3>3.2.2 Single-board computers, gateways, and accelerated edge hosts<a class="headerlink" href="#single-board-computers-gateways-and-accelerated-edge-hosts" title="Link to this heading"></a></h3>
+<p>A single-board computer provides a more conventional host environment, commonly including external storage, virtual memory, processes, and a full networking stack. A Raspberry Pi computer illustrates this category. A gateway describes a <strong>role</strong>, not a particular board: it may translate protocols, aggregate observations, maintain local state, and host services for less capable devices. An industrial gateway may emphasize environmental tolerance, isolated interfaces, and lifecycle support rather than maximum processing speed. [<a class="reference internal" href="../references.html#ref-42"><span class="std std-ref">42</span></a>]</p>
+<p>An accelerated edge host combines a general-purpose CPU with a GPU, neural accelerator, or other specialized engine. NVIDIA Jetson modules are a representative embedded accelerated platform. A module, its carrier board, its development kit, and the deployed enclosure are different objects; power, cooling, connectors, and software support belong to the complete system. Quoted arithmetic throughput alone does not establish application throughput. Preprocessing, memory transfers, supported operators, and contention still matter. [<a class="reference internal" href="../references.html#ref-43"><span class="std std-ref">43</span></a>]</p>
+<p>A smart camera may combine imaging, encoding, and inference in one enclosure. This can reduce outgoing data but also restrict which intermediate data or models an application can access. A programmable logic controller, by contrast, is primarily an industrial control platform. An edge analytics computer can consume its approved observations without taking over its control responsibilities. Treating all of these devices as generic Linux servers hides important execution and safety boundaries.</p>
+</section>
+<section id="phones-wearables-vehicles-and-robots">
+<span id="section-3-2-3"></span><h3>3.2.3 Phones, wearables, vehicles, and robots<a class="headerlink" href="#phones-wearables-vehicles-and-robots" title="Link to this heading"></a></h3>
+<p>A smartphone combines sensing, computation, storage, networking, a user interface, and an owner who can withdraw permission. It is both an end device and a possible gateway for nearby wearables. Its availability cannot be assumed merely because an application was installed. The user may disable a permission, stop the process, change networks, or take the device away.</p>
+<p>A wearable is constrained by size, comfort, battery life, placement, and the quality of contact with the body. A vehicle or robot may instead integrate several computers, internal networks, high-rate sensors, and dedicated controllers. The meaningful unit of design is the system of components, not a single device specification.</p>
+<table class="book-table docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Device class</strong></p></th>
+<th class="head"><p><strong>Representative examples</strong></p></th>
+<th class="head"><p><strong>Questions before deployment</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Microcontroller node</p></td>
+<td><p>ESP32, STM32 Nucleo, Pico</p></td>
+<td><p>What fits in working memory? Which events wake it? How is firmware recovered?</p></td>
+</tr>
+<tr class="row-odd"><td><p>General-purpose edge host</p></td>
+<td><p>Raspberry Pi computer, mini-PC</p></td>
+<td><p>What survives power loss? What are the storage and thermal limits?</p></td>
+</tr>
+<tr class="row-even"><td><p>Accelerated embedded host</p></td>
+<td><p>Jetson-class module and carrier</p></td>
+<td><p>Which runtime and operators are supported? What is the sustained power budget?</p></td>
+</tr>
+<tr class="row-odd"><td><p>Mobile or wearable platform</p></td>
+<td><p>Phone, watch, activity tag</p></td>
+<td><p>Who controls permissions, placement, and availability?</p></td>
+</tr>
+<tr class="row-even"><td><p>Domain system</p></td>
+<td><p>Smart camera, industrial gateway, vehicle, robot</p></td>
+<td><p>Which functions are exposed, isolated, or safety-critical?</p></td>
+</tr>
+</tbody>
+</table>
+<p>The named platforms are examples for learning to read documentation, not purchasing recommendations or claims that one family is best. Product facts should be checked against the selected variant before a laboratory is assigned. [<a class="reference internal" href="../references.html#ref-39"><span class="std std-ref">39</span></a>, <a class="reference internal" href="../references.html#ref-40"><span class="std std-ref">40</span></a>, <a class="reference internal" href="../references.html#ref-41"><span class="std std-ref">41</span></a>, <a class="reference internal" href="../references.html#ref-42"><span class="std std-ref">42</span></a>, <a class="reference internal" href="../references.html#ref-43"><span class="std std-ref">43</span></a>]</p>
+</section>
+</section>
+<section id="from-physical-quantity-to-application-observation">
+<span id="section-3-3"></span><h2>3.3 From physical quantity to application observation<a class="headerlink" href="#from-physical-quantity-to-application-observation" title="Link to this heading"></a></h2>
+<p>A sensing pipeline begins with a <strong>measurand</strong>, the quantity of interest. A transducer turns an aspect of that quantity into an electrical or digital signal. Signal conditioning may amplify or filter it; an analog-to-digital converter may sample and quantize it; a device driver reads the result; calibration and coordinate transformations give it usable meaning. A timestamp and context complete the application record.</p>
+<p>The stages need not occupy different packages. A digital sensor can integrate the transducer, converter, filtering, calibration support, and interface. The host still needs to know which operations the sensor has already performed. Reading a digital value does not imply that it is an unprocessed or perfectly accurate measurement.</p>
+<p id="fig-3-2"><img alt="Figure 3.2. The observation pipeline separates physical transduction, signal processing, acquisition, and interpretation. A successful network delivery preserves only the information that survived the earlier stages." src="../_images/asset-3964d689bc4559ab.png" /><br>
+Figure 3.2. The observation pipeline separates physical transduction, signal processing, acquisition, and interpretation. A successful network delivery preserves only the information that survived the earlier stages.</p>
+<p>Consider a temperature sensor mounted beside a busy processor. The API may return a well-formed value with a precise timestamp, while the enclosure’s self-heating makes it a poor estimate of ambient air temperature. No communication protocol can correct that placement error. Conversely, a reliable physical measurement can become misleading when software drops its unit, calibration version, or measurement time.</p>
+<p>An observation contract should therefore include identity, value, unit, time basis, sensor configuration, and quality indicators. Context may include a coordinate frame, an installation location, or the conditions under which calibration is valid. Not every sample needs a copy of all metadata: stable metadata can be versioned separately, provided each sample unambiguously identifies the version it uses.</p>
+</section>
+<section id="common-sensing-modalities">
+<span id="section-3-4"></span><h2>3.4 Common sensing modalities<a class="headerlink" href="#common-sensing-modalities" title="Link to this heading"></a></h2>
+<section id="environmental-and-electrical-measurements">
+<span id="section-3-4-1"></span><h3>3.4.1 Environmental and electrical measurements<a class="headerlink" href="#environmental-and-electrical-measurements" title="Link to this heading"></a></h3>
+<p>Temperature, humidity, pressure, illumination, and gas-related measurements often produce scalar time series. They are useful for illustrating that a number is not a universal environmental description. A light sensor measures illumination at its location, not a camera image. A pressure sensor can support relative-height estimation under assumptions, but changing weather can also affect pressure. A gas sensor’s stated target, cross-sensitivity, warm-up, and calibration requirements matter.</p>
+<p>The Bosch BME280 is a concrete example of a component combining humidity, pressure, and temperature measurements with digital interfaces. Sensirion’s SCD41 illustrates a different measurement principle: photoacoustic carbon-dioxide sensing. A device that estimates an equivalent carbon-dioxide value from other gas responses should not be presented as interchangeable with a sensor that measures carbon dioxide using an appropriate physical method. Compare the measurand and documentation, not just the field name on a dashboard. [<a class="reference internal" href="../references.html#ref-44"><span class="std std-ref">44</span></a>, <a class="reference internal" href="../references.html#ref-46"><span class="std std-ref">46</span></a>]</p>
+<p>Electrical sensing includes voltage, current, contact state, and power-related quantities. A contact switch can directly report a mechanical state; a current sensor may support an inference that equipment is operating. These differ in evidential strength. A motor drawing current may still be stalled. In a maintenance application, the desired diagnosis usually requires a combination of observations and domain assumptions, not a single threshold.</p>
+</section>
+<section id="motion-orientation-and-position">
+<span id="section-3-4-2"></span><h3>3.4.2 Motion, orientation, and position<a class="headerlink" href="#motion-orientation-and-position" title="Link to this heading"></a></h3>
+<p>An inertial measurement unit commonly combines accelerometers and gyroscopes. An accelerometer reports acceleration-related specific force; a gyroscope reports angular velocity. Neither directly supplies an indefinitely accurate trajectory. Bias accumulates when measurements are integrated, and interpretation depends on the coordinate frame. A magnetometer contributes information about a magnetic field, which can help orientation estimation but is disturbed by nearby magnetic materials and currents. The BMI270 provides a representative integrated accelerometer-and-gyroscope example. [<a class="reference internal" href="../references.html#ref-45"><span class="std std-ref">45</span></a>, <a class="reference internal" href="../references.html#ref-50"><span class="std std-ref">50</span></a>]</p>
+<p>GNSS estimates position and time using satellite signals; it is a separate subsystem rather than a magnetometer feature. Wheel encoders measure rotation, not guaranteed travel over the ground: slipping wheels make the distinction important. Combining several imperfect measurements can improve a state estimate only when their limitations and relationships are modeled.</p>
+</section>
+<section id="cameras-microphones-and-ranging">
+<span id="section-3-4-3"></span><h3>3.4.3 Cameras, microphones, and ranging<a class="headerlink" href="#cameras-microphones-and-ranging" title="Link to this heading"></a></h3>
+<p>A camera produces spatially organized intensity or color samples. Exposure, field of view, optics, motion blur, and illumination affect the information available to software. A microphone produces an acoustic waveform rather than a transcript. Speech recognition and sound-event detection are downstream interpretations. Compression can reduce data volume while changing the evidence available for a task.</p>
+<p>Ranging sensors add another family of information. Ultrasonic devices infer distance using sound propagation; optical time-of-flight devices use emitted light; radar uses radio signals; lidar constructs optical range measurements across directions. A time-of-flight measurement often follows the basic relation <span class="math notranslate nohighlight">\(d = v\Delta t/2\)</span>, where <span class="math notranslate nohighlight">\(v\)</span> is propagation speed and the factor two accounts for the outgoing and returning path. The equation assumes the relevant path is correctly identified; multipath, weak returns, and occlusion complicate a real device.</p>
+<p>ST’s VL53L1X is an example of an integrated optical time-of-flight ranging component. TI’s mmWave devices illustrate radar sensing integrated with local processing. These are not interchangeable substitutes for a full camera or a vehicle’s perception stack. The sensing principle, spatial coverage, update behavior, environment, and required output must be compared. [<a class="reference internal" href="../references.html#ref-47"><span class="std std-ref">47</span></a>, <a class="reference internal" href="../references.html#ref-48"><span class="std std-ref">48</span></a>]</p>
+<p id="fig-3-3"><img alt="Figure 3.3. Different modalities expose different evidence: scalar readings, vectors, waveforms, images, and range returns. Application labels are inferences built from these observations, not additional physical sensors." src="../_images/asset-0f68aab1c0b21ea1.png" /><br>
+Figure 3.3. Different modalities expose different evidence: scalar readings, vectors, waveforms, images, and range returns. Application labels are inferences built from these observations, not additional physical sensors.</p>
+</section>
+</section>
+<section id="sampling-resolution-calibration-and-uncertainty">
+<span id="section-3-5"></span><h2>3.5 Sampling, resolution, calibration, and uncertainty<a class="headerlink" href="#sampling-resolution-calibration-and-uncertainty" title="Link to this heading"></a></h2>
+<p>Sampling rate is the frequency at which a signal is acquired. Reporting rate is the frequency at which records are delivered to another component. A device might sample vibration thousands of times per second, calculate a feature locally, and send one record per minute. The resulting report rate does not describe the original temporal resolution.</p>
+<p>For a strictly band-limited signal with highest frequency <span class="math notranslate nohighlight">\(f_{max}\)</span>, ideal reconstruction requires a sampling rate greater than twice that frequency under the usual sampling-theorem assumptions. Practical acquisition adds an anti-alias filter and margin. If a physical oscillation aliases into a lower frequency during acquisition, a later cloud algorithm cannot generally infer the original signal from those samples alone. Increasing the reporting rate does not repair inadequate sampling. [<a class="reference internal" href="../references.html#ref-54"><span class="std std-ref">54</span></a>]</p>
+<p>Resolution describes distinguishable increments; accuracy describes closeness to the relevant reference; precision concerns repeatability. An ideal <span class="math notranslate nohighlight">\(b\)</span>-bit converter divides its input span into approximately <span class="math notranslate nohighlight">\(2^{b}\)</span> levels. For an illustrative 0–3.3 V range and 12 bits, the ideal step is about 0.806 mV. This is not a claim that every conversion is accurate within 0.806 mV. Reference error, noise, nonlinearity, and the preceding sensor can dominate.</p>
+<p>Calibration estimates a relationship between observations and reference conditions. A simple affine correction is <span class="math notranslate nohighlight">\(x = (y - b)/a\)</span>, where <span class="math notranslate nohighlight">\(y\)</span> is the reported value, <span class="math notranslate nohighlight">\(a\)</span> is a scale factor, and <span class="math notranslate nohighlight">\(b\)</span> is an offset. This model is useful only over conditions for which it has been checked. Temperature drift, aging, and mounting can require recalibration. Record the calibration version rather than silently changing the meaning of historical readings.</p>
+<p>Averaging repeated independent zero-mean noise can reduce variance, but it does not remove a common bias. It also trades temporal detail for smoothing. A ten-second mean may suppress exactly the short event that an impact detector needs. A good design chooses a representation from the downstream task, not from the assumption that fewer records are always better.</p>
+<p>Timestamping deserves equal attention. Acquisition time, driver-delivery time, gateway-arrival time, and database-commit time are different events. A batch of old samples may arrive together. A monotonic device clock is useful for intervals, but separate devices need an estimated mapping before their times can be compared. Store uncertainty when alignment is approximate; apparent timestamp precision is not evidence of cross-device synchronization.</p>
+</section>
+<section id="connecting-sensors-to-computing-devices">
+<span id="section-3-6"></span><h2>3.6 Connecting sensors to computing devices<a class="headerlink" href="#connecting-sensors-to-computing-devices" title="Link to this heading"></a></h2>
+<p>GPIO can represent simple digital input or output. An ADC acquires analog input. I²C uses a shared clock and data connection with addressed peripherals; SPI commonly uses clock, data lines, and device-selection signals; UART provides an asynchronous serial byte stream. These are local interface mechanisms, not alternatives to an end-to-end application protocol such as MQTT. A complete pipeline may read a sensor over I²C and publish its observation over MQTT through Wi-Fi. Representative board documentation exposes these distinct interfaces. [<a class="reference internal" href="../references.html#ref-39"><span class="std std-ref">39</span></a>, <a class="reference internal" href="../references.html#ref-41"><span class="std std-ref">41</span></a>]</p>
+<p>An interface driver must understand more than the wire format. It may have to request a conversion, wait for readiness, read multiple registers consistently, interpret signed values, apply a scale factor, and detect overflow. Reading each byte correctly is insufficient if the bytes belong to different acquisition instants. A sensor FIFO can preserve bursts while the processor sleeps, but it has finite capacity and an overrun policy.</p>
+<p>Polling repeatedly asks whether data are ready. An interrupt notifies the processor of an event. Direct memory access can move data without a CPU instruction for every byte. These choices affect timing and energy, but they do not remove the need for bounded buffers and ownership rules. A driver that performs slow network work inside a timing-sensitive callback can delay subsequent acquisition.</p>
+<p>Before connecting hardware, check supply voltage, logic levels, grounding, current limits, and the specific board’s wiring instructions. Do not attach a classroom development board directly to mains wiring or a live vehicle control network. Industrial and vehicular examples in this book use authorized recordings, isolated training hardware, or simulation.</p>
+</section>
+<section id="smartphone-sensing-as-an-edge-systems-problem">
+<span id="section-3-7"></span><h2>3.7 Smartphone sensing as an edge-systems problem<a class="headerlink" href="#smartphone-sensing-as-an-edge-systems-problem" title="Link to this heading"></a></h2>
+<section id="discover-capabilities-rather-than-assuming-them">
+<span id="section-3-7-1"></span><h3>3.7.1 Discover capabilities rather than assuming them<a class="headerlink" href="#discover-capabilities-rather-than-assuming-them" title="Link to this heading"></a></h3>
+<p>Android exposes a sensor framework for discovering available sensors, examining their capabilities, and receiving timestamped events. Hardware-based sensors and software-derived sensors are distinguished; a device need not contain every sensor supported by the API. A derived rotation vector, for example, is not the same kind of object as an independent physical transducer. Availability checks and graceful fallback belong in the application design. [<a class="reference internal" href="../references.html#ref-49"><span class="std std-ref">49</span></a>]</p>
+<p>A sensor application’s acquisition loop should be short. It copies the measurement, timestamp, and quality information into a bounded queue; processing and storage occur outside the callback. The requested sampling period should be treated as a configuration request, with achieved intervals verified from event timestamps. Operating-system scheduling and batching mean callback arrival time is not necessarily sample time.</p>
+<p>A useful first mobile experiment is a capability audit. Record the available sensor types, their advertised ranges and resolution, the requested acquisition interval, and the observed interval distribution. Repeat under a controlled CPU load. The purpose is to discover which assumptions survive actual execution, not to establish a universal phone benchmark.</p>
+</section>
+<section id="from-raw-events-to-an-activity-estimate">
+<span id="section-3-7-2"></span><h3>3.7.2 From raw events to an activity estimate<a class="headerlink" href="#from-raw-events-to-an-activity-estimate" title="Link to this heading"></a></h3>
+<p>Consider recognizing periods of walking from a phone’s inertial data. A pipeline might acquire accelerometer events, check gaps, form overlapping windows, calculate signal features, classify a window, and report an event with its supporting time interval. A language model may explain an already computed activity summary; it need not calculate every signal feature from a text serialization of the waveform.</p>
+<p>The coordinate frame matters. A phone in a pocket, bag, or hand observes motion differently. Taking vector magnitude can reduce some orientation dependence, but it also discards directional information and does not remove all placement effects. Android motion documentation distinguishes raw acceleration, gravity-related signals, and derived linear acceleration. Select the signal according to the intended interpretation rather than mixing them under one field name. [<a class="reference internal" href="../references.html#ref-50"><span class="std std-ref">50</span></a>]</p>
+<p id="fig-3-4"><img alt="Figure 3.4. A mobile sensing pipeline separates acquisition, windowing, inference, and reporting. Permissions, lifecycle changes, and missing samples can interrupt the pipeline at different boundaries." src="../_images/asset-3aa95aed47be853b.png" /><br>
+Figure 3.4. A mobile sensing pipeline separates acquisition, windowing, inference, and reporting. Permissions, lifecycle changes, and missing samples can interrupt the pipeline at different boundaries.</p>
+</section>
+<section id="energy-permissions-and-lifecycle">
+<span id="section-3-7-3"></span><h3>3.7.3 Energy, permissions, and lifecycle<a class="headerlink" href="#energy-permissions-and-lifecycle" title="Link to this heading"></a></h3>
+<p>A phone is not a dedicated server. Location acquisition, radio use, screen activity, and computation compete for its battery. Background-location behavior is also constrained by the operating system and the permissions granted by the owner. Exact rules vary across platform versions, so a lab should record its target version and use current official guidance rather than assume indefinite background access. [<a class="reference internal" href="../references.html#ref-51"><span class="std std-ref">51</span></a>]</p>
+<p>Design a visible collection policy: what is collected, when it stops, what remains local, and how the owner can revoke access. Consent to motion sensing does not automatically authorize recording conversations or precise travel histories. Store only information needed by the task, and provide a meaningful result when a permission is unavailable. These are architectural constraints, not merely interface decoration.</p>
+<p>An energy-aware design can combine low-cost triggers with short periods of higher-detail acquisition. For example, a motion event may trigger a bounded analysis window rather than continuous expensive processing. Whether this helps must be measured, including false triggers and startup costs. Event-driven operation can save resources in a sparse workload and perform poorly under continuous activity.</p>
+</section>
+</section>
+<section id="wearables-and-participatory-sensing">
+<span id="section-3-8"></span><h2>3.8 Wearables and participatory sensing<a class="headerlink" href="#wearables-and-participatory-sensing" title="Link to this heading"></a></h2>
+<p>Wearable observations depend on attachment and contact. A wrist-worn accelerometer is not a substitute for a sensor rigidly mounted on equipment. Optical pulse measurements depend on illumination, tissue interaction, motion, and contact; a classroom application should not claim clinical validity from a convenient waveform. The systems lesson is to preserve the conditions and uncertainty behind a derived measurement, not to diagnose a person.</p>
+<p>A common topology has a wearable send data to a phone, which buffers it and optionally contacts a cloud service. This introduces at least two availability boundaries: wearable-to-phone and phone-to-cloud. A disconnected phone need not imply lost wearable data if the local protocol and buffers support recovery. Conversely, a cloud-connected phone cannot recover samples that the wearable never stored.</p>
+<p>Participatory sensing combines observations from many owners. Its coverage is shaped by where participants go, which devices they own, and when they choose to contribute. More samples do not automatically produce a representative view. A noise-mapping study concentrated along commuting routes may leave residential streets poorly observed. Coverage maps, missingness, and device heterogeneity should be reported alongside the inferred map.</p>
+<p>A useful design comparison contrasts centralized raw-data collection, local feature extraction, and local event reporting. The last two may reduce disclosure and traffic but can prevent later reanalysis. The correct choice depends on an explicit study or application purpose. A system should not collect raw data indefinitely merely because it might become useful later.</p>
+</section>
+<section id="vehicle-and-robot-sensing">
+<span id="section-3-9"></span><h2>3.9 Vehicle and robot sensing<a class="headerlink" href="#vehicle-and-robot-sensing" title="Link to this heading"></a></h2>
+<section id="internal-state-and-external-perception">
+<span id="section-3-9-1"></span><h3>3.9.1 Internal state and external perception<a class="headerlink" href="#internal-state-and-external-perception" title="Link to this heading"></a></h3>
+<p>Separate <strong>proprioceptive</strong> information about the system itself from <strong>exteroceptive</strong> information about its environment. Wheel rotation, steering-related measurements, inertial data, and actuator status describe aspects of internal state. Cameras, lidar, radar, and external positioning contribute observations of the surroundings or pose. A higher-level object track or obstacle alert is a derived representation.</p>
+<p>Vehicles often expose selected electronic-control-unit messages through internal networks. CAN is a message-oriented bus whose identifiers participate in arbitration; it is not an IP network with one destination address per sensor. Linux SocketCAN provides a networking interface for supported CAN devices and virtual interfaces, which makes it useful for safe replay-based teaching. Decoding a payload still requires an authorized schema for the specific system. A successful CAN read is not permission to send control commands. [<a class="reference internal" href="../references.html#ref-52"><span class="std std-ref">52</span></a>]</p>
+<p>Robotic sensing follows similar principles but may involve different motion, mounting, and communication constraints. A warehouse robot’s local obstacle avoidance, fleet scheduling, and long-term map analysis can have very different deadlines. They should not be forced through one remote model endpoint merely because all three use sensor data.</p>
+</section>
+<section id="multi-sensor-perception-and-its-costs">
+<span id="section-3-9-2"></span><h3>3.9.2 Multi-sensor perception and its costs<a class="headerlink" href="#multi-sensor-perception-and-its-costs" title="Link to this heading"></a></h3>
+<p>A camera supplies rich appearance information; a range sensor supplies distance-related observations; inertial and wheel measurements help estimate motion between less frequent observations. Fusion requires temporal alignment, spatial calibration, and an uncertainty model. More sensors can add useful evidence, but also add synchronization work, computation, failure modes, and maintenance.</p>
+<p>A camera–lidar pair illustrates the spatial problem. A lidar point in its local coordinates cannot be placed directly into camera pixels. A rigid transformation relates the two frames, followed by the camera’s projection model. Even with correct geometry, a moving object may occupy different positions when the two sensors acquire their data. Temporal and spatial calibration solve different problems.</p>
+<p id="fig-3-5"><img alt="Figure 3.5. A vehicle or robot contains multiple sensing and execution paths. Immediate local control, shared edge coordination, and remote retrospective analysis have different dependencies; the remote path is not assumed to be part of the safety loop." src="../_images/asset-4ece232b23469238.png" /><br>
+Figure 3.5. A vehicle or robot contains multiple sensing and execution paths. Immediate local control, shared edge coordination, and remote retrospective analysis have different dependencies; the remote path is not assumed to be part of the safety loop.</p>
+<p>Vehicular cooperation introduces another distinction: transmitting observations, features, object tracks, or plans exchanges different amounts and kinds of information. Raw data offers flexibility at high transfer cost; tracks are compact but inherit the sender’s inference errors. A roadside edge service can help combine information, yet limited coverage and changing connectivity prevent it from being treated as an always-available extension of onboard memory. <a class="reference internal" href="ch04.html#chapter-4"><span class="std std-ref">Chapter 4</span></a> introduces the communication setting, and <a class="reference internal" href="ch08.html#chapter-8"><span class="std std-ref">Chapter 8</span></a> returns to mobility-aware placement.</p>
+</section>
+</section>
+<section id="fusion-coordinate-frames-and-time-alignment">
+<span id="section-3-10"></span><h2>3.10 Fusion, coordinate frames, and time alignment<a class="headerlink" href="#fusion-coordinate-frames-and-time-alignment" title="Link to this heading"></a></h2>
+<p>A coordinate frame identifies the origin and axes used to express a quantity. A vector with three correct numbers can still be unusable when its frame is unknown. Let <span class="math notranslate nohighlight">\(p_{s}\)</span> be a point in a sensor frame. A rigid transformation into a reference frame can be written as</p>
+<div class="math notranslate nohighlight">
+\[
+p_{r} = R_{rs}p_{s} + t_{rs},
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(R_{rs}\)</span> is a rotation matrix and <span class="math notranslate nohighlight">\(t_{rs}\)</span> is a translation. Units, direction conventions, and the time at which the transformation applies must be specified. Transforming acceleration also requires care about the physical quantity and gravity convention; a position transformation should not be blindly reused for every signal. ROS’s coordinate conventions provide one explicit example of how a software ecosystem fixes these choices. [<a class="reference internal" href="../references.html#ref-53"><span class="std std-ref">53</span></a>]</p>
+<p>For an illustrative alignment error, suppose a vehicle moves at 15 m/s and two relevant observations are separated by 20 ms. Even in straight, constant-speed motion, the displacement is <span class="math notranslate nohighlight">\(15 \times 0.020 = 0.30\)</span> m. A fusion method that treats them as simultaneous can create a substantial geometric error before any model inference begins. Faster inference does not repair a wrong acquisition-time assumption.</p>
+<p id="fig-3-6"><img alt="Two mismatches: coordinate frame and capture time; Different coordinate frames; x; y; x′; y′; Transform axes before combining coordinates.; Different observation times; t = 0; t = 20 ms; 15 m/s × 20 ms = 0.30 m" src="../_images/asset-7f21fc4291f9cb79.png" /><br>
+Figure 3.6. Aligning coordinate systems does not remove a capture-time offset; the illustrative displacement is 0.30 m.</p>
+<p>Fusion may occur at the raw-data level, feature level, or decision level. Raw fusion can retain more information but requires compatible representations and greater bandwidth. Feature fusion depends on how features were produced. Decision fusion combines compact outputs but cannot recover evidence discarded earlier. None of these levels guarantees independent errors: two models trained similarly may make correlated mistakes.</p>
+<p>A simple scalar example explains why uncertainty matters. If two unbiased, independent estimates have known variances <span class="math notranslate nohighlight">\(\sigma_{1}^{2}\)</span> and <span class="math notranslate nohighlight">\(\sigma_{2}^{2}\)</span>, a weighted estimate can assign weights proportional to <span class="math notranslate nohighlight">\(1/\sigma_{i}^{2}\)</span>. The smaller-variance estimate receives more weight. This reasoning fails when errors share a bias or the assumed variances are wrong. In a student project, explicit assumptions and a comparison against a single-sensor baseline are more valuable than attaching the word “fusion” to an average.</p>
+</section>
+<section id="data-and-energy-budgets-across-modalities">
+<span id="section-3-11"></span><h2>3.11 Data and energy budgets across modalities<a class="headerlink" href="#data-and-energy-budgets-across-modalities" title="Link to this heading"></a></h2>
+<p>The following calculations use invented acquisition settings and exclude headers, compression, timestamps, and retransmission. Their purpose is to show how modality changes the systems problem.</p>
+<table class="book-table docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Assumed source</strong></p></th>
+<th class="head"><p><strong>Payload calculation</strong></p></th>
+<th class="head"><p><strong>Result</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Environmental node</p></td>
+<td><p>32 bytes once per second</p></td>
+<td><p>32 B/s; 2.76 MB/day</p></td>
+</tr>
+<tr class="row-odd"><td><p>Six-axis inertial stream</p></td>
+<td><p>6 axes × 2 bytes × 100 samples/s</p></td>
+<td><p>1,200 B/s; 103.68 MB/day</p></td>
+</tr>
+<tr class="row-even"><td><p>Mono PCM audio</p></td>
+<td><p>16,000 samples/s × 2 bytes</p></td>
+<td><p>32,000 B/s; 2.76 GB/day</p></td>
+</tr>
+<tr class="row-odd"><td><p>Uncompressed RGB video</p></td>
+<td><p>640 × 480 × 3 bytes × 30 frames/s</p></td>
+<td><p>27.648 MB/s; about 2.39 TB/day</p></td>
+</tr>
+</tbody>
+</table>
+<p>The raw video calculation is intentionally different from a compressed stream’s bitrate. An application may never transmit the raw representation, but the acquisition or preprocessing stage may still have to move it through memory. Conversely, a compact event report can hide substantial local sensing and computation. Bandwidth savings and local resource savings are not the same quantity.</p>
+<p>Energy is similarly a pipeline property. For a device with several operating modes, an initial model is <span class="math notranslate nohighlight">\(E = \sum_{i}^{}P_{i}t_{i}\)</span>, with transition energy added when significant. Suppose a hypothetical node spends 0.02 s at 0.1 W and the remainder of each one-second cycle at 0.001 W. Its average power is <span class="math notranslate nohighlight">\(0.1(0.02) + 0.001(0.98) = 0.00298\)</span> W. This omits radio transmission and startup; adding them may change the conclusion about where optimization matters.</p>
+<p>Compare three designs for a battery-powered vibration monitor: continuous raw upload, local feature extraction with periodic upload, and event-triggered raw windows. Evaluate detection quality, missed events, local CPU work, radio activity, and recovery from lost connectivity. The choice cannot be made from data rate alone. This multi-design comparison is the bridge from sensing to the communication and placement chapters.</p>
+</section>
+<section id="laboratory-and-exercises">
+<span id="section-3-12"></span><h2>3.12 Laboratory and exercises<a class="headerlink" href="#laboratory-and-exercises" title="Link to this heading"></a></h2>
+<p>The laboratory is a <strong>device-and-signal audit</strong>, not a RoomEdge-specific wiring tutorial. Choose a phone, an authorized sensor board, or a replay dataset with documented acquisition settings. Identify the device class, physical modality, interface, unit, coordinate frame where relevant, requested and observed sampling behavior, missing-data policy, and one plausible source of bias. Compare the resulting design with a different modality, such as scalar sensing versus audio. A replay-only submission must distinguish supplied metadata from properties it cannot measure.</p>
+<p><strong>3.1 Classification.</strong> Classify an ESP32 development board, an accelerometer, a smartphone, an object track, and a roadside camera by device class, sensing modality, or derived information. Explain why some objects belong to more than one architectural role.</p>
+<p><strong>3.2 Calculation.</strong> A wearable records three 16-bit acceleration axes at 50 Hz. Calculate raw payload per second and over eight hours. Add an eight-byte timestamp per sample and recompute. State which further costs are excluded.</p>
+<p><strong>3.3 Diagnosis.</strong> Two temperature nodes deliver perfectly valid packets but disagree consistently after one is placed beside a processor. Propose tests that distinguish placement bias, unit errors, and communication failures.</p>
+<p><strong>3.4 Mobile sensing.</strong> Design a walking-detection pipeline that remains interpretable when a phone changes orientation or temporarily stops delivering events. Identify what a model may infer and what the system must label as unknown.</p>
+<p><strong>3.5 Vehicular sensing.</strong> Two sensors acquire observations 40 ms apart on a platform moving at an assumed 12 m/s. Estimate straight-line displacement and explain why a coordinate transform alone cannot correct the entire mismatch.</p>
+<p><strong>3.6 Transfer.</strong> Compare a field moisture sensor, an audio event detector, and a warehouse robot. For each, select a device class and reporting representation, and identify one reason not to send all raw data continuously.</p>
+</section>
+<section id="chapter-perspective">
+<span id="chapter-3-chapter-perspective"></span><h2>Chapter perspective<a class="headerlink" href="#chapter-perspective" title="Link to this heading"></a></h2>
+<p>The physical edge is diverse. Device roles, sensing principles, acquisition quality, mobile ownership, and domain constraints all affect what a computation can legitimately conclude. A sound design begins with the observation process, then chooses communication and processing mechanisms that preserve the information the task needs.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="ch02.html" class="btn btn-neutral float-left" title="Chapter 2. An Agentic IoT Application at the Edge" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ch04.html" class="btn btn-neutral float-right" title="Chapter 4. Communication and Networking for IoT and Edge Systems" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Zheng Song.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

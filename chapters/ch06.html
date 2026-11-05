@@ -1,0 +1,387 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chapter 6. Scaling Edge Applications and Elastic Execution &mdash; Edge Computing Systems</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/book.css?v=e49485e1" />
+
+  
+    <link rel="canonical" href="https://sonyyt.github.io/EdgeComputingBook-HTML/chapters/ch06.html" />
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=bcebf14d"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/book.js?v=917b1e6b"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Chapter 7. Computation Offloading and Device–Edge–Cloud Collaboration" href="ch07.html" />
+    <link rel="prev" title="Chapter 5. Running and Deploying Applications on Edge Nodes" href="ch05.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Edge Computing Systems
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">About this book</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../preface.html">Preface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../publication.html">About this web edition</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Part I. Applications, Devices, Communication, and Digital Twins</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ch01.html">Chapter 1. Introduction to Edge Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch02.html">Chapter 2. An Agentic IoT Application at the Edge</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch03.html">Chapter 3. IoT Devices and Sensing Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch04.html">Chapter 4. Communication and Networking for IoT and Edge Systems</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Part II. Building and Operating Edge Systems</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="ch05.html">Chapter 5. Running and Deploying Applications on Edge Nodes</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Chapter 6. Scaling Edge Applications and Elastic Execution</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#when-one-node-is-no-longer-enough">6.1 When one node is no longer enough</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#more-requests-are-not-the-same-as-a-slower-algorithm">6.1.1 More requests are not the same as a slower algorithm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#decide-what-can-be-replicated">6.1.2 Decide what can be replicated</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#replicas-need-a-stable-entry-point">6.2 Replicas need a stable entry point</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#from-three-addresses-to-one-service">6.2.1 From three addresses to one service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#readiness-matters-before-counting-capacity">6.2.2 Readiness matters before counting capacity</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#managing-replicas-with-docker-swarm-and-kubernetes">6.3 Managing replicas with Docker Swarm and Kubernetes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#describe-what-should-run-instead-of-starting-every-instance-manually">6.3.1 Describe what should run instead of starting every instance manually</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#read-kubernetes-through-the-same-questions">6.3.2 Read Kubernetes through the same questions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#resource-requests-limits-and-unavailable-capacity">6.3.3 Resource requests, limits, and unavailable capacity</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#from-fixed-replicas-to-elasticity">6.4 From fixed replicas to elasticity</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#follow-the-load-but-allow-time-for-the-response">6.4.1 Follow the load, but allow time for the response</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#maintain-the-application-while-changing-it">6.4.2 Maintain the application while changing it</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#serverless-let-the-platform-manage-execution-on-demand">6.5 Serverless: let the platform manage execution on demand</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#why-keep-every-worker-running-while-it-is-idle">6.5.1 Why keep every worker running while it is idle?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#serverless-can-use-an-edge-cluster">6.5.2 Serverless can use an edge cluster</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cold-starts-change-the-comparison">6.5.3 Cold starts change the comparison</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#measure-the-expansion-before-claiming-success">6.6 Measure the expansion before claiming success</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#an-additional-replica-can-expose-a-different-bottleneck">6.6.1 An additional replica can expose a different bottleneck</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#a-small-reproducible-scaling-experiment">6.6.2 A small reproducible scaling experiment</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#chapter-summary">Chapter summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#exercises">Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ch07.html">Chapter 7. Computation Offloading and Device–Edge–Cloud Collaboration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch08.html">Chapter 8. Scheduling and Optimizing Edge Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch09.html">Chapter 9. Commercial Edge Platforms: From Mechanisms to Deployment</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Part III. Edge AI</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ch10.html">Chapter 10. Running and Optimizing AI on Edge Devices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch11.html">Chapter 11. Collaborative Edge Intelligence: From Perception Models to Language Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch12.html">Chapter 12. Agentic AI and Tool-Driven Applications at the Edge</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Part IV. Security and Multi-Party Trust</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ch13.html">Chapter 13. Security, Privacy, and Safety in Edge Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch14.html">Chapter 14. Multi-Party Trust, Blockchains, and Distributed Ledgers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendices and references</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../appendices/appendix-a.html">Appendix A. Laboratory and Project Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendices/appendix-b.html">Appendix B. Optional Extension: Learning and Adaptation Across Devices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendices/appendix-c.html">Appendix C. Selected Exercise Solutions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendices/appendix-d.html">Appendix D. Glossary and Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendices/appendix-e.html">Appendix E. Evidence and Reproducibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Edge Computing Systems</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Chapter 6. Scaling Edge Applications and Elastic Execution</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/sonyyt/EdgeComputingBook/blob/main/docs/chapters/ch06.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul><div class="rst-breadcrumbs-buttons" role="navigation" aria-label="Sequential page navigation">
+        <a href="ch05.html" class="btn btn-neutral float-left" title="Chapter 5. Running and Deploying Applications on Edge Nodes" accesskey="p"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ch07.html" class="btn btn-neutral float-right" title="Chapter 7. Computation Offloading and Device–Edge–Cloud Collaboration" accesskey="n">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+  </div>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="chapter-6-scaling-edge-applications-and-elastic-execution">
+<span id="chapter-6"></span><h1>Chapter 6. Scaling Edge Applications and Elastic Execution<a class="headerlink" href="#chapter-6-scaling-edge-applications-and-elastic-execution" title="Link to this heading"></a></h1>
+<p>The workshop’s first analysis node now works reliably. More stations begin submitting observation windows, and several technicians request historical comparisons at the same time. A single request is still handled correctly, but requests increasingly wait. The team has access to two additional computers similar to the first one. Can it simply start more copies of the program and obtain three times the useful capacity?</p>
+<p>That question introduces scaling. We initially assume compatible Linux nodes on a controlled local network, with similar resources and one administrative owner. They may be small edge computers rather than rack servers. These assumptions let us understand replication, request distribution, and lifecycle management before adding the location and policy differences of the wider continuum in Chapter 7.</p>
+<p>The chapter develops one progression: recognize overload, replicate an independent service, give it a stable entry point, use a controller to maintain its instances, and adjust execution as demand changes. Serverless appears near the end as another way to manage when execution environments exist, not as a substitute for understanding their resource needs.</p>
+<section id="when-one-node-is-no-longer-enough">
+<span id="section-6-1"></span><h2>6.1 When one node is no longer enough<a class="headerlink" href="#when-one-node-is-no-longer-enough" title="Link to this heading"></a></h2>
+<section id="more-requests-are-not-the-same-as-a-slower-algorithm">
+<span id="section-6-1-1"></span><h3>6.1.1 More requests are not the same as a slower algorithm<a class="headerlink" href="#more-requests-are-not-the-same-as-a-slower-algorithm" title="Link to this heading"></a></h3>
+<p>Suppose a simplified analysis worker finishes one independent window every 0.125 seconds when continuously occupied. Its nominal service capacity is eight windows per second. At a steady arrival rate of four windows per second, it may have ample spare capacity. At twelve windows per second, it cannot indefinitely finish all offered work on time. If nothing is rejected or dropped, the unfinished workload grows.</p>
+<p>This example describes an assumed worker, not a benchmark of the companion service. Its purpose is to distinguish three quantities. <strong>Arrival rate</strong> is how much work is offered. <strong>Throughput</strong> is how much the system completes per unit time. <strong>Response time</strong> is how long a particular request waits from submission to result. More simultaneous clients can raise offered load without raising completed throughput; the extra work may simply wait or fail.</p>
+<p>An application can improve its local implementation, give a worker more resources, or add workers. Increasing the resources of an existing instance is <strong>vertical scaling</strong>, or scale-up. Increasing the number of instances is <strong>horizontal scaling</strong>, or scale-out. Adding actual machines is a further resource-provisioning action: several new instances on one already saturated machine do not necessarily create additional capacity. Kubernetes documents workload and node autoscaling as separate concerns. [<a class="reference internal" href="../references.html#ref-96"><span class="std std-ref">96</span></a>, <a class="reference internal" href="../references.html#ref-97"><span class="std std-ref">97</span></a>]</p>
+<p id="fig-6-1"><img alt="Figure 6.1. Vertical scaling changes the resources of an instance. Horizontal scaling adds instances. New physical capacity and new service replicas are separate changes; several replicas can still share one constrained node." src="../_images/asset-61a62871f7c780a6.png" /><br>
+Figure 6.1. Vertical scaling changes the resources of an instance. Horizontal scaling adds instances. New physical capacity and new service replicas are separate changes; several replicas can still share one constrained node.</p>
+<p>Our team first chooses horizontal scaling because independent requests can be sent to compatible workers and two more nodes are available. Three workers with the assumed capacity have an ideal aggregate rate of 24 requests per second. That is a starting estimate, not a promise: the network, input store, result collector, or shared model dependency may impose another limit.</p>
+</section>
+<section id="decide-what-can-be-replicated">
+<span id="section-6-1-2"></span><h3>6.1.2 Decide what can be replicated<a class="headerlink" href="#decide-what-can-be-replicated" title="Link to this heading"></a></h3>
+<p>The easiest component to replicate is one whose request contains the information needed to produce a result and whose processing does not depend on private session state left by an earlier request. Our window-analysis endpoint has this shape. A request sent to worker A or worker B should produce the same numeric result, apart from diagnostic fields such as worker identity.</p>
+<p>A continuously running collector is different. Starting three copies that all read the same sensor and append observations can create three deliveries of the same logical event. A database is different again: three independent database containers do not automatically become one consistent database. Replicate the analysis workers first while keeping the input and result responsibilities explicit.</p>
+<p>This distinction is useful beyond workshop monitoring. Independent image-classification requests can often be distributed among workers, while a live video stream may carry decoding or tracking state that must remain associated with a session. A speech transcription service may have similar session context. The question is not “can we start another process?” It is “can another instance correctly handle the work that might be sent to it?”</p>
+</section>
+</section>
+<section id="replicas-need-a-stable-entry-point">
+<span id="section-6-2"></span><h2>6.2 Replicas need a stable entry point<a class="headerlink" href="#replicas-need-a-stable-entry-point" title="Link to this heading"></a></h2>
+<section id="from-three-addresses-to-one-service">
+<span id="section-6-2-1"></span><h3>6.2.1 From three addresses to one service<a class="headerlink" href="#from-three-addresses-to-one-service" title="Link to this heading"></a></h3>
+<p>After starting three workers, the team has three addresses. Giving every technician a list and asking them to choose is inconvenient. It also exposes instance changes to every client. A <strong>service entry point</strong> separates the logical service from its current workers. A request distributor forwards work to eligible instances, while service discovery supplies the addresses that are currently usable.</p>
+<p id="fig-6-2"><img alt="Figure 6.2. Clients use one logical entry point while independent requests are distributed to ready replicas. The replicated analysis tier does not automatically replicate the input store or remove a shared result-writing bottleneck." src="../_images/asset-27bfd706a7069f4a.png" /><br>
+Figure 6.2. Clients use one logical entry point while independent requests are distributed to ready replicas. The replicated analysis tier does not automatically replicate the input store or remove a shared result-writing bottleneck.</p>
+<p>A first policy can distribute requests round-robin: A, then B, then C, then A again. For similar independent jobs on similar workers, that makes the idea easy to observe. More sophisticated routing can wait until Chapter 8. At this stage, record the worker identifier in every response and check that more than one worker actually serves the workload.</p>
+<p>Balance is not guaranteed merely because a service address exists. Some mechanisms select a backend for a connection rather than for each application request; a long-lived connection can consequently keep sending work to one backend. In the first experiment, use multiple clients or independent connections and inspect response identities rather than assuming that every three requests must visit three different workers. Kubernetes Services provide a stable abstraction over a changing set of backends; the exact traffic behavior depends on the service implementation and configuration. [<a class="reference internal" href="../references.html#ref-93"><span class="std std-ref">93</span></a>]</p>
+</section>
+<section id="readiness-matters-before-counting-capacity">
+<span id="section-6-2-2"></span><h3>6.2.2 Readiness matters before counting capacity<a class="headerlink" href="#readiness-matters-before-counting-capacity" title="Link to this heading"></a></h3>
+<p>A container can be running while its application initializes. A model service might be loading weights; an analysis service might be waiting for configuration. Sending ordinary work immediately can produce failures that look like a scaling problem. Count <strong>ready</strong> workers, not merely created processes.</p>
+<p>Kubernetes distinguishes readiness checks, which determine whether a Pod should receive service traffic, from liveness checks, which can trigger a restart when a container is unhealthy. Startup checks provide a separate allowance for initialization. [<a class="reference internal" href="../references.html#ref-94"><span class="std std-ref">94</span></a>] The first lab only needs simple health and readiness endpoints, but their meaning should be explicit. For the supplied stateless service, readiness means it has initialized and can accept analysis requests; it does not certify the freshness of an external sensor history.</p>
+<p>Removing a worker also needs an application policy. Stop sending it new work, allow accepted requests to finish where appropriate, and then terminate it. A long-running job may need a durable job record rather than a short drain interval. We introduce the basic lifecycle here because otherwise “reduce the replica count” hides what happens to the requests that were already accepted.</p>
+</section>
+</section>
+<section id="managing-replicas-with-docker-swarm-and-kubernetes">
+<span id="section-6-3"></span><h2>6.3 Managing replicas with Docker Swarm and Kubernetes<a class="headerlink" href="#managing-replicas-with-docker-swarm-and-kubernetes" title="Link to this heading"></a></h2>
+<section id="describe-what-should-run-instead-of-starting-every-instance-manually">
+<span id="section-6-3-1"></span><h3>6.3.1 Describe what should run instead of starting every instance manually<a class="headerlink" href="#describe-what-should-run-instead-of-starting-every-instance-manually" title="Link to this heading"></a></h3>
+<p>Manual replication quickly creates bookkeeping. Which node is running version 1.0? Which instance failed? Are there still three usable workers? The team can replace individual start commands with a description of the desired service: its image, configuration, resource settings, and replica count. A management system observes the current deployment and acts to maintain that description.</p>
+<p>Docker Swarm models a service as desired state and creates tasks on swarm nodes to realize it. A replicated service specifies how many tasks should run; when a task fails, the manager can create a replacement task if the deployment’s conditions can be satisfied. [<a class="reference internal" href="../references.html#ref-89"><span class="std std-ref">89</span></a>] This illustrates <strong>orchestration</strong> without requiring the student to implement a controller.</p>
+<p>Assume the lab administrator has prepared a small swarm, its private inter-node network, and access to the chosen image. On its manager, an illustrative service command is:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># IMAGE names the image available to every participating worker.</span>
+docker<span class="w"> </span>service<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span>analysis<span class="w"> </span>--replicas<span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--limit-cpu<span class="w"> </span><span class="m">1</span><span class="w"> </span>--limit-memory<span class="w"> </span>512m<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--publish<span class="w"> </span><span class="nv">published</span><span class="o">=</span><span class="m">8080</span>,target<span class="o">=</span><span class="m">8080</span><span class="w"> </span><span class="s2">"</span><span class="nv">$IMAGE</span><span class="s2">"</span>
+docker<span class="w"> </span>service<span class="w"> </span>ps<span class="w"> </span>analysis
+</pre></div>
+</div>
+<p>The full lab guide explains the environment prerequisites and clean-up. Swarm’s published-port routing mesh can accept a connection at a participating node and forward it to an active service task. The required management and overlay-network ports must be available only where the cluster design permits them. [<a class="reference internal" href="../references.html#ref-90"><span class="std std-ref">90</span></a>, <a class="reference internal" href="../references.html#ref-91"><span class="std std-ref">91</span></a>] Do not use a public, unrestricted lab network merely to avoid configuring access correctly.</p>
+<p>Changing the service to two replicas is now a change to the desired count rather than a request to remove a particular process by hand. Observing the manager’s response helps distinguish the service description from the instances that currently implement it. A one-manager teaching swarm also has a management failure point; replacing an application worker is not the same experiment as losing that manager.</p>
+</section>
+<section id="read-kubernetes-through-the-same-questions">
+<span id="section-6-3-2"></span><h3>6.3.2 Read Kubernetes through the same questions<a class="headerlink" href="#read-kubernetes-through-the-same-questions" title="Link to this heading"></a></h3>
+<p>Kubernetes addresses the same broad need with a different set of objects. A <strong>node</strong> supplies execution resources. A <strong>Pod</strong> is a deployment unit that contains one or more closely associated containers. In our exercise, each analysis Pod contains one worker container. A <strong>Deployment</strong> maintains the desired set of application replicas and supports controlled updates. A <strong>Service</strong> provides access to matching ready backends. The control plane manages these objects while node-side components and a container runtime execute the assigned work. [<a class="reference internal" href="../references.html#ref-12"><span class="std std-ref">12</span></a>, <a class="reference internal" href="../references.html#ref-92"><span class="std std-ref">92</span></a>, <a class="reference internal" href="../references.html#ref-93"><span class="std std-ref">93</span></a>]</p>
+<p id="fig-6-3"><img alt="Figure 6.3. A Deployment describes the replicated workload; the control plane maintains it, and nodes run the resulting Pods. The Service carries application access, not the control plane itself. This simplified diagram omits internal components that are not needed for the first deployment." src="../_images/asset-8a1da3ca1a3e9714.png" /><br>
+Figure 6.3. A Deployment describes the replicated workload; the control plane maintains it, and nodes run the resulting Pods. The Service carries application access, not the control plane itself. This simplified diagram omits internal components that are not needed for the first deployment.</p>
+<p>The important relationship is between description and execution. Editing a Deployment does not directly deliver an HTTP request to a worker. The workload controller maintains replicas; a scheduler selects nodes for unassigned Pods; the node runtime starts containers. Application requests reach workers through the service path. This separates management traffic from useful application traffic before <a class="reference internal" href="ch09.html#chapter-9"><span class="std std-ref">Chapter 9</span></a> maps them onto a commercial platform.</p>
+<p>Using Docker to build an image does not mean Kubernetes requires Docker Engine as its node runtime. Kubernetes uses its container runtime interface, commonly with runtimes such as containerd or CRI-O. [<a class="reference internal" href="../references.html#ref-103"><span class="std std-ref">103</span></a>] The reusable artifact is the compatible container image; students do not need to learn runtime internals to understand this distinction.</p>
+<p>A small excerpt of our Deployment reads as follows:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">analysis</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+<span class="w">  </span><span class="nt">selector</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">matchLabels</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="nv">analysis</span><span class="p p-Indicator">}</span>
+<span class="w">  </span><span class="nt">template</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">metadata</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">labels</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="nv">analysis</span><span class="p p-Indicator">}</span>
+<span class="w">    </span><span class="nt">spec</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">worker</span>
+<span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">REPLACE_WITH_YOUR_IMAGE</span>
+<span class="w">        </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span>
+</pre></div>
+</div>
+<p>The executable manifest in the package adds a namespace, resource settings, health checks, and the separate Service. Generate it with an actual authorized image reference; the placeholder above is not a downloadable image. A command such as kubectl apply submits the description. It does not prove that the nodes can pull the image or have enough resources. Inspect Pod status, events, and a real response after submission.</p>
+<p>Three replicas need not imply three different machines. Where placement separation matters, configure it and inspect the node assigned to each Pod. For the introductory lab, a single-node cluster can demonstrate the control loop, but it cannot demonstrate physical scale-out. Record that distinction in the experiment rather than counting virtual replicas as new hardware.</p>
+</section>
+<section id="resource-requests-limits-and-unavailable-capacity">
+<span id="section-6-3-3"></span><h3>6.3.3 Resource requests, limits, and unavailable capacity<a class="headerlink" href="#resource-requests-limits-and-unavailable-capacity" title="Link to this heading"></a></h3>
+<p>A Kubernetes resource <strong>request</strong> informs placement and resource accounting; a <strong>limit</strong> constrains consumption according to the resource’s enforcement mechanism. They are not interchangeable. CPU limits can throttle computation, while a memory overrun can lead to termination. Neither setting is a complete response-time guarantee. [<a class="reference internal" href="../references.html#ref-95"><span class="std std-ref">95</span></a>]</p>
+<p>Suppose all three available nodes are already occupied by admitted workloads. Increasing the desired replica count to five does not automatically make five workers ready. Some work can remain pending. Node autoscaling, where supported and configured, deals with provisioning or removing underlying nodes; workload autoscaling changes the number of application replicas. [<a class="reference internal" href="../references.html#ref-97"><span class="std std-ref">97</span></a>]</p>
+<p>This is particularly important on a physical edge deployment. A workshop with three small computers does not gain a fourth merely because a controller requests it. Options include reserving spare capacity, adding hardware, deferring lower-priority work, or using another execution location. The last option leads to <a class="reference internal" href="ch07.html#chapter-7"><span class="std std-ref">Chapter 7</span></a>; selecting among the options is developed in Chapter 8.</p>
+<p id="fig-6-4"><img alt="Three replicas do not create a third machine; Two ready workers; Node 1: worker; Node 2: worker; Request three workers; Node 1: worker; Node 2: worker; Worker 3: pending; Add compatible capacity; Node 1: worker; Node 2: worker; Node 3: worker" src="../_images/asset-3555acf8251e291f.png" /><br>
+Figure 6.4. A requested instance needs suitable capacity; changing the replica count alone does not add physical resources.</p>
+</section>
+</section>
+<section id="from-fixed-replicas-to-elasticity">
+<span id="section-6-4"></span><h2>6.4 From fixed replicas to elasticity<a class="headerlink" href="#from-fixed-replicas-to-elasticity" title="Link to this heading"></a></h2>
+<section id="follow-the-load-but-allow-time-for-the-response">
+<span id="section-6-4-1"></span><h3>6.4.1 Follow the load, but allow time for the response<a class="headerlink" href="#follow-the-load-but-allow-time-for-the-response" title="Link to this heading"></a></h3>
+<p>A fixed set of three workers can be wasteful during long quiet periods and insufficient during a large burst. <strong>Elasticity</strong> means adjusting the deployed capacity as demand changes. It requires a measurement, a decision, an action, and time for that action to take effect.</p>
+<p>For an introductory policy, measure a service’s load and adjust its desired replica count between stated minimum and maximum values. Kubernetes Horizontal Pod Autoscaling supports this kind of control using resource or configured application metrics. CPU-utilization targets depend on the relevant resource requests and require the appropriate metrics pipeline. HPA does not generally mean “add a worker whenever any request waits.” [<a class="reference internal" href="../references.html#ref-96"><span class="std std-ref">96</span></a>]</p>
+<p>We can estimate an initial count without pretending to have solved the full control problem. Let arrival rate be lambda, per-worker capacity be mu, and a chosen operating utilization target be u. Under balanced, independent work, a provisional count is:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>n = ceil(lambda / (u × mu))
+</pre></div>
+</div>
+<p>For lambda = 12 requests/s, mu = 8 requests/s, and u = 0.6, the calculation gives three workers. It includes a chosen amount of spare capacity but does not establish a tail-latency guarantee. If arrivals increase to 24 requests/s, the same calculation asks for five workers. A three-node installation must either provide more execution slots with verified capacity or change what it accepts. Rounding the answer down to the available count does not make the original requirement disappear.</p>
+<p id="fig-6-5"><img alt="Figure 6.5. Elasticity is delayed: observe load, decide, start an instance, and wait for readiness. A burst can build a queue before new capacity becomes useful. Adding an application replica is separate from obtaining another physical node." src="../_images/asset-bd2022fa5af727eb.png" /><br>
+Figure 6.5. Elasticity is delayed: observe load, decide, start an instance, and wait for readiness. A burst can build a queue before new capacity becomes useful. Adding an application replica is separate from obtaining another physical node.</p>
+</section>
+<section id="maintain-the-application-while-changing-it">
+<span id="section-6-4-2"></span><h3>6.4.2 Maintain the application while changing it<a class="headerlink" href="#maintain-the-application-while-changing-it" title="Link to this heading"></a></h3>
+<p>Scaling, recovery, and updates share lifecycle mechanisms but serve different purposes. Scaling changes capacity. Recovery replaces failed execution. An update changes the application version. A platform may use replicas and readiness checks in each case, yet the success criteria differ.</p>
+<p>For the analysis service, a rolling update can introduce a new version while keeping some old workers available. Compare known requests during the transition and include the version in each response. If the output schema changes incompatibly, keeping both versions running may break callers even when every health check passes. Deployment management cannot infer the intended mathematical equivalence of two implementations.</p>
+<p>A practical introduction should therefore observe three changes separately: increase the replica count, stop a worker and watch replacement, and update the image. Kubernetes Deployments provide mechanisms for maintaining replicas and managing rollouts, but the application must still supply meaningful checks. [<a class="reference internal" href="../references.html#ref-92"><span class="std std-ref">92</span></a>, <a class="reference internal" href="../references.html#ref-94"><span class="std std-ref">94</span></a>] Do not combine all three changes in the first experiment; otherwise it becomes difficult to explain an unexpected result.</p>
+</section>
+</section>
+<section id="serverless-let-the-platform-manage-execution-on-demand">
+<span id="section-6-5"></span><h2>6.5 Serverless: let the platform manage execution on demand<a class="headerlink" href="#serverless-let-the-platform-manage-execution-on-demand" title="Link to this heading"></a></h2>
+<section id="why-keep-every-worker-running-while-it-is-idle">
+<span id="section-6-5-1"></span><h3>6.5.1 Why keep every worker running while it is idle?<a class="headerlink" href="#why-keep-every-worker-running-while-it-is-idle" title="Link to this heading"></a></h3>
+<p>The workshop adds a daily report generator. Unlike the continuously used analysis endpoint, this component runs briefly after a batch of observations becomes available. Leaving a dedicated worker resident all day may be unnecessary. The developer would rather submit a function or service definition, specify its trigger and constraints, and let a platform arrange execution when work arrives.</p>
+<p>This is the motivation for the serverless execution model considered here. Servers still perform the work, but the application developer delegates more instance-management decisions to a platform. Function-as-a-service is one representative form; request-driven serverless containers are another. An event-driven program can also run in a permanently resident process, so “triggered by events” alone does not make an application serverless.</p>
+<p>A request-driven path can be understood in five steps: a request arrives, the platform identifies a suitable execution environment, creates or reuses an instance, invokes the application, and returns the result. Afterward the environment may remain available for reuse or be reclaimed. AWS Lambda documents initialization and invocation as distinct lifecycle stages, which helps explain why the first use of an environment can differ from a later use. [<a class="reference internal" href="../references.html#ref-100"><span class="std std-ref">100</span></a>]</p>
+<p id="fig-6-6"><img alt="Cold and warm execution with a timeline; Warm; Cold; 100 ms; Initialize: 1,000 ms; 100; 0; 1,100 ms; Mean = 200 ms; 95th percentile = 1,100 ms" src="../_images/asset-1c64462be769b746.png" /><br>
+Figure 6.6. Reuse can avoid some preparation; execution, dependencies and application state still need explicit treatment.</p>
+</section>
+<section id="serverless-can-use-an-edge-cluster">
+<span id="section-6-5-2"></span><h3>6.5.2 Serverless can use an edge cluster<a class="headerlink" href="#serverless-can-use-an-edge-cluster" title="Link to this heading"></a></h3>
+<p>The concept is not restricted to a remote cloud. Knative Serving builds on Kubernetes to support request-driven container services, routing, revisions, and automatic scaling. [<a class="reference internal" href="../references.html#ref-98"><span class="std std-ref">98</span></a>] With suitable configuration, its Knative Pod Autoscaler can scale a revision to zero application replicas when idle. [<a class="reference internal" href="../references.html#ref-99"><span class="std std-ref">99</span></a>]</p>
+<p>This does not mean the cluster itself disappears. The platform’s control and networking components, the machines, and other resident services still consume resources. On a small edge installation, that overhead can be important. A serverless layer is justified by the execution management it provides, not by an assumption that it is intrinsically lighter than directly running one small service.</p>
+<p>The same application image used earlier can illustrate this distinction. Under a fixed Deployment, the developer chooses a resident replica count. Under a Knative Service, the platform can adjust instances according to requests and configured policies. Students need not install the serverless platform from scratch in the introductory exercise; an instructor-provided environment is enough to inspect the application-level behavior.</p>
+</section>
+<section id="cold-starts-change-the-comparison">
+<span id="section-6-5-3"></span><h3>6.5.3 Cold starts change the comparison<a class="headerlink" href="#cold-starts-change-the-comparison" title="Link to this heading"></a></h3>
+<p>Consider a purely hypothetical service with a warm response time of 100 ms and a cold response time of 1,100 ms. If 10% of requests are cold and the rest warm, the two-point model has a mean of 200 ms. Its 95th percentile is 1,100 ms. The mean alone hides the experience of requests that trigger initialization.</p>
+<p>This does not establish those times for any real platform. It shows what to measure. A model service may have substantial initialization because it loads weights, while a small arithmetic function may initialize quickly. Keeping a minimum warm instance, separating a resident model server from short-lived orchestration code, or batching non-urgent work are possible designs. Their resource and latency consequences need comparison rather than an automatic preference for scale-to-zero.</p>
+<p>Serverless execution also does not make private in-memory state durable or enlarge an edge site’s physical resources. If the function must consult local sensor history, it still needs a defined data interface and permission. If it writes results, retries must not accidentally duplicate logical actions. <a class="reference internal" href="ch07.html#chapter-7"><span class="std std-ref">Chapter 7</span></a> develops those state and communication questions.</p>
+</section>
+</section>
+<section id="measure-the-expansion-before-claiming-success">
+<span id="section-6-6"></span><h2>6.6 Measure the expansion before claiming success<a class="headerlink" href="#measure-the-expansion-before-claiming-success" title="Link to this heading"></a></h2>
+<section id="an-additional-replica-can-expose-a-different-bottleneck">
+<span id="section-6-6-1"></span><h3>6.6.1 An additional replica can expose a different bottleneck<a class="headerlink" href="#an-additional-replica-can-expose-a-different-bottleneck" title="Link to this heading"></a></h3>
+<p>Return to workers that can each process eight requests per second. Suppose every completed request must pass through a shared result writer whose capacity is 20 requests per second. Under a simplified pipeline model, the total capacity cannot exceed the smaller of 8n and 20, where n is the worker count.</p>
+<table class="book-table docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Workers</strong></p></th>
+<th class="head"><p><strong>Analysis capacity, requests/s</strong></p></th>
+<th class="head"><p><strong>Shared writer capacity, requests/s</strong></p></th>
+<th class="head"><p><strong>Simplified overall ceiling</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>8</p></td>
+<td><p>20</p></td>
+<td><p>8</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>16</p></td>
+<td><p>20</p></td>
+<td><p>16</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>24</p></td>
+<td><p>20</p></td>
+<td><p>20</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>32</p></td>
+<td><p>20</p></td>
+<td><p>20</p></td>
+</tr>
+</tbody>
+</table>
+<p>These are calculated ceilings from invented capacities, not measured throughput. They explain why the fourth worker might add no useful capacity. A real comparison must also account for waiting, transport, varying service times, and failures. Once the bottleneck moves, continuing to replicate the old bottleneck is not an optimization.</p>
+<p>For a speech application, the shared dependency could be one model server behind many lightweight request handlers. For a camera deployment, it could be one storage device or uplink. Counting front-end replicas is therefore not enough to explain where the computation actually occurs.</p>
+<p id="fig-6-7"><img alt="Three lines compare analysis capacity, fixed writer capacity, and their minimum at one to four workers." src="../_images/asset-e396c8dc6370cc20.png" /><br>
+Figure 6.7. With a hypothetical 8 requests/s per analysis worker and a 20 requests/s shared writer, the calculated ceiling is 8, 16, 20 and 20 requests/s. More replicas alone do not remove the writer bottleneck.</p>
+</section>
+<section id="a-small-reproducible-scaling-experiment">
+<span id="section-6-6-2"></span><h3>6.6.2 A small reproducible scaling experiment<a class="headerlink" href="#a-small-reproducible-scaling-experiment" title="Link to this heading"></a></h3>
+<p>Use the same request set and response checks for one, two, and three workers. Separate warm-up from the measured interval. Record offered requests, completed requests, failures, worker identities, and response-time percentiles. Report the actual node distribution and resource settings. If only one physical host is available, describe the result as a replica-management experiment rather than a multi-node capacity benchmark.</p>
+<p>First keep the replica count fixed and increase offered load. Next keep load comparable and change the count. Finally observe a simple recovery or scaling action. This order distinguishes steady-state capacity from the delay involved in changing that capacity.</p>
+<p>A convenient local kubectl port-forward connection is useful for testing one accessible application path, but it selects a Pod and is not a valid way to demonstrate Service-wide load distribution. [<a class="reference internal" href="../references.html#ref-104"><span class="std std-ref">104</span></a>] For the distribution experiment, send traffic through the configured Service from an authorized in-cluster client or a properly configured external entry point. The companion guide supplies an in-cluster client path and explains its prerequisites.</p>
+<p>The provided Python harness can demonstrate multiple workers and record requests on one machine. Its optional artificial delay is explicitly labeled and is not a model-inference benchmark. Docker, Kubernetes, and Knative behavior must be tested in their respective environments; a successful local HTTP test does not validate their controllers.</p>
+</section>
+</section>
+<section id="chapter-summary">
+<span id="chapter-6-chapter-summary"></span><h2>Chapter summary<a class="headerlink" href="#chapter-summary" title="Link to this heading"></a></h2>
+<p>Scaling requires more than creating copies. The application must support the chosen replication pattern, clients need a usable entry point, and a management system must maintain ready instances within available resources. Elasticity adds observation and delayed adjustment; serverless delegates more decisions about instance lifetime while retaining the underlying resource and state problems.</p>
+<p>We now know how a pool of similar nodes can serve more independent work. The next question is different: how should an application use resources that differ in capacity, location, data access, and connectivity?</p>
+</section>
+<section id="exercises">
+<span id="chapter-6-exercises"></span><h2>Exercises<a class="headerlink" href="#exercises" title="Link to this heading"></a></h2>
+<p><strong>6.1 Capacity.</strong> A worker handles eight requests/s in a stated test. Estimate the provisional replica count for 12 requests/s at 60% utilization. Explain why neither the estimate nor an HPA setting proves that 95% of requests finish within 200 ms.</p>
+<p><strong>6.2 Replication.</strong> Which component is easiest to replicate first: a stateless window analyzer, a collector writing unique events, or an in-memory user session service? Explain the additional contract required for each of the other two.</p>
+<p><strong>6.3 Observation.</strong> A Deployment requests three replicas, but all run on one node. What has been demonstrated? What further observations and configuration are needed to claim physical scale-out or failure-domain separation?</p>
+<p><strong>6.4 Elasticity.</strong> A site owns only three fully occupied machines. Its controller requests five more Pods. Explain the difference between increasing the desired workload and obtaining capacity, and give two responses available to the application operator.</p>
+<p><strong>6.5 Serverless.</strong> Compare a continuously used local language model with a once-daily report generator. What startup, state, and idle-resource measurements would inform the choice between resident and on-demand execution?</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="ch05.html" class="btn btn-neutral float-left" title="Chapter 5. Running and Deploying Applications on Edge Nodes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ch07.html" class="btn btn-neutral float-right" title="Chapter 7. Computation Offloading and Device–Edge–Cloud Collaboration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Zheng Song.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

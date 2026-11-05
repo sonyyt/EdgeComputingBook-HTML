@@ -1,0 +1,441 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chapter 8. Scheduling and Optimizing Edge Systems &mdash; Edge Computing Systems</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/book.css?v=e49485e1" />
+
+  
+    <link rel="canonical" href="https://sonyyt.github.io/EdgeComputingBook-HTML/chapters/ch08.html" />
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=bcebf14d"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/book.js?v=917b1e6b"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Chapter 9. Commercial Edge Platforms: From Mechanisms to Deployment" href="ch09.html" />
+    <link rel="prev" title="Chapter 7. Computation Offloading and Device–Edge–Cloud Collaboration" href="ch07.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Edge Computing Systems
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">About this book</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../preface.html">Preface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../publication.html">About this web edition</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Part I. Applications, Devices, Communication, and Digital Twins</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ch01.html">Chapter 1. Introduction to Edge Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch02.html">Chapter 2. An Agentic IoT Application at the Edge</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch03.html">Chapter 3. IoT Devices and Sensing Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch04.html">Chapter 4. Communication and Networking for IoT and Edge Systems</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Part II. Building and Operating Edge Systems</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="ch05.html">Chapter 5. Running and Deploying Applications on Edge Nodes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch06.html">Chapter 6. Scaling Edge Applications and Elastic Execution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch07.html">Chapter 7. Computation Offloading and Device–Edge–Cloud Collaboration</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Chapter 8. Scheduling and Optimizing Edge Systems</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#define-the-decision-before-choosing-a-policy">8.1 Define the decision before choosing a policy</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#five-decisions-often-hidden-behind-the-word-scheduling">8.1.1 Five decisions often hidden behind the word “scheduling”</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#requirements-first-preference-second">8.1.2 Requirements first, preference second</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#locate-the-bottleneck-with-an-application-trace">8.2 Locate the bottleneck with an application trace</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#a-slow-response-can-contain-little-useful-computation">8.2.1 A slow response can contain little useful computation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#inspect-a-distribution-and-its-failures">8.2.2 Inspect a distribution and its failures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#a-baseline-makes-improvements-interpretable">8.2.3 A baseline makes improvements interpretable</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#arrange-execution-when-jobs-compete">8.3 Arrange execution when jobs compete</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#queue-order-can-change-which-requests-meet-their-targets">8.3.1 Queue order can change which requests meet their targets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#admission-is-part-of-meeting-a-promise">8.3.2 Admission is part of meeting a promise</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#share-resources-across-users-not-only-requests">8.3.3 Share resources across users, not only requests</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#choose-placement-routing-and-replica-count-together">8.4 Choose placement, routing, and replica count together</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#filter-candidates-before-estimating-performance">8.4.1 Filter candidates before estimating performance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#avoid-decisions-that-ignore-the-work-already-sent">8.4.2 Avoid decisions that ignore the work already sent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#replica-count-affects-both-waiting-and-cost">8.4.3 Replica count affects both waiting and cost</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#adapt-without-spending-more-than-the-change-saves">8.5 Adapt without spending more than the change saves</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#new-capacity-takes-time-to-become-useful">8.5.1 New capacity takes time to become useful</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#moving-a-component-has-an-amortization-period">8.5.2 Moving a component has an amortization period</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#use-simple-stability-rules-before-complex-policies">8.5.3 Use simple stability rules before complex policies</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#compare-policies-with-a-reproducible-experiment">8.6 Compare policies with a reproducible experiment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#chapter-summary">Chapter summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#exercises">Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ch09.html">Chapter 9. Commercial Edge Platforms: From Mechanisms to Deployment</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Part III. Edge AI</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ch10.html">Chapter 10. Running and Optimizing AI on Edge Devices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch11.html">Chapter 11. Collaborative Edge Intelligence: From Perception Models to Language Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch12.html">Chapter 12. Agentic AI and Tool-Driven Applications at the Edge</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Part IV. Security and Multi-Party Trust</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ch13.html">Chapter 13. Security, Privacy, and Safety in Edge Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch14.html">Chapter 14. Multi-Party Trust, Blockchains, and Distributed Ledgers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendices and references</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../appendices/appendix-a.html">Appendix A. Laboratory and Project Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendices/appendix-b.html">Appendix B. Optional Extension: Learning and Adaptation Across Devices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendices/appendix-c.html">Appendix C. Selected Exercise Solutions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendices/appendix-d.html">Appendix D. Glossary and Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendices/appendix-e.html">Appendix E. Evidence and Reproducibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Edge Computing Systems</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Chapter 8. Scheduling and Optimizing Edge Systems</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/sonyyt/EdgeComputingBook/blob/main/docs/chapters/ch08.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul><div class="rst-breadcrumbs-buttons" role="navigation" aria-label="Sequential page navigation">
+        <a href="ch07.html" class="btn btn-neutral float-left" title="Chapter 7. Computation Offloading and Device–Edge–Cloud Collaboration" accesskey="p"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ch09.html" class="btn btn-neutral float-right" title="Chapter 9. Commercial Edge Platforms: From Mechanisms to Deployment" accesskey="n">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+  </div>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="chapter-8-scheduling-and-optimizing-edge-systems">
+<span id="chapter-8"></span><h1>Chapter 8. Scheduling and Optimizing Edge Systems<a class="headerlink" href="#chapter-8-scheduling-and-optimizing-edge-systems" title="Link to this heading"></a></h1>
+<p>The workshop’s application now has several feasible execution paths. Short analyses can run on a device or a local worker pool. More demanding work can use a shared accelerator, and approved historical reports can run in the cloud. Yet technicians still experience slow responses when a batch report starts at the same time as interactive work. Sometimes the cloud path is faster; sometimes its network delay makes it worse. Adding a worker helps on one day and changes little on another.</p>
+<p>The missing ingredient is no longer a deployment mechanism. It is a decision process: which work to admit, where to send it, how much resource to assign, and when to change the arrangement. This chapter uses small examples and measured comparisons to introduce scheduling and optimization from an application perspective. It does not require implementing an operating-system scheduler or solving a large mathematical program.</p>
+<p>We begin with an explicit goal, observe the part of the system that prevents it from being met, and compare a few understandable policies. An optimization is useful only if it improves the requested behavior without quietly changing the task, disclosing prohibited data, or creating an unacceptable failure mode.</p>
+<section id="define-the-decision-before-choosing-a-policy">
+<span id="section-8-1"></span><h2>8.1 Define the decision before choosing a policy<a class="headerlink" href="#define-the-decision-before-choosing-a-policy" title="Link to this heading"></a></h2>
+<section id="five-decisions-often-hidden-behind-the-word-scheduling">
+<span id="section-8-1-1"></span><h3>8.1.1 Five decisions often hidden behind the word “scheduling”<a class="headerlink" href="#five-decisions-often-hidden-behind-the-word-scheduling" title="Link to this heading"></a></h3>
+<p>The technician asks for a result, while the operator manages applications and machines. These activities have different decision units. A service can be placed on a node long before an individual request arrives. A load balancer routes a request to an existing replica. A worker then decides which queued request to execute. An autoscaler may change the number of replicas available for future requests.</p>
+<table class="book-table docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Decision</strong></p></th>
+<th class="head"><p><strong>Example question</strong></p></th>
+<th class="head"><p><strong>Typical timescale in our design</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Service placement</p></td>
+<td><p>Which nodes should host an analysis component?</p></td>
+<td><p>Deployment or occasional reconfiguration</p></td>
+</tr>
+<tr class="row-odd"><td><p>Replica count</p></td>
+<td><p>How many ready workers should be maintained?</p></td>
+<td><p>Repeated capacity adjustments</p></td>
+</tr>
+<tr class="row-even"><td><p>Request routing</p></td>
+<td><p>Which eligible worker should receive this request?</p></td>
+<td><p>Each request</p></td>
+</tr>
+<tr class="row-odd"><td><p>Queue scheduling</p></td>
+<td><p>Which accepted job should execute next?</p></td>
+<td><p>Each worker becoming available</p></td>
+</tr>
+<tr class="row-even"><td><p>Admission and resource allocation</p></td>
+<td><p>Can this job be accepted, and with what budget?</p></td>
+<td><p>Before or during execution planning</p></td>
+</tr>
+</tbody>
+</table>
+<p>These are not fixed universal timescales, but separating them prevents an unclear experiment. Kubernetes’ scheduler, for example, primarily assigns unscheduled Pods to nodes; it does not automatically choose the order of the application’s internal analysis requests. [<a class="reference internal" href="../references.html#ref-102"><span class="std std-ref">102</span></a>] A study of round-robin request routing should not be described as replacing the Kubernetes scheduler unless it actually changes Pod placement.</p>
+<p id="fig-8-1"><img alt="Figure 8.1. Placement, scaling, routing, queue scheduling, and admission act on different objects. Application measurements inform policy; a platform executes permitted changes. A working mechanism does not determine which policy best meets the application’s goals." src="../_images/asset-c8adab067cb82182.png" /><br>
+Figure 8.1. Placement, scaling, routing, queue scheduling, and admission act on different objects. Application measurements inform policy; a platform executes permitted changes. A working mechanism does not determine which policy best meets the application’s goals.</p>
+</section>
+<section id="requirements-first-preference-second">
+<span id="section-8-1-2"></span><h3>8.1.2 Requirements first, preference second<a class="headerlink" href="#requirements-first-preference-second" title="Link to this heading"></a></h3>
+<p>Suppose the teaching application has two classes of work. Interactive requests should produce an acceptable answer within a stated response target; historical reports may wait longer. Raw personal data must remain at the site. The system may use a remote service only for approved inputs. These conditions define the feasible designs before comparing cost.</p>
+<p>For an illustrative study, set the interactive target to 300 ms for at least 95% of submitted valid requests and require an acceptable result on a fixed evaluation set. These are invented study requirements, not industrial safety limits. An application with different consequences needs different targets. Report how rejected, failed, and timed-out requests count; excluding all difficult requests would make the apparent success rate misleading.</p>
+<p>A useful formulation is to seek a lower-cost arrangement <strong>among those that satisfy the required quality, response, and data-handling conditions</strong>. This avoids assigning arbitrary weights that allow a privacy violation to be “compensated” by a small speedup. Where no candidate satisfies the requirements, report that outcome. The next step may be to change resources or negotiate the requirement, not to label the least-bad candidate compliant.</p>
+<p>Cost also needs a boundary. Comparing an owned edge node with a per-request cloud service requires a common workload and accounting period. Hardware allocation, energy, network use, and remote calls may all matter. For a routing decision on equipment that is already powered on, marginal cost can differ from the total cost used for a deployment purchase. State which decision the accounting is intended to support.</p>
+<p id="fig-8-2"><img alt="Feasibility first, preference second; Candidate designs; A: local; B: permitted remote; C: unapproved remote; D: exceeds memory; Mandatory gates; Data permission; Memory feasibility; Task quality; Response requirement; Compare feasible A/B; Cost; Energy; Latency; Operational effort; A cheaper infeasible design is not a better solution." src="../_images/asset-6589ce149a9fab51.png" /><br>
+Figure 8.2. Constraints filter candidates before preferences rank them; sometimes the correct result is that no candidate satisfies the request.</p>
+</section>
+</section>
+<section id="locate-the-bottleneck-with-an-application-trace">
+<span id="section-8-2"></span><h2>8.2 Locate the bottleneck with an application trace<a class="headerlink" href="#locate-the-bottleneck-with-an-application-trace" title="Link to this heading"></a></h2>
+<section id="a-slow-response-can-contain-little-useful-computation">
+<span id="section-8-2-1"></span><h3>8.2.1 A slow response can contain little useful computation<a class="headerlink" href="#a-slow-response-can-contain-little-useful-computation" title="Link to this heading"></a></h3>
+<p>Before changing replica counts, record a request’s important stages: input preparation, transmission, waiting, computation, result transfer, and presentation. Use a monotonic clock for elapsed durations within one process. When different machines contribute timestamps, do not subtract them as though their wall clocks are perfectly synchronized. A first trace can combine client-measured total time with explicitly measured server durations and report the remaining communication overhead.</p>
+<p>Consider this invented trace:</p>
+<table class="book-table docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Stage</strong></p></th>
+<th class="head"><p><strong>Time</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Prepare request</p></td>
+<td><p>10 ms</p></td>
+</tr>
+<tr class="row-odd"><td><p>Transfer and fixed communication</p></td>
+<td><p>30 ms</p></td>
+</tr>
+<tr class="row-even"><td><p>Wait for analysis worker</p></td>
+<td><p>180 ms</p></td>
+</tr>
+<tr class="row-odd"><td><p>Analyze</p></td>
+<td><p>40 ms</p></td>
+</tr>
+<tr class="row-even"><td><p>Return and present</p></td>
+<td><p>10 ms</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Total</strong></p></td>
+<td><p><strong>270 ms</strong></p></td>
+</tr>
+</tbody>
+</table>
+<p>Halving computation saves only 20 ms in this trace. Reducing the waiting time by 100 ms has a much larger effect. The trace does not yet tell us why the queue formed: too few workers, a burst, poor routing, or long batch jobs could all contribute. It does tell us where to investigate first.</p>
+<p id="fig-8-3"><img alt="Figure 8.3. An illustrative request spends most of its time waiting, not computing. Optimization should target the measured limiting stage while preserving the task and result-quality requirements." src="../_images/asset-725cfeb3b290d6de.png" /><br>
+Figure 8.3. An illustrative request spends most of its time waiting, not computing. Optimization should target the measured limiting stage while preserving the task and result-quality requirements.</p>
+<p>For a language-model tool workflow, measure the complete user request as well as individual model calls. Reducing one model call’s time may not matter if the workflow makes unnecessary serial calls or repeatedly retrieves the same data. Model-specific techniques come in <a class="reference internal" href="ch11.html#chapter-11"><span class="std std-ref">Chapter 11</span></a>; the application-level need to locate time applies already.</p>
+<p id="fig-8-4"><img alt="Read a request trace like an engineer; Wait 180 ms; Analyze 40; ms; Halve compute: save 20 ms; Reduce waiting: save 100 ms" src="../_images/asset-0bd8423bdd366a51.png" /><br>
+Figure 8.4. Intervals must refer to the same request and a consistent clock; a long response need not mean long computation.</p>
+</section>
+<section id="inspect-a-distribution-and-its-failures">
+<span id="section-8-2-2"></span><h3>8.2.2 Inspect a distribution and its failures<a class="headerlink" href="#inspect-a-distribution-and-its-failures" title="Link to this heading"></a></h3>
+<p>A mean response time hides variation. Record at least a distribution or selected percentiles, together with completion and failure counts. If five of one hundred valid requests time out, those requests belong in the report even if no final response-time value is available for them. Report successful-response latency and the timeout rate separately rather than silently discarding the timeouts.</p>
+<p>The numerator of a useful success rate should reflect the application’s task, not simply an HTTP 200 response. For our numeric analyzer, an accepted result must match the declared calculation on the correct input. For a generated report, a rubric can check supported claims, required qualifications, and whether the requested comparison was completed. A policy that returns a cached answer about the wrong interval is not an optimization of the original task.</p>
+<p>The workload generator also matters. A closed-loop client waits for its previous response before sending another request, so a slow system can unintentionally reduce its own offered load. An open-loop trace schedules arrivals independently of response completion. Neither is always preferable; use the one that represents the question and state which was used. In a practical classroom experiment, a few explicit burst and steady-load patterns are more informative than one unexplained benchmark number.</p>
+</section>
+<section id="a-baseline-makes-improvements-interpretable">
+<span id="section-8-2-3"></span><h3>8.2.3 A baseline makes improvements interpretable<a class="headerlink" href="#a-baseline-makes-improvements-interpretable" title="Link to this heading"></a></h3>
+<p>Begin with a fixed configuration and a simple policy. For example, keep two workers ready, route requests round-robin, and serve each worker’s queue first-come, first-served. Save the request trace and test it again after changing one policy. Keep the analysis version, input distribution, result checks, and network assumptions consistent.</p>
+<p>Not every useful comparison changes only one parameter, but a complex change must explain its components. If a new design both adds an accelerator and compresses inputs, report those changes explicitly. Otherwise the reader cannot tell whether the benefit comes from scheduling, hardware, or a changed representation.</p>
+</section>
+</section>
+<section id="arrange-execution-when-jobs-compete">
+<span id="section-8-3"></span><h2>8.3 Arrange execution when jobs compete<a class="headerlink" href="#arrange-execution-when-jobs-compete" title="Link to this heading"></a></h2>
+<section id="queue-order-can-change-which-requests-meet-their-targets">
+<span id="section-8-3-1"></span><h3>8.3.1 Queue order can change which requests meet their targets<a class="headerlink" href="#queue-order-can-change-which-requests-meet-their-targets" title="Link to this heading"></a></h3>
+<p>Suppose a historical job needs 200 ms and an interactive job needs 40 ms. Both are waiting when a single worker becomes available. The historical job’s deadline is 400 ms from now; the interactive job’s deadline is 100 ms. With the historical job first, completions occur at 200 and 240 ms, so the interactive job is late. With the interactive job first, completions occur at 40 and 240 ms, and both meet their deadlines.</p>
+<p id="fig-8-5"><img alt="Figure 8.5. Two non-preemptive orders for the same assumed jobs. Executing the short-deadline job first meets both stated deadlines in this example. The example does not prove that one policy is optimal for every arrival pattern or objective." src="../_images/asset-95fda0c684b457b3.png" /><br>
+Figure 8.5. Two non-preemptive orders for the same assumed jobs. Executing the short-deadline job first meets both stated deadlines in this example. The example does not prove that one policy is optimal for every arrival pattern or objective.</p>
+<p>This motivates a deadline-aware queue without requiring scheduling theory. A first-come, first-served policy is easy to understand and does not favor a job that arrives later merely because it is short. An earliest-deadline policy gives urgent work priority. A shortest-estimated-job policy can improve some completion measures but may repeatedly postpone large jobs. Choose the policy according to the application’s commitments and test it under its expected mix.</p>
+<p>Our example assumes both jobs are available, durations are known, and execution is non-preemptive. If the batch job is already running and cannot be interrupted, the urgent job may still wait. If duration estimates are wrong, the planned order may fail. These conditions belong beside the example so that a convenient illustration is not mistaken for a universal guarantee.</p>
+</section>
+<section id="admission-is-part-of-meeting-a-promise">
+<span id="section-8-3-2"></span><h3>8.3.2 Admission is part of meeting a promise<a class="headerlink" href="#admission-is-part-of-meeting-a-promise" title="Link to this heading"></a></h3>
+<p>A service should not accept an unlimited amount of work and then hope every deadline is met. Before admitting a request, an application can compare its remaining time budget with an estimate of waiting, transfer, and execution. If no allowed path is likely to meet the target, it can return a busy response, offer a deferred result, or invoke a defined lower-cost mode when the user permits it.</p>
+<p>Such decisions must preserve the task contract. Replacing a requested detailed analysis with a simple threshold check is acceptable only if it is an explicitly permitted fallback, not if the interface claims the original task was completed. For a classroom design, record fallback use separately from ordinary success.</p>
+<p>A bounded queue also protects memory and data freshness. If an arriving status request supersedes an older request for the same display, the application may choose to replace the old queued request. That policy is inappropriate for a historical event log where each event must be retained. The same mechanism can be useful or harmful depending on what the request represents.</p>
+</section>
+<section id="share-resources-across-users-not-only-requests">
+<span id="section-8-3-3"></span><h3>8.3.3 Share resources across users, not only requests<a class="headerlink" href="#share-resources-across-users-not-only-requests" title="Link to this heading"></a></h3>
+<p>Two users may submit very different workloads. One sends frequent tiny queries; another sends fewer large reports. Equal request counts do not necessarily mean equal resource use. A simple multi-user design can maintain per-user limits, separate queues, or a fair rotation, while preserving a bounded amount of service for background work.</p>
+<p>The purpose is not to introduce a complicated fairness theory. It is to stop an implementation detail, such as who can open the most connections, from silently becoming the allocation policy. Test a heavy user and a light user together and report each one’s outcomes. An improved aggregate mean can conceal that one user no longer receives useful service.</p>
+<p>Resource isolation from <a class="reference internal" href="ch05.html#chapter-5"><span class="std std-ref">Chapter 5</span></a> supplies an enforcement boundary, but it does not by itself choose a fair policy. A configured CPU or memory limit also does not establish that an application has enough capacity for its admitted workload. The configuration and admission decision must fit together.</p>
+<p id="fig-8-6"><img alt="Two users sharing a finite queue; One arrival-ordered queue; A1; A2; A3; A4; B1; B waits 4 slots; Per-user rotation; A1; B1; A2; A3; A4; B waits 1 slot; total work is unchanged" src="../_images/asset-4d0bbbc67ece2569.png" /><br>
+Figure 8.6. The same total work can distribute waiting very differently across users; the policy must state whose requirement it protects.</p>
+</section>
+</section>
+<section id="choose-placement-routing-and-replica-count-together">
+<span id="section-8-4"></span><h2>8.4 Choose placement, routing, and replica count together<a class="headerlink" href="#choose-placement-routing-and-replica-count-together" title="Link to this heading"></a></h2>
+<section id="filter-candidates-before-estimating-performance">
+<span id="section-8-4-1"></span><h3>8.4.1 Filter candidates before estimating performance<a class="headerlink" href="#filter-candidates-before-estimating-performance" title="Link to this heading"></a></h3>
+<p>A placement worksheet for one task can list its compatible runtime, memory requirement, data access, permission constraints, and candidate locations. Remove infeasible locations first. Then estimate the full response path using <a class="reference internal" href="ch07.html#chapter-7"><span class="std std-ref">Chapter 7</span></a>’s budget and current load observations.</p>
+<p>Consider three hypothetical candidates for a task with a 250 ms response target:</p>
+<table class="book-table docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Location</strong></p></th>
+<th class="head"><p><strong>Communication and preparation</strong></p></th>
+<th class="head"><p><strong>Predicted waiting</strong></p></th>
+<th class="head"><p><strong>Execution</strong></p></th>
+<th class="head"><p><strong>Predicted total</strong></p></th>
+<th class="head"><p><strong>Eligible?</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Device</p></td>
+<td><p>10 ms</p></td>
+<td><p>20 ms</p></td>
+<td><p>180 ms</p></td>
+<td><p>210 ms</p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>Nearby worker</p></td>
+<td><p>40 ms</p></td>
+<td><p>120 ms</p></td>
+<td><p>50 ms</p></td>
+<td><p>210 ms</p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-even"><td><p>Cloud worker</p></td>
+<td><p>100 ms</p></td>
+<td><p>10 ms</p></td>
+<td><p>30 ms</p></td>
+<td><p>140 ms</p></td>
+<td><p>No for restricted raw input</p></td>
+</tr>
+</tbody>
+</table>
+<p>The cloud has the lowest estimated time but cannot receive this input under the assumed rule. The device and nearby worker have equal estimates for different reasons. A policy can use another relevant criterion, such as device energy or local capacity needed for other work, to choose between them. It should also account for uncertainty: a 210 ms estimate with large variability is not equivalent to an assured 210 ms completion.</p>
+<p>If an approved transformed input makes the cloud candidate eligible, reevaluate both its preparation cost and task quality. Do not carry over the old estimate without changing the input assumption. This is how application design and scheduling interact without requiring a single enormous optimization model.</p>
+</section>
+<section id="avoid-decisions-that-ignore-the-work-already-sent">
+<span id="section-8-4-2"></span><h3>8.4.2 Avoid decisions that ignore the work already sent<a class="headerlink" href="#avoid-decisions-that-ignore-the-work-already-sent" title="Link to this heading"></a></h3>
+<p>A shortest-queue router can be a useful improvement over round-robin, but queue length alone can be misleading when jobs have different durations. An estimate of unfinished work is more informative than a count of requests. A first implementation can track the expected finish time of each worker and add the estimated service time of newly assigned jobs.</p>
+<p>If many independent clients all see the same apparently idle worker, they may simultaneously send it new work. The measurement becomes stale immediately. A centralized dispatcher can account for assignments as it makes them; a distributed scheme needs a way to avoid relying only on old observations. This is a useful systems limitation to explain, not a reason to begin the chapter with a complex distributed scheduling algorithm.</p>
+<p>For the small teaching simulator, compare two policies on the same arrival trace: round-robin and minimum predicted completion time. The second chooses among eligible workers and updates its prediction after every assignment. Because it uses specified processing times and delays, the results describe the simulator, not measured hardware. A real deployment would need to estimate those quantities and examine estimation error.</p>
+</section>
+<section id="replica-count-affects-both-waiting-and-cost">
+<span id="section-8-4-3"></span><h3>8.4.3 Replica count affects both waiting and cost<a class="headerlink" href="#replica-count-affects-both-waiting-and-cost" title="Link to this heading"></a></h3>
+<p>More replicas can shorten queues if useful work can be distributed and sufficient capacity exists. They also hold memory, may duplicate model weights, and consume resources needed by other services. Fewer replicas can be economical at low load but respond slowly to bursts. The count cannot be chosen separately from worker capacity and startup delay.</p>
+<p>A small candidate comparison is often enough for a course project: one, two, or three local replicas, possibly with a permitted remote path. Use the same workload horizon and task quality requirement. Calculate or measure response outcomes and cost for each candidate, then identify which satisfy the stated requirements. There is no need to claim a global optimum over every possible architecture.</p>
+<table class="book-table docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Candidate</strong></p></th>
+<th class="head"><p><strong>Assumed total cost per hour, units</strong></p></th>
+<th class="head"><p><strong>Requests meeting time and quality target</strong></p></th>
+<th class="head"><p><strong>Decision under a 95% target</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>One local worker</p></td>
+<td><p>1.0</p></td>
+<td><p>82%</p></td>
+<td><p>Does not satisfy the target</p></td>
+</tr>
+<tr class="row-odd"><td><p>Two local workers</p></td>
+<td><p>1.6</p></td>
+<td><p>97%</p></td>
+<td><p>Feasible in this assumed comparison</p></td>
+</tr>
+<tr class="row-even"><td><p>One local worker plus approved remote overflow</p></td>
+<td><p>1.4</p></td>
+<td><p>96%</p></td>
+<td><p>Feasible while the remote path is available</p></td>
+</tr>
+</tbody>
+</table>
+<p>The table is an invented decision example, not an experiment. If offline service is also mandatory, the hybrid candidate needs a separate offline test and may not remain feasible. If costs are estimates, report their assumptions and sensitivity. A cheaper plan should not be selected by comparing an hourly cloud charge with an edge device’s purchase price without a common accounting basis.</p>
+</section>
+</section>
+<section id="adapt-without-spending-more-than-the-change-saves">
+<span id="section-8-5"></span><h2>8.5 Adapt without spending more than the change saves<a class="headerlink" href="#adapt-without-spending-more-than-the-change-saves" title="Link to this heading"></a></h2>
+<section id="new-capacity-takes-time-to-become-useful">
+<span id="section-8-5-1"></span><h3>8.5.1 New capacity takes time to become useful<a class="headerlink" href="#new-capacity-takes-time-to-become-useful" title="Link to this heading"></a></h3>
+<p>Suppose a service can currently finish 12 requests/s. A burst offers 18 requests/s while a new worker takes eight seconds to become ready. In a simplified fluid model with no rejection, the backlog increases by (18 - 12) × 8 = 48 requests during startup. If ready capacity then becomes 24 requests/s and arrivals remain at 18, draining that backlog takes another 48 / (24 - 18) = 8 seconds.</p>
+<p id="fig-8-7"><img alt="Aligned arrival rate, capacity step at eight seconds, and triangular backlog; left axis is requests per second, right axis is requests." src="../_images/asset-6b2e4d626e540a21.png" /><br>
+Figure 8.7. At 18 arrivals/s and 12 completions/s, an initially empty queue accumulates 48 requests in eight seconds. Raising capacity to 24/s then needs another eight seconds to clear that backlog. This is a calculated fluid model, not a measured queue.</p>
+<p>A controller that reacts correctly to load can therefore still miss many short deadlines. Possible responses include retaining headroom, starting capacity earlier when demand is predictable, rejecting or deferring work, or using a permitted ready remote service. <a class="reference internal" href="ch06.html#chapter-6"><span class="std std-ref">Chapter 6</span></a> supplied the scaling mechanism; this calculation explains why its timing belongs in the policy.</p>
+</section>
+<section id="moving-a-component-has-an-amortization-period">
+<span id="section-8-5-2"></span><h3>8.5.2 Moving a component has an amortization period<a class="headerlink" href="#moving-a-component-has-an-amortization-period" title="Link to this heading"></a></h3>
+<p>A service relocation can require transferring artifacts, initializing a model, and moving or reconnecting state. Consider an illustrative 400 MB artifact over a 40 Mb/s link with no cached copy. Transfer alone takes 80 seconds in decimal units. If relocation saves 30 ms on each of the next 1,000 requests, the aggregate service-time saving is only 30 seconds. Under this deliberately simplified non-overlapping cost model, the transfer is not repaid within that workload.</p>
+<p>The comparison is not a universal monetary or latency formula. Artifact transfer can overlap other work, the target may already have the image, and saving user-visible tail latency can matter even when aggregate time is small. The point is to identify one-time costs and the horizon over which a benefit occurs. Repeatedly moving an application to follow small load changes can be worse than tolerating a slightly imperfect placement.</p>
+<p>Updating or moving a model also may require old and new versions to coexist briefly. Verify the peak resource budget, not only the steady-state budget after the old version disappears. If both versions cannot fit, the update procedure must state how service is interrupted or redirected.</p>
+<p id="fig-8-8"><img alt="Linear aggregate savings cross the fixed 80-second migration cost at approximately 2,667 future requests." src="../_images/asset-3fda8605b419f68c.png" /><br>
+Figure 8.8. The illustrative transfer costs 80 seconds, while each future request saves 0.03 seconds. About 2,667 requests repay the transfer in this non-overlapped accounting model; 1,000 requests save only 30 seconds.</p>
+</section>
+<section id="use-simple-stability-rules-before-complex-policies">
+<span id="section-8-5-3"></span><h3>8.5.3 Use simple stability rules before complex policies<a class="headerlink" href="#use-simple-stability-rules-before-complex-policies" title="Link to this heading"></a></h3>
+<p>A practical first policy can require a meaningful improvement before switching, retain a choice for a minimum interval, and cap how often it changes. This introduces hysteresis: the rule for leaving a state differs from the rule for entering it. The purpose is to avoid changing placement every time two noisy measurements trade places.</p>
+<p>For example, switch from the local path only when the remote path is eligible and its estimated saving exceeds a stated threshold for several observations. Switch back when the network becomes unavailable or the local choice becomes clearly preferable. The threshold is a policy parameter to evaluate, not a universal constant.</p>
+<p>Device mobility adds a residence-time question. If a moving device will leave a nearby service area before setup is complete, initiating a heavy migration may make little sense. Often a simpler reconnection to a stateless service is enough; other applications need explicit session or state transfer. Choose the level of continuity the application actually requires.</p>
+</section>
+</section>
+<section id="compare-policies-with-a-reproducible-experiment">
+<span id="section-8-6"></span><h2>8.6 Compare policies with a reproducible experiment<a class="headerlink" href="#compare-policies-with-a-reproducible-experiment" title="Link to this heading"></a></h2>
+<p>Begin by writing a testable claim: for example, “under the supplied mixed request trace, separating urgent and batch queues increases the fraction of interactive requests meeting their deadline without preventing batch completion.” This is more informative than “our scheduler improves performance.” State the workload, allowed resources, quality checks, and failure treatment before examining outcomes.</p>
+<p>The package contains a deterministic event simulator for queue order and request routing, plus arithmetic checks for the worked examples. Use it to predict behavior, then test selected policies against the real service where the environment is available. Keep simulated service times and measured service times in different files so they cannot be confused in a report.</p>
+<p>An initial study can follow three comparisons. First compare first-come, first-served and deadline-based queue order on a known set of jobs. Next compare round-robin and completion-time routing while holding the replica set fixed. Finally add a simple scaling policy and include its startup delay. Changing one level at a time shows which mechanism produced the effect.</p>
+<p>Record the result as several outcomes rather than a single unqualified score: completed useful work, response distribution, rejections and failures, per-user behavior, and resource or cost accounting. Repeat a policy under a different load pattern. A policy that works only for the trace used to tune it has not yet demonstrated broad usefulness.</p>
+<p>A negative result can be valuable. If a more complicated router gains nothing because every request waits on one shared model endpoint, the next design change may be to address that shared component. Optimization should revise the explanation of the system, not merely search for a setting that produces a favorable chart.</p>
+</section>
+<section id="chapter-summary">
+<span id="chapter-8-chapter-summary"></span><h2>Chapter summary<a class="headerlink" href="#chapter-summary" title="Link to this heading"></a></h2>
+<p>Scheduling and optimization choose how to use the deployment and collaboration mechanisms already available. The developer should distinguish placement, replica count, request routing, queue order, and admission; observe the relevant bottleneck; and compare policies under explicit requirements.</p>
+<p>An application-oriented approach does not need sophisticated algorithms to produce useful insights. Clear baselines, complete time budgets, bounded policies, and honest failure accounting can explain when an improvement is real and when a deployment change is not worth its cost. <a class="reference internal" href="ch09.html#chapter-9"><span class="std std-ref">Chapter 9</span></a> examines which of these mechanisms a commercial platform supplies and which decisions remain with the application team.</p>
+</section>
+<section id="exercises">
+<span id="chapter-8-exercises"></span><h2>Exercises<a class="headerlink" href="#exercises" title="Link to this heading"></a></h2>
+<p><strong>8.1 Decision units.</strong> A report says that changing a Kubernetes Deployment from two replicas to four “improved the request scheduler.” Rewrite the claim precisely. What separate measurements would show whether routing or queue scheduling also changed?</p>
+<p><strong>8.2 Queue order.</strong> Reproduce the 200 ms batch and 40 ms interactive example. Then let the batch start 20 ms before the interactive request arrives and assume it cannot be preempted. What benefit remains available from changing only queue order?</p>
+<p><strong>8.3 Feasibility.</strong> Use the placement table in Section 8.4. What changes if raw input cannot leave the device, rather than only the site? Why should that condition be checked before choosing the fastest candidate?</p>
+<p><strong>8.4 Adaptation.</strong> Derive the backlog and drain time in Section 8.5. What happens if capacity after startup reaches only 18 requests/s? What additional action is needed to reduce the existing backlog?</p>
+<p><strong>8.5 Evidence.</strong> Design a comparison of two routing policies for image analysis or language-model tools. State the baseline, workload, quality checks, cost boundary, and how you will report failures and per-user outcomes.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="ch07.html" class="btn btn-neutral float-left" title="Chapter 7. Computation Offloading and Device–Edge–Cloud Collaboration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ch09.html" class="btn btn-neutral float-right" title="Chapter 9. Commercial Edge Platforms: From Mechanisms to Deployment" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Zheng Song.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

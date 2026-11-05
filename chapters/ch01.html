@@ -1,0 +1,731 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chapter 1. Introduction to Edge Computing &mdash; Edge Computing Systems</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/book.css?v=e49485e1" />
+
+  
+    <link rel="canonical" href="https://sonyyt.github.io/EdgeComputingBook-HTML/chapters/ch01.html" />
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=bcebf14d"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script>window.MathJax = {"tex": {"tags": "none"}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      <script src="../_static/book.js?v=917b1e6b"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Chapter 2. An Agentic IoT Application at the Edge" href="ch02.html" />
+    <link rel="prev" title="About this web edition" href="../publication.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Edge Computing Systems
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">About this book</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../preface.html">Preface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../publication.html">About this web edition</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Part I. Applications, Devices, Communication, and Digital Twins</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Chapter 1. Introduction to Edge Computing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#from-connected-devices-to-edge-computing">1.1 From Connected Devices to Edge Computing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#three-ideas-that-belong-together">1.1.1 Three ideas that belong together</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-same-function-different-execution-sites">1.1.2 The same function, different execution sites</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#why-edge-computing">1.2 Why Edge Computing?</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#response-time-how-soon-must-the-result-be-available">1.2.1 Response time: how soon must the result be available?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#communication-what-information-needs-to-cross-the-network">1.2.2 Communication: what information needs to cross the network?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#availability-what-must-still-work-without-the-cloud">1.2.3 Availability: what must still work without the cloud?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#privacy-and-data-handling-what-is-allowed-to-leave">1.2.4 Privacy and data handling: what is allowed to leave?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#resource-use-and-cost-what-should-be-shared-and-where">1.2.5 Resource use and cost: what should be shared, and where?</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#devices-edge-servers-and-cloud-resources">1.3 Devices, Edge Servers, and Cloud Resources</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#read-a-resource-description">1.3.1 Read a resource description</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#small-devices-microcontrollers-and-single-board-computers">1.3.2 Small devices: microcontrollers and single-board computers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#phones-and-accelerated-embedded-computers">1.3.3 Phones and accelerated embedded computers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#edge-servers-and-physical-installations">1.3.4 Edge servers and physical installations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#a-cloud-server-is-not-the-whole-cloud">1.3.5 A cloud server is not the whole cloud</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#where-is-the-edge-common-deployments">1.4 Where Is the Edge? Common Deployments</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#on-device-computing">1.4.1 On-device computing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#on-site-or-enterprise-edge">1.4.2 On-site or enterprise edge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#provider-and-network-edge">1.4.3 Provider and network edge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mobility-and-cooperation-are-additional-dimensions">1.4.4 Mobility and cooperation are additional dimensions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#the-edgecloud-continuum">1.5 The Edge–Cloud Continuum</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#resources-provide-capacity-applications-determine-the-work">1.5.1 Resources provide capacity; applications determine the work</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#what-can-be-placed-transferred-or-changed">1.5.2 What can be placed, transferred, or changed?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#follow-computation-data-and-management-separately">1.5.3 Follow computation, data, and management separately</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cooperate-across-locations-and-adapt-when-necessary">1.5.4 Cooperate across locations, and adapt when necessary</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#from-application-needs-to-architecture">1.6 From Application Needs to Architecture</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#a-response-time-example">1.6.1 A response-time example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#a-traffic-example-small-measurements-and-continuous-video">1.6.2 A traffic example: small measurements and continuous video</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#change-the-application-and-reconsider-the-design">1.6.3 Change the application, and reconsider the design</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#history-and-rapid-development-of-edge-computing">1.7 History and Rapid Development of Edge Computing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#early-foundations-bring-content-and-computation-closer">1.7.1 Early foundations: bring content and computation closer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#iot-fog-computing-and-network-edge-standardization">1.7.2 IoT, fog computing, and network-edge standardization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#from-research-ideas-to-deployable-platforms">1.7.3 From research ideas to deployable platforms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#from-local-prediction-to-on-device-language-models">1.7.4 From local prediction to on-device language models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#quantitative-evidence-of-rapid-development">1.7.5 Quantitative evidence of rapid development</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#what-the-history-means-for-system-design">1.7.6 What the history means for system design</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#challenges-and-the-road-ahead">1.8 Challenges and the Road Ahead</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#chapter-summary">Chapter summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#exercises">Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ch02.html">Chapter 2. An Agentic IoT Application at the Edge</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch03.html">Chapter 3. IoT Devices and Sensing Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch04.html">Chapter 4. Communication and Networking for IoT and Edge Systems</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Part II. Building and Operating Edge Systems</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ch05.html">Chapter 5. Running and Deploying Applications on Edge Nodes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch06.html">Chapter 6. Scaling Edge Applications and Elastic Execution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch07.html">Chapter 7. Computation Offloading and Device–Edge–Cloud Collaboration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch08.html">Chapter 8. Scheduling and Optimizing Edge Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch09.html">Chapter 9. Commercial Edge Platforms: From Mechanisms to Deployment</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Part III. Edge AI</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ch10.html">Chapter 10. Running and Optimizing AI on Edge Devices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch11.html">Chapter 11. Collaborative Edge Intelligence: From Perception Models to Language Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch12.html">Chapter 12. Agentic AI and Tool-Driven Applications at the Edge</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Part IV. Security and Multi-Party Trust</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ch13.html">Chapter 13. Security, Privacy, and Safety in Edge Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch14.html">Chapter 14. Multi-Party Trust, Blockchains, and Distributed Ledgers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendices and references</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../appendices/appendix-a.html">Appendix A. Laboratory and Project Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendices/appendix-b.html">Appendix B. Optional Extension: Learning and Adaptation Across Devices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendices/appendix-c.html">Appendix C. Selected Exercise Solutions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendices/appendix-d.html">Appendix D. Glossary and Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendices/appendix-e.html">Appendix E. Evidence and Reproducibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Edge Computing Systems</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Chapter 1. Introduction to Edge Computing</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/sonyyt/EdgeComputingBook/blob/main/docs/chapters/ch01.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul><div class="rst-breadcrumbs-buttons" role="navigation" aria-label="Sequential page navigation">
+        <a href="../publication.html" class="btn btn-neutral float-left" title="About this web edition" accesskey="p"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ch02.html" class="btn btn-neutral float-right" title="Chapter 2. An Agentic IoT Application at the Edge" accesskey="n">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+  </div>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="chapter-1-introduction-to-edge-computing">
+<span id="chapter-1"></span><h1>Chapter 1. Introduction to Edge Computing<a class="headerlink" href="#chapter-1-introduction-to-edge-computing" title="Link to this heading"></a></h1>
+<section id="from-connected-devices-to-edge-computing">
+<span id="section-1-1"></span><h2>1.1 From Connected Devices to Edge Computing<a class="headerlink" href="#from-connected-devices-to-edge-computing" title="Link to this heading"></a></h2>
+<p>A camera records a busy entrance. A wearable measures a person’s motion. A machine reports its temperature and vibration. Collecting these observations is only the first step. An application must turn them into something useful: a count of arriving customers, an activity record, or an indication that equipment needs attention. Where should that processing happen?</p>
+<p>One familiar arrangement is to send the data to a remote service. The service stores it, runs the application, and returns a result to a phone or display. Many devices can use the same service, and developers can update the application in one place. Now consider an alternative: a computer beside the camera counts people locally and sends only the count to the remote service. The user still benefits from cloud storage and reporting, but an important part of the application has moved closer to the source of the data.</p>
+<p><strong>Edge computing places selected computation and storage on devices or on computing resources close to the people, machines, and data sources that an application serves.</strong> Its central idea is not to abandon the cloud. It is to choose which work should be done nearby and how that work should cooperate with more remote services. Decentralizing processing between connected devices and cloud systems is also central to NIST’s fog-computing model. [<a class="reference internal" href="../references.html#ref-1"><span class="std std-ref">1</span></a>, <a class="reference internal" href="../references.html#ref-2"><span class="std std-ref">2</span></a>]</p>
+<p id="fig-1-1"><img alt="Figure 1.1. Two ways to process the same camera input. In the upper design, frames travel to a remote application before a result is available. In the lower design, nearby computation produces the immediate result and sends selected information onward. The figure shows application work, not every router on the network path." src="../_images/asset-0cced95d9c4ae19a.png" /><br>
+Figure 1.1. Two ways to process the same camera input. In the upper design, frames travel to a remote application before a result is available. In the lower design, nearby computation produces the immediate result and sends selected information onward. The figure shows application work, not every router on the network path.</p>
+<section id="three-ideas-that-belong-together">
+<span id="section-1-1-1"></span><h3>1.1.1 Three ideas that belong together<a class="headerlink" href="#three-ideas-that-belong-together" title="Link to this heading"></a></h3>
+<p>The <strong>Internet of Things (IoT)</strong> connects physical objects to information systems through sensing, communication, and sometimes actuation. A sensor measures a physical quantity; an actuator changes something in the physical world, such as a valve position or motor speed. A connected device combines some of these capabilities with computing. An IoT system can use the cloud, the edge, or both. IoT describes the connection to physical things; it does not by itself determine where application processing occurs.</p>
+<p><strong>Cloud computing</strong> provides access to shared computing resources as services. A developer can request a virtual machine, store objects, or call a managed application without personally installing the underlying server. NIST emphasizes on-demand access, resource pooling, and the ability to provision and release resources. For the initial comparisons in this chapter, “the cloud” means a remote cloud service. Cloud computing more generally is a service model, however, not a rule that all cloud infrastructure must be geographically distant. [<a class="reference internal" href="../references.html#ref-1"><span class="std std-ref">1</span></a>]</p>
+<p><strong>Edge computing</strong> emphasizes the placement of work relative to devices and users. A smart camera may process its own images; a shop may share one local computer among several cameras; a network provider may host an application near a population of mobile users. These are different ways to bring computing closer. An ordinary program that filters measurements is just as relevant as an AI model. Edge computing is not restricted to AI, and an AI application is not necessarily an edge application. [<a class="reference internal" href="../references.html#ref-2"><span class="std std-ref">2</span></a>, <a class="reference internal" href="../references.html#ref-70"><span class="std std-ref">70</span></a>]</p>
+</section>
+<section id="the-same-function-different-execution-sites">
+<span id="section-1-1-2"></span><h3>1.1.2 The same function, different execution sites<a class="headerlink" href="#the-same-function-different-execution-sites" title="Link to this heading"></a></h3>
+<p>A useful first description of a system names its <strong>input, task, result, and execution site</strong>. For the entrance-camera application, the input is an image, the task is counting people, and the result is a count associated with an observation time. The execution site might be the camera itself, a computer in the same building, or a remote cloud server. The first three items describe the work; the fourth identifies where that work happens.</p>
+<p>This distinction helps separate an application’s requirements from its implementation. A <strong>functional requirement</strong> states what the system must do. For example, the application must process camera images and provide time-stamped people counts to a display. That requirement does not, by itself, specify which computer must perform the counting.</p>
+<p>A <strong>non-functional requirement</strong> specifies a quality the system must achieve or a constraint under which it must operate. Examples include how quickly a result must appear, which information may leave the site, how much energy the device may consume, and which functions must remain available when the Internet connection is lost. These requirements describe more than speed: privacy, availability, and resource limits can determine whether a design is acceptable at all. [<a class="reference internal" href="../references.html#ref-194"><span class="std std-ref">194</span></a>, <a class="reference internal" href="../references.html#ref-195"><span class="std std-ref">195</span></a>]</p>
+<p>Consider three designs for the same camera application. In the first, the camera runs the counting program. In the second, it sends images to a nearby server. In the third, it sends images to a cloud service. All three may provide the required count, provided that the chosen implementation meets the application’s counting-quality requirement. Yet they need not provide the result equally quickly, transmit the same amount of data, or continue working under the same failures.</p>
+<p>For an illustrative design exercise, suppose the result should appear within 200 ms of image capture, raw images must remain inside the building, and local counting should continue during an Internet outage. These are requirements against which the candidate designs can be evaluated. A measured response time is evidence about a design; it is not the requirement itself.</p>
+<p>To evaluate a design, follow the actual processing rather than judging it from the location of its equipment. Two computers may stand in the same shop, while one forwards images to a cloud model and the other runs the model locally. Only the second performs the counting task at the site. Conversely, a program installed and updated by a cloud service may execute entirely on the local computer. Execution location and management responsibility are different questions.</p>
+<p>The inputs need not be camera images. Periodic measurements, continuous audio, phone requests, and robot observations create different <strong>workloads</strong>: different input sizes, arrival patterns, and processing demands. The next section examines why these differences—and the requirements attached to them—make execution placement important.</p>
+</section>
+</section>
+<section id="why-edge-computing">
+<span id="section-1-2"></span><h2>1.2 Why Edge Computing?<a class="headerlink" href="#why-edge-computing" title="Link to this heading"></a></h2>
+<p>Once an application’s function is clear, we can ask which deployment will provide that function with the required quality and within the available constraints. A remote service may produce a correct answer but return it too late. A device may run the program locally but lack enough memory or battery capacity. A shared server may reduce the work performed by individual devices but become a bottleneck when many requests arrive.</p>
+<p>Edge computing adds execution and storage options near data sources and users. Its value comes from using those options to meet application requirements—not from assuming that nearby execution is always faster, cheaper, or more reliable. The following sections examine five reasons to consider an edge deployment and the trade-offs that accompany them. [<a class="reference internal" href="../references.html#ref-2"><span class="std std-ref">2</span></a>, <a class="reference internal" href="../references.html#ref-70"><span class="std std-ref">70</span></a>]</p>
+<section id="response-time-how-soon-must-the-result-be-available">
+<span id="section-1-2-1"></span><h3>1.2.1 Response time: how soon must the result be available?<a class="headerlink" href="#response-time-how-soon-must-the-result-be-available" title="Link to this heading"></a></h3>
+<p><strong>Latency</strong> is the time between a defined starting event and a defined outcome. In the camera application, we might measure from image capture to displaying the count. In a phone application, we might measure from submitting a request to receiving a usable response. These boundaries matter because the user experiences the complete operation, not just the time spent inside one model.</p>
+<p>With remote execution, the input must reach the server, wait if the service is busy, be processed, and return a result. Moving the task to a nearby server can shorten the communication path. Running it on the originating device can avoid the application-level network exchange altogether. A warehouse robot or interactive camera application may therefore benefit from nearby computation even when the remote processor executes the model more quickly.</p>
+<p>However, shorter communication does not guarantee a shorter response. A nearby computer may have a slower processor or a longer queue. A local task that takes 500 ms does not meet a 200 ms deadline simply because no Internet connection is involved. Likewise, a low average delay may hide occasional responses that arrive too late.</p>
+<p>The design question is therefore: <strong>which placement meets the response-time requirement under the expected workload?</strong> <a class="reference internal" href="#section-1-6"><span class="std std-ref">Section 1.6</span></a> develops a numerical example that separates preparation, communication, waiting, and computation.</p>
+</section>
+<section id="communication-what-information-needs-to-cross-the-network">
+<span id="section-1-2-2"></span><h3>1.2.2 Communication: what information needs to cross the network?<a class="headerlink" href="#communication-what-information-needs-to-cross-the-network" title="Link to this heading"></a></h3>
+<p><strong>Bandwidth</strong> describes a link’s capacity to carry data per unit time; <strong>traffic volume</strong> is the amount actually transmitted. A site may have enough local network capacity to connect several cameras while lacking the uplink capacity to send all their video to a remote service. A faster cloud processor does not remove that communication bottleneck.</p>
+<p>The placement of processing changes what must travel. If a cloud service performs the counting, images must reach that service. If the camera or a site server performs it, the cloud may need only counts and timestamps for a daily report. Similarly, a vibration monitor can calculate features locally and upload a short raw segment only when an unusual event occurs. Filtering, aggregation, compression, and caching can reduce communication without requiring an AI model.</p>
+<p>The appropriate reduction depends on the function. A count may be sufficient for an occupancy report but insufficient for reviewing a particular incident. An average may hide a brief spike. Local processing can therefore be combined with local retention of selected raw data, rather than treating every reduction in bytes as an improvement.</p>
+<p>The question is not simply “Can we send less?” It is <strong>“What information must cross each link for the application to provide the required result?”</strong> <a class="reference internal" href="#section-1-6"><span class="std std-ref">Section 1.6</span></a> compares small sensor records with continuous video to show why absolute traffic volume matters as well as percentage reduction.</p>
+</section>
+<section id="availability-what-must-still-work-without-the-cloud">
+<span id="section-1-2-3"></span><h3>1.2.3 Availability: what must still work without the cloud?<a class="headerlink" href="#availability-what-must-still-work-without-the-cloud" title="Link to this heading"></a></h3>
+<p>An Internet outage does not necessarily stop the devices, local network, or power supply at a site. However, it can stop an application whose essential processing depends on a remote service. The cameras may continue collecting images while the display can no longer obtain a current count.</p>
+<p>An edge deployment can keep selected functions available by retaining their required programs and information locally. A shop could continue counting people and displaying recent results while postponing cross-store reporting. A field station could keep recording measurements while its regional dashboard is unavailable.</p>
+<p>This requires more than installing one program on a local host. The operation must also have access to its necessary data and dependencies. A locally running application that must contact a remote service before every request is not independent of that service.</p>
+<p>A useful requirement therefore identifies both the function and the condition: <strong>“Continue producing and displaying local counts while the Internet connection is unavailable.”</strong> It need not require every cloud-supported feature to remain available. The local network and power supply may still be essential, and synchronization after reconnection is a separate part of the design.</p>
+</section>
+<section id="privacy-and-data-handling-what-is-allowed-to-leave">
+<span id="section-1-2-4"></span><h3>1.2.4 Privacy and data handling: what is allowed to leave?<a class="headerlink" href="#privacy-and-data-handling-what-is-allowed-to-leave" title="Link to this heading"></a></h3>
+<p>Some applications place restrictions on the information that may leave a device or site. A camera may capture identifiable people, a microphone may record private conversations, and a phone may collect a detailed activity history. A design that sends these observations to a remote service may be unacceptable even when it provides excellent response time.</p>
+<p>Local processing creates an opportunity to share a different representation. A camera application can release occupancy counts instead of images. A wearable can release an activity summary instead of a complete motion trace. Recent raw data can remain at the site under an explicit access and retention policy.</p>
+<p>These choices can reduce disclosure, but they do not automatically guarantee privacy. A detailed summary may still reveal sensitive behavior, and an inadequately protected local computer may expose the records it stores. Privacy depends on the complete data path, including access, logs, retention, and transmission.</p>
+<p>The architectural question is therefore: <strong>which information may be processed at each location, and which information may cross each boundary?</strong> This constraint can rule out a placement before speed or cost is compared. <a class="reference internal" href="ch13.html#chapter-13"><span class="std std-ref">Chapter 13</span></a> develops the associated protection mechanisms.</p>
+<p id="fig-1-2"><img alt="Four reasons to keep selected work local; Respond nearby; Camera; Local detection; Avoid a remote round trip for this operation.; Send less; Many samples; Approved summary; Process first; send only information the task needs.; Continue locally; Field device; Local interface; WAN unavailable; local power and links still work.; Control disclosure; Private history; Release gate; Locality helps only with explicit access and release; rules." src="../_images/asset-bfc6c1ad35de3d8e.png" /><br>
+Figure 1.2. Local placement can address different needs; each panel states the operation and condition under which the benefit is expected.</p>
+</section>
+<section id="resource-use-and-cost-what-should-be-shared-and-where">
+<span id="section-1-2-5"></span><h3>1.2.5 Resource use and cost: what should be shared, and where?<a class="headerlink" href="#resource-use-and-cost-what-should-be-shared-and-where" title="Link to this heading"></a></h3>
+<p>Executing everything on the originating device is not always practical. A small sensor may lack the memory needed by an application, while equipping every camera with a powerful processor may be unnecessarily expensive. A nearby server provides a middle option: several devices can share computation, storage, or an accelerator.</p>
+<p>For example, multiple cameras could use one site-level inference service instead of each hosting a separate model. The same server could combine their results and maintain a local history. Sharing can make a larger resource available to small devices, but it also creates competition. Adding another camera may increase the waiting time of cameras already using the service.</p>
+<p>An edge server also needs power, cooling, updates, and maintenance. Its installation is not justified merely because it reduces cloud traffic. Conversely, cloud execution still requires communication and some local equipment. A meaningful cost comparison includes the components and operational effort needed by each complete design.</p>
+<p>The cloud remains useful for larger resource demands, long-term storage, and cross-site analysis. Devices remain useful for immediate interaction with their own inputs and outputs. The goal is to choose an appropriate division of work: <strong>enough resources to meet the requirements, without adding unnecessary equipment, communication, or operational complexity.</strong></p>
+<section id="from-motivations-to-design-choices">
+<span id="chapter-1-from-motivations-to-design-choices"></span><h4>From motivations to design choices<a class="headerlink" href="#from-motivations-to-design-choices" title="Link to this heading"></a></h4>
+<p>These considerations do not produce a universal ranking of device, edge, and cloud execution. They help explain why a placement is suitable for a particular application. We must next understand the resources available at each location, the ways they can be deployed, and how they can cooperate.</p>
+</section>
+</section>
+</section>
+<section id="devices-edge-servers-and-cloud-resources">
+<span id="section-1-3"></span><h2>1.3 Devices, Edge Servers, and Cloud Resources<a class="headerlink" href="#devices-edge-servers-and-cloud-resources" title="Link to this heading"></a></h2>
+<p>The word “computer” covers a wide range of machines. A battery-powered sensor board, a phone, and a rack-mounted server can all execute programs, but the size and character of those programs differ. Before selecting an execution site, it helps to recognize the machines and understand a few resource measurements.</p>
+<section id="read-a-resource-description">
+<span id="section-1-3-1"></span><h3>1.3.1 Read a resource description<a class="headerlink" href="#read-a-resource-description" title="Link to this heading"></a></h3>
+<p>The <strong>CPU</strong> executes general program instructions. A core is a processing unit within a CPU; multiple cores can make progress on different work at the same time when software permits. Clock frequency, expressed in MHz or GHz, is only one characteristic. Two processors with the same frequency can execute a particular program at different speeds because their designs, memory systems, and software differ.</p>
+<p><strong>RAM</strong> is the working space used while a program runs. <strong>Storage</strong>, such as flash memory, a microSD card, or an SSD, retains program files and data across power cycles. A computer can have a large storage device but too little RAM to run a particular application. Installing a 20 GB model file on a 1 TB drive does not create the working memory needed to execute it. Some systems can move data between storage and RAM during execution, but that movement has a cost.</p>
+<p>A <strong>GPU</strong> or another accelerator can speed up suitable operations, such as the repeated numerical work in some image and language models. It is not a universal replacement for a CPU. The application also needs supported software and enough memory. A resource description should therefore include CPU, memory, storage, acceleration, communication interfaces, and power, rather than reduce a device to one headline performance number.</p>
+<p>Finally, distinguish <strong>power</strong> from <strong>energy</strong>. Power, measured in watts (W), is the rate of energy use; energy accumulates over time. Under an invented constant-load assumption, a 10 W computer running for 8 hours uses 80 Wh. A battery’s capacity, the radio, attached sensors, and power-conversion losses also matter. A power-supply rating is not a measurement of the application’s actual consumption.</p>
+<p id="fig-1-3"><img alt="Read a device resource card; Teaching node A; CPU; 4 cores; RAM; 8 GiB; Storage; 64 GB; Accelerator; None assumed; Power; Mains powered; Can the service run?; Check OS, instructions and required operators.; Can it fit in memory?; Weights + activations + runtime + other services.; Can it keep up?; Measure the real input, concurrency and power; conditions." src="../_images/asset-d15b1310e9c82585.png" /><br>
+Figure 1.3. A resource card supports different feasibility questions; storage capacity is not a substitute for working memory.</p>
+</section>
+<section id="small-devices-microcontrollers-and-single-board-computers">
+<span id="section-1-3-2"></span><h3>1.3.2 Small devices: microcontrollers and single-board computers<a class="headerlink" href="#small-devices-microcontrollers-and-single-board-computers" title="Link to this heading"></a></h3>
+<p>A <strong>microcontroller</strong> integrates a processor, a relatively small memory, and interfaces for interacting with hardware. It is useful when a task is narrow: read a sensor, maintain a short buffer, check a threshold, or produce an output signal. The Arduino UNO R3 is a familiar example with a 16 MHz ATmega328P, 2 KB of SRAM, and 32 KB of flash. The Raspberry Pi Pico 2 illustrates a different scale within the same broad category: a dual-core 150 MHz processor configuration, 520 KB of SRAM, and 4 MB of onboard flash. [<a class="reference internal" href="../references.html#ref-71"><span class="std std-ref">71</span></a>, <a class="reference internal" href="../references.html#ref-72"><span class="std std-ref">72</span></a>]</p>
+<p>These are examples, not boundaries that define every microcontroller. The Pico 2 offers a choice of two Arm Cortex-M33 cores or two Hazard3 RISC-V cores; its wireless sibling is the Pico 2 W. A small board may run a dedicated program or a lightweight operating system, rather than a general-purpose desktop environment. Whether it can run a particular inference model depends on that model’s operations and memory needs, not on the word “AI” on a product page. [<a class="reference internal" href="../references.html#ref-72"><span class="std std-ref">72</span></a>]</p>
+<p id="fig-1-4"><img alt="Figure 1.4. Two real boards, with very different resource budgets: (a) Arduino UNO R3; (b) Raspberry Pi 5. Notice the hardware headers on both, and the Pi’s Ethernet, USB, and display connections. The photos are not to scale and do not identify the Pi’s installed RAM variant. Photo sources: P1–P2; specifications: 71, 73." src="../_images/asset-2ddf3d9fef2ec5e4.png" /><br>
+Figure 1.4. Two real boards, with very different resource budgets: (a) Arduino UNO R3; (b) Raspberry Pi 5. Notice the hardware headers on both, and the Pi’s Ethernet, USB, and display connections. The photos are not to scale and do not identify the Pi’s installed RAM variant. Photo sources: P1–P2; specifications: [<a class="reference internal" href="../references.html#ref-71"><span class="std std-ref">71</span></a>, <a class="reference internal" href="../references.html#ref-73"><span class="std std-ref">73</span></a>].</p>
+<p>A <strong>single-board computer</strong> places the main parts of a general-purpose computer on one board. The Raspberry Pi 5, for example, has a quad-core 2.4 GHz Arm Cortex-A76 CPU and RAM variants from 1 GB to 16 GB. It supports a Linux-based environment and has interfaces for networking, storage, cameras, and other peripherals. A board of this kind can host a small web service, collect data from multiple sensors, or act as a gateway while other programs run alongside it. [<a class="reference internal" href="../references.html#ref-73"><span class="std std-ref">73</span></a>]</p>
+<p>A <strong>gateway</strong> is a role, not a unique hardware shape. It connects devices or networks and may translate messages, aggregate readings, or forward data to a service. A single-board computer can fill this role; so can an industrial computer or a phone. A gateway becomes an execution site for an application task when it actually performs that task, rather than merely carrying the task’s input elsewhere. <a class="reference internal" href="#fig-1-5"><span class="std std-ref">Figure 1.5</span></a> shows an industrial computer with modular interfaces that can support this kind of role.</p>
+<p><img alt="Manufacturer illustration of an Advantech UNO-137 industrial computer, its modular extension kit, and optional interface modules." src="../_images/asset-e103fcd8248a58d3.png" /></p>
+<p id="fig-1-5"><strong>Figure 1.5.</strong> An industrial computer as a possible gateway platform. Advantech’s UNO-137 product illustration shows a base unit, an extension kit, and optional industrial I/O, fieldbus, and wireless modules. The artwork illustrates hardware options, not an operating deployment; the software determines whether the host forwards data or processes it locally. Image source: P7.</p>
+</section>
+<section id="phones-and-accelerated-embedded-computers">
+<span id="section-1-3-3"></span><h3>1.3.3 Phones and accelerated embedded computers<a class="headerlink" href="#phones-and-accelerated-embedded-computers" title="Link to this heading"></a></h3>
+<p>A phone combines computing with sensors, wireless interfaces, a battery, and a user interface. It can be both a data source and a nearby processor for another device, such as a wearable. Android, for example, exposes motion, environmental, and position-related sensors, with availability depending on the device. [<a class="reference internal" href="../references.html#ref-49"><span class="std std-ref">49</span></a>] For a concrete classroom resource budget, we might assume a phone with 8 GB RAM and 128 GB storage; that is an explicit teaching configuration, not a specification shared by all phones.</p>
+<p>The application cannot treat all of that memory, processor time, or battery as its own. The operating system and the user’s other applications also need resources. A phone may be a useful place to summarize motion data or run a bounded local model, yet a poor place to host an always-available service for many unrelated users. Availability, permission, and energy can matter as much as peak computation speed.</p>
+<p>An <strong>accelerated embedded computer</strong> adds hardware aimed at demanding local computation. The NVIDIA Jetson Orin Nano Super developer kit, for example, combines a six-core Arm CPU, an NVIDIA GPU, and 8 GB memory; the vendor lists power modes in the 7–25 W range. [<a class="reference internal" href="../references.html#ref-74"><span class="std std-ref">74</span></a>] This makes it a relevant platform to investigate for vision, robotics, or a small language-model service. It does not establish an application frame rate or response time: those require a particular model, input, runtime, and measurement.</p>
+<table class="book-table docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>(a) Smartphone</p></th>
+<th class="head"><p>(b) Embedded development kits</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><img alt="Google Pixel smartphone photographed beside its packaging; rear cameras are visible." src="../_images/asset-a7493b2718e4bd1f.jpg" /></p></td>
+<td><p><img alt="Jetson Nano at upper left and Jetson Orin Nano at lower right, on a cutting mat; the Orin Nano has a visible cooling fan." src="../_images/asset-a1c82d9f93b0330f.jpg" /></p></td>
+</tr>
+</tbody>
+</table>
+<p id="fig-1-6"><strong>Figure 1.6.</strong> Different forms of edge-capable hardware: (a) a Google Pixel smartphone; (b) a Jetson Nano kit at upper left and a Jetson Orin Nano kit at lower right. These photos show physical design, cooling, and interfaces, not measured application performance. The phone’s resource budget above is hypothetical, and the 2023 Jetson photo does not establish the later Super configuration described in the text. Photo sources: P8–P9.</p>
+<p><strong>A first memory estimate</strong></p>
+<p>Suppose a model has 1 billion stored parameters and each parameter occupies 2 bytes. Its parameter values alone require about 2 GB in decimal units: 1,000,000,000 × 2. The running application also needs working data, intermediate results, and software memory. This is not an estimate of every model’s footprint; it is a way to see why “the file fits on the drive” and “the application fits in RAM” are different statements.</p>
+</section>
+<section id="edge-servers-and-physical-installations">
+<span id="section-1-3-4"></span><h3>1.3.4 Edge servers and physical installations<a class="headerlink" href="#edge-servers-and-physical-installations" title="Link to this heading"></a></h3>
+<p>An <strong>edge server</strong> provides computing or storage services near the devices or users it serves. It might be a compact industrial computer in a cabinet, a workstation in a building, or a rack-mounted machine in a small equipment room. A group of such machines forms an edge cluster. The word “edge” identifies the server’s architectural role; it does not prescribe a processor brand, a fixed memory size, or a special case design.</p>
+<p>To picture a modest shared site server, assume 16 CPU cores, 64 GB RAM, and a 1 TB SSD, perhaps with a separate accelerator. This is an illustrative configuration, not a minimum or a product specification. It offers a different budget from a sensor board, but it must divide that budget among applications and connected devices. Installing a new camera can therefore affect the waiting time of cameras already using the same inference service.</p>
+<p><img alt="Manufacturer product image of a Dell PowerEdge XR4000z compact stackable edge-server chassis with two visible compute sleds and power connections." src="../_images/asset-35706c0d37d2b1fb.png" /></p>
+<p id="fig-1-7"><strong>Figure 1.7.</strong> A compact commercial edge-server form factor: Dell PowerEdge XR4000z. The manufacturer’s product image makes the chassis, connection ports, and power interfaces visible. The illustrative 16-core, 64-GB resource budget in the text is not a specification of this pictured configuration. Image source: P10.</p>
+<p>The installation is part of the system. The processor needs power and cooling; cameras need network paths; storage needs replacement and backup plans; and someone must be able to update or repair the host. A rugged enclosure addresses a different problem from a faster processor. The compact chassis in <a class="reference internal" href="#fig-1-7"><span class="std std-ref">Figure 1.7</span></a> is one possible physical form; keeping it usable still requires suitable installation and maintenance.</p>
+</section>
+<section id="a-cloud-server-is-not-the-whole-cloud">
+<span id="section-1-3-5"></span><h3>1.3.5 A cloud server is not the whole cloud<a class="headerlink" href="#a-cloud-server-is-not-the-whole-cloud" title="Link to this heading"></a></h3>
+<p>Cloud services also run on physical computers. Servers are installed in racks, with network equipment, power distribution, and cooling around them. A data center contains infrastructure for many such resources. <a class="reference internal" href="#fig-1-8"><span class="std std-ref">Figure 1.8</span></a> makes these three scales visible through separate photographs of a server, equipment racks, and a data-center building. Google’s public data-center gallery provides further views of actual server aisles and facility equipment. [<a class="reference internal" href="../references.html#ref-75"><span class="std std-ref">75</span></a>] The cloud-shaped symbol in an architecture drawing hides these physical arrangements.</p>
+<p>What an application receives is usually a particular allocation or service, not unrestricted use of the entire facility. A <strong>virtual machine (VM)</strong> presents an isolated computer-like execution environment; a cloud <strong>instance</strong> is one provisioned unit of such a service. For example, AWS documents an EC2 m7i.large instance with 2 virtual CPUs and 8 GiB memory. [<a class="reference internal" href="../references.html#ref-76"><span class="std std-ref">76</span></a>] The meaning of a vCPU depends on the instance architecture; it should not automatically be equated with one full physical core.</p>
+<p>Consequently, a local workstation can have more memory than one small cloud instance. The cloud’s distinctive advantage is access to a larger managed pool and the option to request different services or allocations, subject to availability, quotas, and cost. When comparing performance, compare the resources actually assigned to the application. “Edge versus cloud” is not a comparison between a small computer and infinite resources.</p>
+<table class="book-table docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>(a) One physical server</p></th>
+<th class="head"><p>(b) Equipment racks</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><img alt="Dell PowerEdge R610 physical server with its cover removed, showing drive bays, fans, and internal components." src="../_images/asset-1ff2db7127376594.jpg" /></p></td>
+<td><p><img alt="Rows of equipment racks in a data-center room; this source is not identified as a Google facility." src="../_images/asset-eca567a05327ddec.jpg" /></p></td>
+</tr>
+<tr class="row-odd"><td><p>(c) A data-center facility</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><img alt="Exterior of a Google data-center facility in The Dalles, Oregon, with building, fencing, and a Google sign." src="../_images/asset-91b7b11870274896.jpg" /></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p id="fig-1-8"><strong>Figure 1.8.</strong> Three scales of physical infrastructure: (a) a Dell PowerEdge R610 server, (b) racks inside a data center, and (c) a Google data-center building in The Dalles, Oregon. These are separate sources, not views of one installation; (a) and (b) are not identified as Google equipment. The older server is shown for structure, not as a current performance example. Photo sources: P11–P13.</p>
+<p id="table-1-1">Table 1.1. Representative resource budgets and possible roles</p>
+<table class="book-table docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Resource</strong></p></th>
+<th class="head"><p><strong>Concrete resource example</strong></p></th>
+<th class="head"><p><strong>Tasks to investigate</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Microcontroller board</p></td>
+<td><p>UNO R3: 16 MHz; 2 KB SRAM; 32 KB flash [<a class="reference internal" href="../references.html#ref-71"><span class="std std-ref">71</span></a>]</p></td>
+<td><p>Sensor acquisition, small buffers, simple local decisions</p></td>
+</tr>
+<tr class="row-odd"><td><p>Newer microcontroller example</p></td>
+<td><p>Pico 2: dual-core 150 MHz configuration; 520 KB SRAM; 4 MB flash [<a class="reference internal" href="../references.html#ref-72"><span class="std std-ref">72</span></a>]</p></td>
+<td><p>Richer sensing logic and small embedded workloads</p></td>
+</tr>
+<tr class="row-even"><td><p>Single-board computer</p></td>
+<td><p>Pi 5: 4 CPU cores at 2.4 GHz; 1–16 GB RAM variants [<a class="reference internal" href="../references.html#ref-73"><span class="std std-ref">73</span></a>]</p></td>
+<td><p>Gateway, local database, web application, light processing</p></td>
+</tr>
+<tr class="row-odd"><td><p>Accelerated embedded kit</p></td>
+<td><p>Orin Nano Super: 6-core CPU, GPU, 8 GB RAM [<a class="reference internal" href="../references.html#ref-74"><span class="std std-ref">74</span></a>]</p></td>
+<td><p>Vision or language inference that fits the hardware and runtime</p></td>
+</tr>
+<tr class="row-even"><td><p>Site server (assumed)</p></td>
+<td><p>16 CPU cores; 64 GB RAM; 1 TB SSD</p></td>
+<td><p>Shared inference, site data, several services</p></td>
+</tr>
+<tr class="row-odd"><td><p>Cloud instance example</p></td>
+<td><p>EC2 m7i.large: 2 vCPUs; 8 GiB RAM [<a class="reference internal" href="../references.html#ref-76"><span class="std std-ref">76</span></a>]</p></td>
+<td><p>A specifically sized remote service; not the whole cloud</p></td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference internal" href="#table-1-1"><span class="std std-ref">Table 1.1</span></a> is a scale comparison, not a benchmark or purchasing guide. KB, MB, and GB follow the quoted manufacturer’s labels for specifications; GiB denotes <span class="math notranslate nohighlight">\(2^{30}\)</span> bytes. In the worked traffic examples below, MB and GB are decimal units. Task suitability still depends on memory use, software support, arrival rate, and the required response—not just the hardware category.</p>
+</section>
+</section>
+<section id="where-is-the-edge-common-deployments">
+<span id="section-1-4"></span><h2>1.4 Where Is the Edge? Common Deployments<a class="headerlink" href="#where-is-the-edge-common-deployments" title="Link to this heading"></a></h2>
+<p>“Near the data source” can mean several places. For one application it means inside the phone; for another, a server in the same factory; for a third, a facility operated by a network provider. The following classification starts with <strong>where application work executes</strong>. It does not mix location with whether the host is mobile, who manufactured it, or whether the application uses AI.</p>
+<p id="fig-1-9"><img alt="Figure 1.9. Four alternative placements for an application task. On-device, on-site, provider-edge, and remote-cloud execution are options, not mandatory stages. A physical deployment can combine several of these arrangements. Ordinary network forwarding devices are omitted." src="../_images/asset-fe861d661173a81f.png" /><br>
+Figure 1.9. Four alternative placements for an application task. On-device, on-site, provider-edge, and remote-cloud execution are options, not mandatory stages. A physical deployment can combine several of these arrangements. Ordinary network forwarding devices are omitted.</p>
+<section id="on-device-computing">
+<span id="section-1-4-1"></span><h3>1.4.1 On-device computing<a class="headerlink" href="#on-device-computing" title="Link to this heading"></a></h3>
+<p>In <strong>on-device computing</strong>, the originating device performs an application task itself. A wearable can process its own motion measurements; a camera can detect an event from its images; a phone can transcribe a short recording. The immediate task does not require an application request to another computer. The device may still upload selected results, download software, or use remote services for other tasks.</p>
+<p>This is the closest execution site to the data, but it has the device’s resource and power limits. The design must also respect the device’s primary role: a phone belongs to its user, and a sensor must still acquire observations while its processor performs additional work. A capable endpoint can eliminate the need for a separate edge server for some tasks.</p>
+</section>
+<section id="on-site-or-enterprise-edge">
+<span id="section-1-4-2"></span><h3>1.4.2 On-site or enterprise edge<a class="headerlink" href="#on-site-or-enterprise-edge" title="Link to this heading"></a></h3>
+<p>An <strong>on-site edge</strong> places shared computation within the relevant premises: a shop, campus, hospital building, factory, farm, or similar site. Devices reach it through a local network. The server can combine multiple inputs and offer services that a tiny endpoint cannot host. In a proposed factory design, several cameras might share one inference service while a local database records the resulting inspections.</p>
+<p>“On-site” does not necessarily mean that the site’s owner manages every layer. A vendor can manage a machine installed on the customer’s premises. AWS Outposts is an example of a managed infrastructure offering deployed at customer sites and connected to an AWS Region. [<a class="reference internal" href="../references.html#ref-77"><span class="std std-ref">77</span></a>] Physical location and management responsibility are two attributes of the design; neither can be inferred entirely from the other.</p>
+<p id="fig-1-10"><img alt="Figure 1.10. Computing begins in real environments, not cloud-shaped icons. (a) A solar-powered outdoor air-monitoring installation. (b) A camera-and-lighting installation above retail shelves. The photos show the power, mounting, and sensing context; the placement of the applications processing their data must be established separately. Photo sources: P5–P6." src="../_images/asset-4ddb6ab295ed51d9.png" /><br>
+Figure 1.10. Computing begins in real environments, not cloud-shaped icons. (a) A solar-powered outdoor air-monitoring installation. (b) A camera-and-lighting installation above retail shelves. The photos show the power, mounting, and sensing context; the placement of the applications processing their data must be established separately. Photo sources: P5–P6.</p>
+<p><a class="reference internal" href="#fig-1-10"><span class="std std-ref">Figure 1.10</span></a> illustrates why “deploy the program” is not the whole installation problem. An outdoor node needs an appropriate mounting and power arrangement; a retail installation needs cameras, cabling, and access for maintenance. Clarity’s Node-S documentation provides a concrete example of solar-powered air sensing with cellular communication. [<a class="reference internal" href="../references.html#ref-78"><span class="std std-ref">78</span></a>] The particular local processing and remote services of a product should be checked rather than inferred from its enclosure.</p>
+</section>
+<section id="provider-and-network-edge">
+<span id="section-1-4-3"></span><h3>1.4.3 Provider and network edge<a class="headerlink" href="#provider-and-network-edge" title="Link to this heading"></a></h3>
+<p>A <strong>provider edge</strong> serves applications from infrastructure near a group of users or network access points, rather than from a computer owned by each user. A mobile application could reach a provider-operated server through its access network. The application developer obtains a managed execution site, while the provider is responsible for the underlying facility and connectivity.</p>
+<p><strong>Multi-access edge computing (MEC)</strong> is a related standardization effort associated with an application environment at the network edge. ETSI develops specifications for MEC platforms and interoperability. [<a class="reference internal" href="../references.html#ref-79"><span class="std std-ref">79</span></a>] The application server may be placed at an access site, an aggregation facility, or another suitable network location. A diagram of a base station beside a server is an architectural possibility, not a statement that every antenna tower contains a general-purpose application server.</p>
+<p>A <strong>content delivery network (CDN)</strong> offers another related example: it can serve cached content from locations closer to users, reducing repeated trips to the origin. CloudFront documents this edge-location model. [<a class="reference internal" href="../references.html#ref-80"><span class="std std-ref">80</span></a>] Caching a popular video and interpreting a newly captured image are different tasks, even if the same provider offers both kinds of service. Network attachment, application execution, and content caching should not be treated as interchangeable concepts.</p>
+</section>
+<section id="mobility-and-cooperation-are-additional-dimensions">
+<span id="section-1-4-4"></span><h3>1.4.4 Mobility and cooperation are additional dimensions<a class="headerlink" href="#mobility-and-cooperation-are-additional-dimensions" title="Link to this heading"></a></h3>
+<p>A vehicle’s onboard computer is on-device computing even though the whole device moves. A roadside server is an infrastructure resource that may serve a changing set of vehicles. <strong>Mobility</strong> changes which resources can be reached and for how long; it does not require a separate hardware species called a “mobile edge.” Similarly, two phones or two site servers can exchange selected information. This <strong>peer cooperation</strong> describes a relationship between resources, not another location on a distance scale.</p>
+<p>The term <strong>fog computing</strong> often emphasizes the distributed resources between things and cloud systems, while <strong>cloudlet</strong> commonly refers to a small nearby computing facility. NIST discusses these related concepts in its conceptual model. [<a class="reference internal" href="../references.html#ref-2"><span class="std std-ref">2</span></a>] Terminology overlaps across communities. A useful architecture drawing therefore shows the actual machines, their tasks, and their connections instead of relying on a label to convey the whole design.</p>
+</section>
+</section>
+<section id="the-edgecloud-continuum">
+<span id="section-1-5"></span><h2>1.5 The Edge–Cloud Continuum<a class="headerlink" href="#the-edgecloud-continuum" title="Link to this heading"></a></h2>
+<p>So far, we have compared different locations for one task. A complete application often needs something more: different tasks and different kinds of data placed at different locations.</p>
+<p>Return to the camera application. A camera acquires images. A site server counts people, stores recent results, and updates a local display. A cloud service combines summaries from several sites and distributes new versions of the application. These components contribute to one application even though they do not run on one computer.</p>
+<p>The <strong>edge–cloud continuum</strong> is the connected set of device, edge, and cloud resources across which an application can organize its computation and data. “Continuum” emphasizes the opportunity to use these resources together rather than making one permanent choice between “edge” and “cloud.” It does not mean that every application uses every tier or that the connected computers automatically behave like one large machine. [<a class="reference internal" href="../references.html#ref-2"><span class="std std-ref">2</span></a>, <a class="reference internal" href="../references.html#ref-70"><span class="std std-ref">70</span></a>]</p>
+<p>The same pattern applies to the multi-site visual-inspection example in <a class="reference internal" href="#fig-1-11"><span class="std std-ref">Figure 1.11</span></a>: cameras acquire and select images, site servers inspect them and store results, and cloud services analyze selected history and distribute model updates.</p>
+<p id="fig-1-11"><img alt="Figure 1.11. Cooperation across the continuum in an illustrative multi-site application. Local inference, cross-site analysis, and model distribution are distinct tasks. Peer sharing between site servers is optional and should carry only information that the application needs and is allowed to exchange." src="../_images/asset-ea0f4f48dc6dbaea.png" /><br>
+Figure 1.11. Cooperation across the continuum in an illustrative multi-site application. Local inference, cross-site analysis, and model distribution are distinct tasks. Peer sharing between site servers is optional and should carry only information that the application needs and is allowed to exchange.</p>
+<section id="resources-provide-capacity-applications-determine-the-work">
+<span id="section-1-5-1"></span><h3>1.5.1 Resources provide capacity; applications determine the work<a class="headerlink" href="#resources-provide-capacity-applications-determine-the-work" title="Link to this heading"></a></h3>
+<p>Each execution site provides a particular resource budget: processor time, working memory, storage, networking, and possibly an accelerator. Application components consume those resources when they execute.</p>
+<p>A camera may have enough capacity to capture and encode images but not enough to run the desired counting model. A site server may support that model for several cameras. A cloud service may offer additional capacity for processing permitted historical data from many sites. The architecture assigns work according to both the available resources and the requirements introduced in Section 1.1.</p>
+<p>This is not simply a progression from “small” to “large.” The application receives a specific allocation at each site. A small cloud instance may have less memory than a local workstation, and a powerful edge server may still be overloaded by concurrent requests. The relevant question is which resources are available <strong>to this application</strong>, at this location, under the workload being considered.</p>
+</section>
+<section id="what-can-be-placed-transferred-or-changed">
+<span id="section-1-5-2"></span><h3>1.5.2 What can be placed, transferred, or changed?<a class="headerlink" href="#what-can-be-placed-transferred-or-changed" title="Link to this heading"></a></h3>
+<p>Several different decisions are often compressed into the phrase “move work across the continuum.” It is useful to distinguish them. <strong>Placement</strong> chooses where a task, service, or data set resides; <a class="reference internal" href="#table-1-2"><span class="std std-ref">Table 1.2</span></a> separates this decision from the transfers and resource changes it may require.</p>
+<p id="table-1-2">Table 1.2. What can change across the edge–cloud continuum</p>
+<table class="book-table docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Object</strong></p></th>
+<th class="head"><p><strong>What the system can change</strong></p></th>
+<th class="head"><p><strong>Example</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Data</p></td>
+<td><p>Where it is stored and which copies or representations are transmitted</p></td>
+<td><p>Keep images at the site; send counts to the cloud</p></td>
+</tr>
+<tr class="row-odd"><td><p>Computation</p></td>
+<td><p>Where a task or service executes, or how its stages are divided</p></td>
+<td><p>Run counting on a site server rather than on the camera</p></td>
+</tr>
+<tr class="row-even"><td><p>Software and execution state</p></td>
+<td><p>Where code and models are installed; what state must be transferred when execution changes location</p></td>
+<td><p>Deploy a model to another server; preserve necessary state before switching an ongoing service</p></td>
+</tr>
+<tr class="row-odd"><td><p>Resource allocations</p></td>
+<td><p>How much capacity a component receives at a site</p></td>
+<td><p>Assign more processor time or memory to a service, or start another worker where capacity is available</p></td>
+</tr>
+</tbody>
+</table>
+<p>Moving <strong>data</strong> means transmitting or copying information. The program may remain where it is. For example, a site server can upload a summary while continuing to perform all immediate counting locally.</p>
+<p>Moving <strong>computation</strong> means changing the execution location. This does not always require moving a running program. If another server already hosts the required service, the application can send a new request and its input to that server. This is a form of <strong>offloading</strong>. Alternatively, a developer can divide a pipeline so that preprocessing occurs on the device and inference occurs on the server; this is <strong>partitioning</strong>.</p>
+<p>Changing an ongoing service’s location can require more work. The destination may need compatible software, the correct model, access to data, and any state required to continue the operation. Copying a model file is therefore not the same as transferring a running service.</p>
+<p>Changing <strong>resource allocations</strong> is different again. A service may receive a larger memory allocation on its current host, or another worker may be started on a different host. The physical hardware normally remains at its location. Access to a remote server’s memory does not automatically increase the local memory available to an edge process; the application must explicitly use remote execution, storage, or another supported distributed mechanism.</p>
+<p>The central distinction is this: <strong>resources provide capacity; computation uses that capacity; and data must reach the computation that needs it.</strong> Choosing where one belongs affects the choices available for the others.</p>
+</section>
+<section id="follow-computation-data-and-management-separately">
+<span id="section-1-5-3"></span><h3>1.5.3 Follow computation, data, and management separately<a class="headerlink" href="#follow-computation-data-and-management-separately" title="Link to this heading"></a></h3>
+<p>We can understand one deployment through three complementary views.</p>
+<p>The <strong>computation view</strong> identifies the tasks and their execution sites. In the camera example, acquisition runs on the camera, counting runs on the site server, and cross-site reporting runs in the cloud.</p>
+<p>The <strong>data view</strong> identifies what is stored and transmitted. Images travel from cameras to the site server, counts travel to the local display, and approved summaries travel to the cloud. The cloud does not need to receive every image merely because it participates in the application.</p>
+<p>The <strong>management view</strong> identifies how components are installed, configured, monitored, and updated. A cloud management service may distribute a new counting model to site servers. That transfer supports future local execution; it need not place the cloud on the path of every counting request. AWS IoT Greengrass provides an example of this separation between device-side execution and cloud-supported deployment and management. [<a class="reference internal" href="../references.html#ref-14"><span class="std std-ref">14</span></a>]</p>
+<p id="fig-1-12"><img alt="Figure 1.12. The data path and the management path can differ. A remotely managed application can execute locally. Dashed arrows represent configuration or update traffic; solid arrows represent the local application’s input and result. Loss of the wide-area link does not, by itself, break the depicted local path." src="../_images/asset-d60fe9c921780474.png" /><br>
+Figure 1.12. The data path and the management path can differ. A remotely managed application can execute locally. Dashed arrows represent configuration or update traffic; solid arrows represent the local application’s input and result. Loss of the wide-area link does not, by itself, break the depicted local path.</p>
+<p>These views explain why two arrows connecting the same computers can have different meanings. Uploading an image for immediate processing, uploading a daily summary, and downloading a software update are not interchangeable operations.</p>
+<p>They also clarify failures. Losing the cloud link may interrupt reporting and updates without interrupting local counting. Whether that is actually true depends on the dependencies of the counting operation—not on whether the architecture diagram includes an edge-server box.</p>
+</section>
+<section id="cooperate-across-locations-and-adapt-when-necessary">
+<span id="section-1-5-4"></span><h3>1.5.4 Cooperate across locations, and adapt when necessary<a class="headerlink" href="#cooperate-across-locations-and-adapt-when-necessary" title="Link to this heading"></a></h3>
+<p><strong>Vertical cooperation</strong> divides responsibilities across device, edge, and cloud resources. <strong>Horizontal cooperation</strong> connects resources at comparable levels, such as two site servers exchanging approved summaries or sharing work. An application can use either relationship without requiring every request to pass through every tier.</p>
+<p>Consider an illustrative change in the camera application. A new camera increases the demand on the site server, and response time begins to exceed its target. The system could investigate several responses: allocate more local capacity, start another local worker, send permitted requests to a second server, or change the division of processing. Uploading images to the cloud is not an acceptable solution if the application prohibits that transfer.</p>
+<p>These alternatives change different things: resource allocations, service placement, request routing, or task partitioning. Each may also introduce data-transfer, startup, or coordination costs. <strong>Orchestration</strong> coordinates components and their resources over time. <a class="reference internal" href="ch06.html#chapter-6"><span class="std std-ref">Chapter 6</span></a> develops scaling and orchestration, <a class="reference internal" href="ch07.html#chapter-7"><span class="std std-ref">Chapter 7</span></a> examines offloading and collaboration, <a class="reference internal" href="ch08.html#chapter-8"><span class="std std-ref">Chapter 8</span></a> studies selection policies, and <a class="reference internal" href="ch09.html#chapter-9"><span class="std std-ref">Chapter 9</span></a> maps these mechanisms to commercial platforms.</p>
+<p>An application does not have to change its deployment dynamically to belong to the continuum. A fixed division of work can be entirely appropriate. The important idea is that devices, edge servers, and cloud services are cooperating resources whose roles are chosen to satisfy the application’s requirements.</p>
+<p>A task graph and a network map remain different: the graph identifies dependencies among tasks, while the map identifies which resources can communicate. For a language-model application, for example, a local model can propose data queries, local tools can execute them, and an optional remote model can assist with permitted requests. The model is one software component within this arrangement, not the entire system.</p>
+</section>
+</section>
+<section id="from-application-needs-to-architecture">
+<span id="section-1-6"></span><h2>1.6 From Application Needs to Architecture<a class="headerlink" href="#from-application-needs-to-architecture" title="Link to this heading"></a></h2>
+<p>We can now bring the chapter’s ideas together. Begin with the required function and the quality attributes and constraints introduced in Section 1.1. Then identify candidate resources, choose where tasks and data could be placed, and compare the resulting communication and resource demands.</p>
+<p>A proposed architecture is a hypothesis about how the application will meet its requirements. Simple calculations can eliminate clearly unsuitable designs and identify what needs measurement. The following examples compare response time and traffic volume without assuming that device, edge, or cloud execution is always the best choice.</p>
+<section id="a-response-time-example">
+<span id="section-1-6-1"></span><h3>1.6.1 A response-time example<a class="headerlink" href="#a-response-time-example" title="Link to this heading"></a></h3>
+<p>Suppose a teaching application classifies a captured image and should display the result within 200 ms. Assume that image preparation takes 20 ms in each design. We compare three placements for exactly the same classification task and assume comparable output quality. All values in <a class="reference internal" href="#table-1-3"><span class="std std-ref">Table 1.3</span></a> are invented teaching assumptions, not measurements of a product or requirements for a real production line.</p>
+<p id="table-1-3">Table 1.3. An assumed end-to-end response-time budget</p>
+<table class="book-table docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Time component</strong></p></th>
+<th class="head"><p><strong>On device</strong></p></th>
+<th class="head"><p><strong>Site server</strong></p></th>
+<th class="head"><p><strong>Remote cloud</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Image preparation</p></td>
+<td><p>20 ms</p></td>
+<td><p>20 ms</p></td>
+<td><p>20 ms</p></td>
+</tr>
+<tr class="row-odd"><td><p>Network exchange, excluding queueing</p></td>
+<td><p>0 ms</p></td>
+<td><p>10 ms</p></td>
+<td><p>80 ms</p></td>
+</tr>
+<tr class="row-even"><td><p>Waiting for execution</p></td>
+<td><p>0 ms</p></td>
+<td><p>15 ms</p></td>
+<td><p>30 ms</p></td>
+</tr>
+<tr class="row-odd"><td><p>Classification</p></td>
+<td><p>120 ms</p></td>
+<td><p>35 ms</p></td>
+<td><p>15 ms</p></td>
+</tr>
+<tr class="row-even"><td><p>Total</p></td>
+<td><p>140 ms</p></td>
+<td><p>80 ms</p></td>
+<td><p>145 ms</p></td>
+</tr>
+</tbody>
+</table>
+<p>T_response = T_prepare + T_network + T_wait + T_compute (1.1)</p>
+<p>Here T_network includes the request and result transfers and their path delay. Any network queueing included in that measurement must not be counted again in T_wait; in this example T_wait means waiting for execution at the selected host.</p>
+<p id="fig-1-13"><img alt="Figure 1.13. The three assumed response-time budgets from Table 1.2. The cloud has the shortest classification time, but the site server has the shortest total. These stacked intervals illustrate arithmetic, not measured speedups." src="../_images/asset-e5926a0cbb161f3e.png" /><br>
+Figure 1.13. The three assumed response-time budgets from Table 1.3. The cloud has the shortest classification time, but the site server has the shortest total. These stacked intervals illustrate arithmetic, not measured speedups.</p>
+<p>All three designs meet the assumed 200 ms target, and the site server has the shortest total in this example. It would still be premature to conclude that it is the best overall design. The on-device option needs no local application server; the remote option may simplify site maintenance; the shared site server may become busy when more cameras arrive. If its waiting time increases from 15 ms to 150 ms, its total rises to 215 ms and misses the target.</p>
+<p>The next step is an experiment under the workload that matters: measure the complete response, vary the arrival rate, and record missed targets as well as successful responses. If raw images are not allowed to leave the premises, the remote design in the table may also be unacceptable regardless of its speed. Requirements help identify both feasibility and performance; they should not be replaced by one average latency number.</p>
+</section>
+<section id="a-traffic-example-small-measurements-and-continuous-video">
+<span id="section-1-6-2"></span><h3>1.6.2 A traffic example: small measurements and continuous video<a class="headerlink" href="#a-traffic-example-small-measurements-and-continuous-video" title="Link to this heading"></a></h3>
+<p>Suppose twelve sensors each produce a 240-byte application record every ten seconds. Ignoring protocol headers and other overhead, the combined payload rate is 12 × 240 / 10 = 288 bytes/s. One day contains 86,400 seconds, so the daily payload is 24,883,200 bytes, or about 24.9 MB. This rate is small enough that bandwidth reduction alone may not justify adding a separate server.</p>
+<p>Now assume each sensor is represented in cloud reporting by one 300-byte summary per minute. The payload falls to 12 × 300 / 60 = 60 bytes/s, or 5.184 MB/day. That is a 79.2% reduction but only about 19.7 MB saved per day. The same gateway could still be valuable for local availability or data control; the point is that its traffic benefit must be interpreted at the right scale.</p>
+<p>Contrast this with an assumed compressed video stream of 2 Mbit/s. Converting bits to bytes and multiplying by one day gives 2,000,000 / 8 × 86,400 = 21.6 GB/day. Four such streams produce 86.4 GB/day of payload. Here local selection of frames or events can change the feasibility of using a constrained uplink. These figures do not describe every camera: resolution, compression, motion, and recording policy change the rate.</p>
+<p>A useful comparison therefore reports both the percentage reduction and the absolute amount, and checks that the selected data still supports the task. Counting customers, investigating a particular incident, and producing a daily occupancy report may need different retained information. An architecture should be selected for a stated application, not for “IoT data” treated as one uniform workload.</p>
+</section>
+<section id="change-the-application-and-reconsider-the-design">
+<span id="section-1-6-3"></span><h3>1.6.3 Change the application, and reconsider the design<a class="headerlink" href="#change-the-application-and-reconsider-the-design" title="Link to this heading"></a></h3>
+<p>For a farm that reports a few readings each hour, battery life and coverage may dominate. For an interactive phone application, response time and available device resources may dominate. For multi-camera inspection, shared compute capacity and deadlines may dominate. These examples need not receive the same architecture, even if all use sensors and models. The purpose of requirements analysis is to make those differences explicit before committing to a platform.</p>
+<p>The initial design is a hypothesis to test. It should explain which work stays local, which information leaves, and why the proposed resources are sufficient. Measurements may show that the design is unnecessarily complex, that a supposedly small data stream is not small, or that a shared server becomes a bottleneck. Revising the architecture in response is part of systems engineering, not evidence that the first choice of technology was a failure.</p>
+</section>
+</section>
+<section id="history-and-rapid-development-of-edge-computing">
+<span id="section-1-7"></span><h2>1.7 History and Rapid Development of Edge Computing<a class="headerlink" href="#history-and-rapid-development-of-edge-computing" title="Link to this heading"></a></h2>
+<p>Edge computing did not begin with a single product, paper, or invention. Content delivery, mobile computing, IoT, telecommunications, and AI approached a shared question from different directions: which work benefits from being performed near its users or data? This section follows selected milestones, then uses dated numerical evidence to explain the field’s development. These developments overlap; newer approaches did not simply replace older ones. [<a class="reference internal" href="../references.html#ref-196"><span class="std std-ref">196</span></a>–<a class="reference internal" href="../references.html#ref-206"><span class="std std-ref">206</span></a>]</p>
+<section id="early-foundations-bring-content-and-computation-closer">
+<span id="section-1-7-1"></span><h3>1.7.1 Early foundations: bring content and computation closer<a class="headerlink" href="#early-foundations-bring-content-and-computation-closer" title="Link to this heading"></a></h3>
+<p>A content delivery network (CDN) reduces repeated trips to an origin by storing or serving content from distributed locations. Akamai launched its commercial service in April 1999. By the end of 2000, the company reported more than 8,000 servers inside 473 networks in 55 countries. This is an early example of proximity implemented at substantial scale, long before today’s edge-AI systems. The figures describe one provider’s content-delivery network, not the size of a general-purpose edge-computing market. [<a class="reference internal" href="../references.html#ref-80"><span class="std std-ref">80</span></a>, <a class="reference internal" href="../references.html#ref-196"><span class="std std-ref">196</span></a>, <a class="reference internal" href="../references.html#ref-211"><span class="std std-ref">211</span></a>]</p>
+<p>Mobile computing raised a different question: where can a resource-limited device obtain additional computation without incurring the delay and variability of a distant cloud? The 2009 paper “The Case for VM-Based Cloudlets in Mobile Computing” proposed nearby infrastructure accessed over a wireless local-area network. Virtual-machine synthesis helped customize the nearby execution environment for resource-intensive mobile applications. [<a class="reference internal" href="../references.html#ref-197"><span class="std std-ref">197</span></a>]</p>
+<p>The distinction matters. A nearby cache can deliver a previously stored object; a nearby execution service can compute a new result from a new input. Serving a popular video and recognizing an object in a newly captured image both benefit from thinking about location, but they do not perform the same work. [<a class="reference internal" href="../references.html#ref-80"><span class="std std-ref">80</span></a>, <a class="reference internal" href="../references.html#ref-197"><span class="std std-ref">197</span></a>]</p>
+</section>
+<section id="iot-fog-computing-and-network-edge-standardization">
+<span id="section-1-7-2"></span><h3>1.7.2 IoT, fog computing, and network-edge standardization<a class="headerlink" href="#iot-fog-computing-and-network-edge-standardization" title="Link to this heading"></a></h3>
+<p>IoT applications directed attention toward streams of physical observations and timely responses near machines, people, and infrastructure. In 2012, Bonomi and colleagues described fog computing as extending cloud services toward distributed resources near devices. Connected vehicles, smart grids, and sensor-and-actuator networks illustrated why local processing and broader cloud analytics could have complementary roles. [<a class="reference internal" href="../references.html#ref-198"><span class="std std-ref">198</span></a>]</p>
+<p>ETSI’s Mobile-edge Computing Industry Specification Group began work in December 2014 on an open application environment near mobile subscribers. In March 2017, it announced the name Multi-access Edge Computing, retaining MEC while expanding its scope beyond cellular access to include fixed and Wi-Fi networks. These are standardization milestones, not the invention of local processing. They also show that edge computing neither began with nor requires 5G. [<a class="reference internal" href="../references.html#ref-199"><span class="std std-ref">199</span></a>, <a class="reference internal" href="../references.html#ref-200"><span class="std std-ref">200</span></a>]</p>
+<p>Shi and colleagues’ 2016 paper “Edge Computing: Vision and Challenges” connected IoT processing, cloud offloading, and collaborative applications with a broader systems agenda: programmability, service management, privacy, and security. NIST’s 2018 fog-computing model organized related concepts and architectural characteristics. The questions were becoming wider than where to run one program: how should distributed services, resources, and data operate together? [<a class="reference internal" href="../references.html#ref-2"><span class="std std-ref">2</span></a>, <a class="reference internal" href="../references.html#ref-206"><span class="std std-ref">206</span></a>]</p>
+</section>
+<section id="from-research-ideas-to-deployable-platforms">
+<span id="section-1-7-3"></span><h3>1.7.3 From research ideas to deployable platforms<a class="headerlink" href="#from-research-ideas-to-deployable-platforms" title="Link to this heading"></a></h3>
+<p>A nearby computer is useful only when applications can be installed, connected to devices, updated, and maintained. AWS Greengrass became generally available on June 7, 2017, with local computation, messaging, and data and state synchronization for connected devices, including operation during Internet disconnection. Cloud services continued to support management, analytics, and durable storage. This date refers to the original service, not the later Greengrass V2 release. [<a class="reference internal" href="../references.html#ref-201"><span class="std std-ref">201</span></a>]</p>
+<p>Provider networks offered another model. Cloudflare announced Workers in September 2017 and made it generally available in March 2018, enabling developers to execute JavaScript in its edge network. Rather than only selecting caching features, developers could supply application logic. Installing software on a factory gateway and invoking a provider-hosted function were now distinct practical forms of edge execution. [<a class="reference internal" href="../references.html#ref-202"><span class="std std-ref">202</span></a>]</p>
+<p>These platforms lowered some barriers to deployment without eliminating engineering responsibilities. A site still needs power and maintenance; a provider-hosted service still has network, access, and resource constraints. Commercial development expanded the available implementation choices rather than making every application automatically suitable for the edge. [<a class="reference internal" href="../references.html#ref-201"><span class="std std-ref">201</span></a>, <a class="reference internal" href="../references.html#ref-202"><span class="std std-ref">202</span></a>]</p>
+</section>
+<section id="from-local-prediction-to-on-device-language-models">
+<span id="section-1-7-4"></span><h3>1.7.4 From local prediction to on-device language models<a class="headerlink" href="#from-local-prediction-to-on-device-language-models" title="Link to this heading"></a></h3>
+<p>AI added demanding workloads, while efficient models made more of them practical on constrained hardware. In their 2017 ImageNet comparison, the MobileNets authors reported 4.2 million parameters and 569 million multiply-add operations for MobileNet, versus 138 million parameters and 15,300 million multiply-adds for VGG-16. Reported classification accuracy was 70.6% versus 71.5%. Calculated from those values, MobileNet used about 1/33 as many parameters and 1/27 as many multiply-adds, with a 0.9-percentage-point accuracy reduction. Operation counts are not measured device latency, but they explain why resource-aware model design mattered. [<a class="reference internal" href="../references.html#ref-136"><span class="std std-ref">136</span></a>, Table 8]</p>
+<p>Language models extended the range of local tasks. Microsoft’s April 2024 Phi-3 report described a 3.8-billion-parameter model, a roughly 1.8 GB footprint after 4-bit quantization, and an offline demonstration generating more than 12 tokens per second on an A16 Bionic iPhone. These are author-reported results for a particular configuration, not a full application-memory budget or a guarantee for every phone and prompt. They nevertheless provide concrete evidence that useful language generation need not require a remote call. [<a class="reference internal" href="../references.html#ref-210"><span class="std std-ref">210</span></a>, Section 2]</p>
+<p>Apple’s 2024 and 2025 reports described approximately three-billion-parameter on-device models alongside server-based models. The 2025 report added developer-facing support for structured generation and tool calling. Its June 2026 announcement described a family of five models—two on-device and three server-based—including an on-device sparse model with 20 billion total parameters but 1–4 billion active for a request. Here “active” means only a subset participates in the selected computation; it is not the total model-storage size. [<a class="reference internal" href="../references.html#ref-203"><span class="std std-ref">203</span></a>–<a class="reference internal" href="../references.html#ref-205"><span class="std std-ref">205</span></a>]</p>
+<p>The historical shift is from delivering stored content, through executing local analytics, to interpreting new requests and coordinating tools near their data. That wider capability does not make a complete application local or reliable by itself. Model serving, tool execution, and data access remain separate systems responsibilities, developed in Chapters 2 and 10–12. [<a class="reference internal" href="../references.html#ref-204"><span class="std std-ref">204</span></a>, <a class="reference internal" href="../references.html#ref-205"><span class="std std-ref">205</span></a>]</p>
+<p id="table-1-4">Table 1.4. Selected milestones in the development of edge computing</p>
+<table class="book-table docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Date</strong></p></th>
+<th class="head"><p><strong>Development</strong></p></th>
+<th class="head"><p><strong>What changed</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1999–2000</p></td>
+<td><p>Content-delivery networks</p></td>
+<td><p>Akamai launches commercial service; by end-2000 it reports over 8,000 servers across 55 countries. Bring content closer. [<a class="reference internal" href="../references.html#ref-196"><span class="std std-ref">196</span></a>, <a class="reference internal" href="../references.html#ref-211"><span class="std std-ref">211</span></a>]</p></td>
+</tr>
+<tr class="row-odd"><td><p>2009</p></td>
+<td><p>VM-based cloudlets</p></td>
+<td><p>Nearby infrastructure supports resource-intensive mobile applications without a distant-cloud path. [<a class="reference internal" href="../references.html#ref-197"><span class="std std-ref">197</span></a>]</p></td>
+</tr>
+<tr class="row-even"><td><p>2012</p></td>
+<td><p>Fog computing for IoT</p></td>
+<td><p>Distributed resources complement cloud services for physical-world applications. [<a class="reference internal" href="../references.html#ref-198"><span class="std std-ref">198</span></a>]</p></td>
+</tr>
+<tr class="row-odd"><td><p>2014 / 2017</p></td>
+<td><p>MEC standardization</p></td>
+<td><p>ETSI starts Mobile-edge Computing work, then broadens it to Multi-access Edge Computing. [<a class="reference internal" href="../references.html#ref-199"><span class="std std-ref">199</span></a>, <a class="reference internal" href="../references.html#ref-200"><span class="std std-ref">200</span></a>]</p></td>
+</tr>
+<tr class="row-even"><td><p>2016 / 2018</p></td>
+<td><p>A broader systems agenda</p></td>
+<td><p>The edge vision paper and NIST’s model organize deployment, service-management, and trust questions. [<a class="reference internal" href="../references.html#ref-2"><span class="std std-ref">2</span></a>, <a class="reference internal" href="../references.html#ref-206"><span class="std std-ref">206</span></a>]</p></td>
+</tr>
+<tr class="row-odd"><td><p>2017–2018</p></td>
+<td><p>Platforms and efficient AI</p></td>
+<td><p>Greengrass, Workers, and MobileNets expand deployable execution and resource-aware inference. [<a class="reference internal" href="../references.html#ref-136"><span class="std std-ref">136</span></a>, <a class="reference internal" href="../references.html#ref-201"><span class="std std-ref">201</span></a>, <a class="reference internal" href="../references.html#ref-202"><span class="std std-ref">202</span></a>]</p></td>
+</tr>
+<tr class="row-even"><td><p>2024–2026</p></td>
+<td><p>Local language applications</p></td>
+<td><p>Phi-3 and Apple model reports demonstrate or describe on-device language capabilities alongside server options. [<a class="reference internal" href="../references.html#ref-203"><span class="std std-ref">203</span></a>–<a class="reference internal" href="../references.html#ref-205"><span class="std std-ref">205</span></a>, <a class="reference internal" href="../references.html#ref-210"><span class="std std-ref">210</span></a>]</p></td>
+</tr>
+</tbody>
+</table>
+<p>The dates identify selected publications, standardization steps, and product announcements. They are not exclusive birth dates or evidence that one approach replaced all earlier approaches.</p>
+</section>
+<section id="quantitative-evidence-of-rapid-development">
+<span id="section-1-7-5"></span><h3>1.7.5 Quantitative evidence of rapid development<a class="headerlink" href="#quantitative-evidence-of-rapid-development" title="Link to this heading"></a></h3>
+<p>Rapid development has several meanings: a growing application base, more investment in deployment, more capable local equipment, and workloads that require fewer resources. <a class="reference internal" href="#table-1-5"><span class="std std-ref">Table 1.5</span></a> keeps these dimensions separate. A device count, a market forecast, and a model benchmark answer different questions; they must not be combined into one growth rate.</p>
+<p id="table-1-5">Table 1.5. Numerical indicators: scale, investment, and technical capability</p>
+<table class="book-table docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Indicator</strong></p></th>
+<th class="head"><p><strong>Dated numbers</strong></p></th>
+<th class="head"><p><strong>Evidence and scope</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>IoT connections<br> Demand indicator</p></td>
+<td><p>18.5B in 2024; 21.1B for 2025; about 14% growth.</p></td>
+<td><p>2024 estimate; 2025 forecast published Oct. 2025. Not a count of edge-computing deployments. [<a class="reference internal" href="../references.html#ref-207"><span class="std std-ref">207</span></a>]</p></td>
+</tr>
+<tr class="row-odd"><td><p>Edge spending<br> Investment indicator</p></td>
+<td><p>US$265B in 2025; about US$450B in 2029.</p></td>
+<td><p>2025 estimate; 2029 forecast published Feb. 2026. Multiple technology and service categories. [<a class="reference internal" href="../references.html#ref-208"><span class="std std-ref">208</span></a>]</p></td>
+</tr>
+<tr class="row-even"><td><p>Vision inference<br> 2017 paper comparison</p></td>
+<td><p>MobileNet / VGG-16: 4.2M / 138M parameters; 569M / 15,300M multiply-adds; 70.6% / 71.5% accuracy.</p></td>
+<td><p>Same paper’s ImageNet comparison. Counts show resource reduction; they are not hardware timing results. [<a class="reference internal" href="../references.html#ref-136"><span class="std std-ref">136</span></a>, Table 8]</p></td>
+</tr>
+<tr class="row-odd"><td><p>Embedded platform<br> Dec. 2024 announcement</p></td>
+<td><p>Orin Nano previous / Super: 40 / 67 sparse INT8 TOPS; 68 / 102 GB/s; US$499 / US$249 listed kit prices.</p></td>
+<td><p>Vendor specifications and historical prices. A software/configuration upgrade, not a universal 1.7× application speedup. [<a class="reference internal" href="../references.html#ref-209"><span class="std std-ref">209</span></a>]</p></td>
+</tr>
+<tr class="row-even"><td><p>Phone language model<br> 2024 demonstration</p></td>
+<td><p>Phi-3-mini: 3.8B parameters; 4-bit model ≈1.8 GB; &gt;12 generated tokens/s on an A16 Bionic iPhone.</p></td>
+<td><p>Author-reported offline demonstration. Context, runtime state, and other software still require resources. [<a class="reference internal" href="../references.html#ref-210"><span class="std std-ref">210</span></a>]</p></td>
+</tr>
+<tr class="row-odd"><td><p>Sparse on-device model<br> June 2026 announcement</p></td>
+<td><p>Apple AFM 3 Core Advanced: 20B total parameters; 1–4B active per request.</p></td>
+<td><p>Vendor-described architecture, not a task-quality score. Supported hardware and total storage still matter. [<a class="reference internal" href="../references.html#ref-205"><span class="std std-ref">205</span></a>]</p></td>
+</tr>
+</tbody>
+</table>
+<p>Source dates and evidence types are part of each claim. Forecasts are not realized results; vendor specifications and author demonstrations are not independent benchmarks of this course’s applications. Values are rounded as in the sources. B = billion; M = million; TOPS = trillion operations per second.</p>
+<p><strong>A larger demand base.</strong> IoT Analytics’ October 2025 report estimated 18.5 billion connected IoT devices for 2024 and forecast 21.1 billion for the end of 2025. The latter remains a forecast from that publication even when read after 2025. Its count covers active connected nodes or gateways, excludes phones and PCs, and does not count every sensor behind a gateway separately. The figures describe potential sources of local data and work—not devices proven to perform edge computation. [<a class="reference internal" href="../references.html#ref-207"><span class="std std-ref">207</span></a>]</p>
+<p><strong>A growing deployment ecosystem.</strong> IDC’s February 2026 release estimated worldwide edge-computing spending at US$265 billion in 2025 and forecast approximately US$450 billion by 2029. The endpoints imply about a 70% increase, calculated as (450 − 265) / 265. The forecast covers multiple kinds of edge hardware, software, and services; it is neither spending on edge AI alone nor a forecast that 70% more tasks will execute locally. [<a class="reference internal" href="../references.html#ref-208"><span class="std std-ref">208</span></a>]</p>
+<p><strong>More usable capability per local platform.</strong> NVIDIA’s December 2024 announcement compared 40 with 67 sparse INT8 TOPS and 68 with 102 GB/s memory bandwidth for the previous and Super configurations of the Orin Nano kit, while reducing the listed kit price from US$499 to US$249. Existing-kit software upgrades were part of the announcement. Software and configuration can therefore change usable capacity as well as new hardware. These are dated vendor figures, not current prices or measured speedups for every model. [<a class="reference internal" href="../references.html#ref-209"><span class="std std-ref">209</span></a>]</p>
+<p>Taken together, these indicators support different conclusions: connected devices create application opportunities; spending indicates investment in an ecosystem; efficient models and local accelerators change what can fit and run. None alone proves that edge execution will meet a particular latency, quality, privacy, or availability requirement. That claim still needs the application-level comparison introduced in Section 1.6.</p>
+</section>
+<section id="what-the-history-means-for-system-design">
+<span id="section-1-7-6"></span><h3>1.7.6 What the history means for system design<a class="headerlink" href="#what-the-history-means-for-system-design" title="Link to this heading"></a></h3>
+<p>The progression can be understood as reinforcing changes in demand and feasibility. Interactive and data-intensive applications make communication and remote dependencies important; efficient models and local hardware make additional placements feasible; reusable platforms make those placements easier to deploy and maintain. The growing usefulness of local data and context gives developers further reasons to evaluate them. This is a systems interpretation of the evidence, not a claim that every sector develops at the same speed. [<a class="reference internal" href="../references.html#ref-136"><span class="std std-ref">136</span></a>, <a class="reference internal" href="../references.html#ref-197"><span class="std std-ref">197</span></a>, <a class="reference internal" href="../references.html#ref-201"><span class="std std-ref">201</span></a>, <a class="reference internal" href="../references.html#ref-202"><span class="std std-ref">202</span></a>, <a class="reference internal" href="../references.html#ref-207"><span class="std std-ref">207</span></a>–<a class="reference internal" href="../references.html#ref-210"><span class="std std-ref">210</span></a>]</p>
+<p>There is no final victory of edge over cloud. A better local model can make a device useful for a new task, while a still larger task can benefit from a server. The enduring question remains: where should each part of the work execute so that the complete application meets its requirements? Historical progress expands the designs worth testing. <a class="reference internal" href="#section-1-8"><span class="std std-ref">Section 1.8</span></a> turns to the challenges that remain.</p>
+</section>
+</section>
+<section id="challenges-and-the-road-ahead">
+<span id="section-1-8"></span><h2>1.8 Challenges and the Road Ahead<a class="headerlink" href="#challenges-and-the-road-ahead" title="Link to this heading"></a></h2>
+<p>Distributing an application gives us choices, but also introduces problems that a single-machine program can hide. Devices differ in hardware and operating conditions. Messages can be delayed or repeated. A server can restart while a device keeps sending observations. Several applications can compete for one accelerator. A software update can change what an entire site does. Edge computing therefore needs foundations in networking, operating systems, distributed systems, and careful evaluation—not only an API call to an AI service.</p>
+<p id="table-1-6">Table 1.6. The questions developed through the rest of the book</p>
+<table class="book-table docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Technical question</strong></p></th>
+<th class="head"><p><strong>Where it is developed</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>How do we turn observations into a useful first application?</p></td>
+<td><p><a class="reference internal" href="ch02.html#chapter-2"><span class="std std-ref">Chapter 2</span></a>: an agentic IoT application</p></td>
+</tr>
+<tr class="row-odd"><td><p>What can devices sense, and how do they communicate?</p></td>
+<td><p>Chapters 3–4: devices, sensing, communication</p></td>
+</tr>
+<tr class="row-even"><td><p>How do programs run and serve increasing demand?</p></td>
+<td><p>Chapters 5–6: local deployment, scaling, and elasticity</p></td>
+</tr>
+<tr class="row-odd"><td><p>How do resources cooperate, retain useful state, and improve performance?</p></td>
+<td><p>Chapters 7–8: offloading, consistency, scheduling, and optimization</p></td>
+</tr>
+<tr class="row-even"><td><p>How do we deploy and operate applications on existing platforms?</p></td>
+<td><p><a class="reference internal" href="ch09.html#chapter-9"><span class="std std-ref">Chapter 9</span></a>: commercial platforms</p></td>
+</tr>
+<tr class="row-odd"><td><p>How do we run, optimize, and coordinate AI at the edge?</p></td>
+<td><p>Chapters 10–12: edge inference, model collaboration, and agents</p></td>
+</tr>
+<tr class="row-even"><td><p>How do systems protect users and establish trust across organizations?</p></td>
+<td><p>Chapters 13–14: security, privacy, safety, and distributed trust</p></td>
+</tr>
+</tbody>
+</table>
+<p>The next chapter introduces an application that uses an existing language model to organize local data analysis. It shows the system’s behavior and architecture without first requiring model training or implementation details. Later chapters expand beyond that application: phone sensing, cameras, field devices, vehicles, commercial edge platforms, and multi-device services expose different constraints. The common thread is the relationship between application behavior, resources, communication, and deployment.</p>
+<p>The aim is to be able to look at an unfamiliar application and draw a defensible first design: identify its inputs and tasks, recognize plausible execution sites, estimate the important costs, and decide what must be measured. The architecture can then become more sophisticated where the evidence and requirements justify it. Simplicity remains a legitimate outcome.</p>
+</section>
+<section id="chapter-summary">
+<span id="chapter-1-chapter-summary"></span><h2>Chapter summary<a class="headerlink" href="#chapter-summary" title="Link to this heading"></a></h2>
+<p>A functional requirement describes what an application must do; non-functional requirements describe qualities and constraints under which it must operate. Different placements can provide the same function while producing different response times, communication volumes, availability, and data-handling behavior. Edge computing creates additional choices for meeting these requirements. A microcontroller, phone, site server, and cloud instance offer different resource budgets, while deployment location and management responsibility remain separate properties.</p>
+<p>The edge–cloud continuum allows an application to divide its work across cooperating resources. Data can be stored or transferred, computation can be placed or partitioned, software and state can be deployed or transferred, and resource allocations can change. These are related but distinct operations. Understanding a design requires following its computation, data, and management paths. Requirements and quantitative estimates help select plausible architectures; experiments determine how well they actually behave.</p>
+<p>Edge computing developed through overlapping work on content delivery, mobile offloading, IoT, programmable platforms, and resource-efficient AI. Dated device estimates, spending forecasts, hardware specifications, and model results provide different kinds of evidence about its development. They expand the architectures available to a designer but do not establish that local execution always outperforms or replaces the cloud.</p>
+<p>Key terms: IoT; sensor; actuator; workload; functional requirement; non-functional requirement; edge computing; cloud computing; latency; bandwidth; traffic volume; microcontroller; gateway; edge server; virtual machine; instance; on-device computing; on-site edge; provider edge; edge–cloud continuum; placement; offloading; partitioning; orchestration; resource allocation; vertical cooperation; horizontal cooperation; content delivery network (CDN); cloudlet; fog computing; multi-access edge computing (MEC); edge AI.</p>
+</section>
+<section id="exercises">
+<span id="chapter-1-exercises"></span><h2>Exercises<a class="headerlink" href="#exercises" title="Link to this heading"></a></h2>
+<p><strong>1.1 Identify the work.</strong> Choose a wearable, camera, or phone application. Name one input, one processing task, and one result. Draw an on-device design and a remote-cloud design. State what must cross the network in each. State one functional requirement and two non-functional requirements shared by the candidate designs.</p>
+<p><strong>1.2 Explain the hardware.</strong> Why can a computer store a model file but still lack enough memory to run it? Use the hypothetical 1-billion-parameter, 2-byte-per-parameter model from Section 1.3. Explain why its 2 GB parameter size is not a complete running-memory estimate.</p>
+<p><strong>1.3 Separate execution from management.</strong> A cloud service installs a classifier on a shop server. The classifier answers local requests without calling the cloud, while software updates require a cloud connection. Which work executes locally? Which function stops during a cloud-link outage? Name one further dependency you would check before claiming full offline operation.</p>
+<p><strong>1.4 Recalculate the budget.</strong> In <a class="reference internal" href="#table-1-3"><span class="std std-ref">Table 1.3</span></a>, increase site-server waiting time to 150 ms. Calculate the new total. Then double only the cloud network-exchange time. Which designs meet the assumed 200 ms target? Explain why these arithmetic results do not establish real-world performance.</p>
+<p><strong>1.5 Compare absolute traffic.</strong> Reproduce the sensor and video calculations in Section 1.6. A design cuts each workload’s payload by 50%. How many decimal MB per day does it save for the original sensor workload, and how many decimal GB per day for one video stream? Give one reason not to choose a design solely from those savings.</p>
+<p><strong>1.6 Read a deployment photograph.</strong> Use a photograph in this chapter or an attributed photograph from a public source. Identify visible equipment and its possible role. Separate what the image establishes from what it does not establish—for example, processing capacity, application placement, ownership, or network routing. Draw a clearly labeled possible architecture rather than presenting your inference as a verified deployment.</p>
+<p><strong>1.7 Choose for contrasting needs.</strong> Compare an hourly environmental report with an interactive image-classification service. State two important requirements for each. Propose an initial deployment and one experiment that could cause you to revise it. The two applications need not use different architectures if your reasoning supports the same one.</p>
+<p><strong>1.8 Draw the continuum.</strong> Design a read-only application that uses local sensor data and a language model. Draw the computation, data, and management paths. Choose one operation that should continue during a cloud-link outage and explain what must be present locally for it to work. Identify one data transfer, one computation-placement decision, and one resource-allocation decision; explain why they are not the same operation.</p>
+<p><strong>1.9 Connect history to a requirement.</strong> Choose two milestones in Table 1.4. For each, identify the work performed near users or devices, the limitation it addressed, and one important requirement that the new approach did not automatically satisfy. Explain why the two milestones need not represent the same kind of edge deployment.</p>
+<p><strong>1.10 Read the numbers critically.</strong> From <a class="reference internal" href="#table-1-5"><span class="std std-ref">Table 1.5</span></a>, calculate the MobileNet-to-VGG-16 parameter and multiply-add ratios, and the change in reported accuracy in percentage points. Explain why these ratios are not measured speedups. Then identify one estimate, one forecast, and one experimental result in the table, and state a conclusion each does not support.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../publication.html" class="btn btn-neutral float-left" title="About this web edition" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ch02.html" class="btn btn-neutral float-right" title="Chapter 2. An Agentic IoT Application at the Edge" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Zheng Song.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
